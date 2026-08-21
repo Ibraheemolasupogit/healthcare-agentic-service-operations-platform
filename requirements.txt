@@ -1,0 +1,10 @@
+# Runtime dependencies for the Healthcare Agentic Service Operations Platform.
+#
+# Milestone 1 (Repository Foundation) ships only platform-neutral, standard-
+# library Python (see business_process/). No third-party runtime dependency
+# is required yet, and none is added speculatively — platform SDKs (Dynamics
+# 365, Salesforce, Power Platform, Copilot Studio, Fabric/Power BI) will be
+# added only in the milestone that actually implements against them.
+#
+# Development/test/lint tooling lives in pyproject.toml under
+# [project.optional-dependencies].dev (install with `pip install -e .[dev]`).
