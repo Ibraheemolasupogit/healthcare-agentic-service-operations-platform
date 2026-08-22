@@ -1,0 +1,47 @@
+{
+  "generated_from": "integrations.evidence (deterministic, synthetic)",
+  "transport_scope": "local/reference only; no live webhook, API, broker, or SaaS call",
+  "integration_metrics": {
+    "generated_from": "integrations.observability.build_integration_metrics",
+    "envelopes_received": 6,
+    "delivered_count": 3,
+    "duplicate_count": 1,
+    "failed_count": 1,
+    "dead_letter_count": 1,
+    "retry_delivery_count": 2,
+    "delivery_success_rate_percent": 50.0,
+    "duplicate_rate_percent": 16.67,
+    "retry_rate_percent": 33.33,
+    "by_source_system": {
+      "dynamics365": 1,
+      "external": 2,
+      "power_platform": 1,
+      "salesforce": 2
+    },
+    "by_target_system": {
+      "business_process": 2,
+      "dynamics365": 3,
+      "salesforce": 1
+    },
+    "by_operation": {
+      "automation_event": 1,
+      "create": 2,
+      "sync": 3
+    },
+    "by_state": {
+      "dead_lettered": 1,
+      "delivered": 3,
+      "duplicate": 1,
+      "failed": 1
+    },
+    "note": "Synthetic/reference integration observability only; no live telemetry."
+  },
+  "scenario_count": 6,
+  "reconciliation_finding_count": 4,
+  "security_model": {
+    "authentication": "conceptual service-to-service identity",
+    "authorization": "audience/source/scope checks; no secrets or token issuance",
+    "required_scope": "integration:deliver"
+  },
+  "note": "Synthetic/reference integration transport evidence only. Not live Dynamics, Salesforce, Power Platform, Azure, or external SaaS telemetry."
+}

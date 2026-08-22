@@ -18,6 +18,7 @@ class GoldModel:
     sla_summary: dict[str, Any]
     automation_metrics: dict[str, Any]
     copilot_usage: dict[str, Any]
+    integration_metrics: dict[str, Any]
 
 
 def _count_by(records: tuple[dict[str, Any], ...], key: str) -> dict[str, int]:
@@ -134,6 +135,36 @@ def build_copilot_usage(silver: SilverModel) -> dict[str, Any]:
     }
 
 
+def build_integration_metrics(silver: SilverModel) -> dict[str, Any]:
+    """Integration delivery observability metrics."""
+    deliveries = silver.integration_deliveries
+    total = len(deliveries)
+    delivered = sum(1 for delivery in deliveries if delivery["state"] == "delivered")
+    duplicates = sum(1 for delivery in deliveries if delivery["state"] == "duplicate")
+    failures = sum(1 for delivery in deliveries if delivery["state"] == "failed")
+    dead_lettered = sum(1 for delivery in deliveries if delivery["state"] == "dead_lettered")
+    retried = sum(1 for delivery in deliveries if delivery["attempts"] > 1)
+    manual_review = sum(1 for delivery in deliveries if delivery["manual_review_required"])
+    return {
+        "generated_from": "analytics.fabric.gold.build_integration_metrics",
+        "integration_delivery_count": total,
+        "delivered_count": delivered,
+        "duplicate_count": duplicates,
+        "failed_delivery_count": failures,
+        "dead_letter_count": dead_lettered,
+        "retry_delivery_count": retried,
+        "manual_review_required_count": manual_review,
+        "delivery_success_rate_percent": _percent(delivered, total),
+        "duplicate_rate_percent": _percent(duplicates, total),
+        "retry_rate_percent": _percent(retried, total),
+        "deliveries_by_source_system": _count_by(deliveries, "source_system"),
+        "deliveries_by_target_system": _count_by(deliveries, "target_system"),
+        "deliveries_by_operation": _count_by(deliveries, "operation"),
+        "deliveries_by_state": _count_by(deliveries, "state"),
+        "note": "Integration metrics use deterministic synthetic transport traces only.",
+    }
+
+
 def build_gold_model(silver: SilverModel) -> GoldModel:
     """Build all Gold outputs."""
     return GoldModel(
@@ -141,6 +172,7 @@ def build_gold_model(silver: SilverModel) -> GoldModel:
         sla_summary=build_sla_summary(silver),
         automation_metrics=build_automation_metrics(silver),
         copilot_usage=build_copilot_usage(silver),
+        integration_metrics=build_integration_metrics(silver),
     )
 
 
@@ -150,5 +182,6 @@ __all__ = [
     "build_case_metrics",
     "build_copilot_usage",
     "build_gold_model",
+    "build_integration_metrics",
     "build_sla_summary",
 ]

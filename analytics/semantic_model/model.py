@@ -13,6 +13,7 @@ SEMANTIC_MODEL: dict[str, Any] = {
         "fact_automation_execution": "one row per simulated automation trace",
         "fact_agent_interaction": "one row per simulated agent tool trace",
         "fact_approval_decision": "one row per approval decision",
+        "fact_integration_delivery": "one row per synthetic integration delivery trace",
     },
     "dimensions": {
         "date": {"key": "date_key", "description": "Calendar date from event/case timestamps."},
@@ -27,6 +28,14 @@ SEMANTIC_MODEL: dict[str, Any] = {
         "automation_workflow": {"key": "flow_id", "source": "Power Automate spec id"},
         "agent": {"key": "agent_id", "source": "ai.agents.AgentDefinition"},
         "tool_risk_class": {"key": "risk", "source": "ai.tools.ToolRisk"},
+        "integration_system": {
+            "key": "system",
+            "source": "IntegrationEnvelope source/target system",
+        },
+        "delivery_state": {
+            "key": "state",
+            "source": "integrations.delivery.DeliveryState",
+        },
     },
     "facts": {
         "fact_case": {
@@ -53,6 +62,10 @@ SEMANTIC_MODEL: dict[str, Any] = {
             "keys": ["approval_id"],
             "relationships": ["fact_case", "date"],
         },
+        "fact_integration_delivery": {
+            "keys": ["envelope_id", "idempotency_key"],
+            "relationships": ["integration_system", "delivery_state", "date"],
+        },
     },
     "measures": {
         "Total Cases": "COUNTROWS(fact_case)",
@@ -65,6 +78,10 @@ SEMANTIC_MODEL: dict[str, Any] = {
         ),
         "Agent Tool Invocations": "COUNTROWS(fact_agent_interaction)",
         "Approval Decisions": "COUNTROWS(fact_approval_decision)",
+        "Integration Deliveries": "COUNTROWS(fact_integration_delivery)",
+        "Integration Delivery Success Rate": (
+            "DIVIDE([Delivered Integration Envelopes], [Integration Deliveries])"
+        ),
     },
     "filter_direction": "single direction from dimensions to facts unless explicitly reviewed",
     "slowly_changing_attributes": (

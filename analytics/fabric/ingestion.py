@@ -26,6 +26,9 @@ class BronzeModel:
     copilot_conversations: tuple[dict[str, Any], ...]
     ai_evaluation_cases: tuple[dict[str, Any], ...]
     ai_evaluation_summary: dict[str, Any]
+    integration_delivery_traces: tuple[dict[str, Any], ...]
+    reconciliation_cases: tuple[dict[str, Any], ...]
+    integration_operations_summary: dict[str, Any]
 
 
 def _read_json(path: Path) -> Any:
@@ -53,6 +56,13 @@ def load_bronze_model(
         copilot_conversations=tuple(_read_json(data_dir / "copilot_conversations.json")),
         ai_evaluation_cases=tuple(_read_json(data_dir / "ai_evaluation_cases.json")),
         ai_evaluation_summary=_read_json(reports_dir / "agentic_ai_evaluation_summary.json"),
+        integration_delivery_traces=tuple(
+            _read_json(data_dir / "integration_delivery_traces.json")
+        ),
+        reconciliation_cases=tuple(_read_json(data_dir / "reconciliation_cases.json")),
+        integration_operations_summary=_read_json(
+            reports_dir / "integration_operations_summary.json"
+        ),
     )
 
 

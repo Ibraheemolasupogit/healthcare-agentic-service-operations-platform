@@ -4,7 +4,7 @@ from dataclasses import replace
 
 from analytics.fabric.data_quality import run_data_quality_checks
 from analytics.fabric.ingestion import load_bronze_model
-from analytics.fabric.silver import SilverModel, build_silver_model
+from analytics.fabric.silver import build_silver_model
 
 
 def test_data_quality_passes_current_generated_evidence():
@@ -30,16 +30,7 @@ def test_data_quality_detects_unknown_case_event_reference():
 def test_data_quality_detects_missing_correlation_id():
     silver = build_silver_model(load_bronze_model())
     bad_execution = {**silver.automation_executions[0], "correlation_id": ""}
-    broken = SilverModel(
-        service_cases=silver.service_cases,
-        lifecycle_events=silver.lifecycle_events,
-        queues=silver.queues,
-        sla_events=silver.sla_events,
-        escalations=silver.escalations,
-        automation_executions=(bad_execution,),
-        agent_interactions=silver.agent_interactions,
-        approval_decisions=silver.approval_decisions,
-    )
+    broken = replace(silver, automation_executions=(bad_execution,))
     issues = run_data_quality_checks(broken)
     assert any(issue.check_id == "automation-correlation" for issue in issues)
 

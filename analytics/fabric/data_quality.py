@@ -162,6 +162,28 @@ def run_data_quality_checks(silver: SilverModel) -> tuple[DataQualityIssue, ...]
                     "Missing correlation id",
                 )
             )
+
+    for delivery in silver.integration_deliveries:
+        if not delivery.get("correlation_id"):
+            issues.append(
+                DataQualityIssue(
+                    "integration-correlation",
+                    "error",
+                    "integration_delivery",
+                    delivery["envelope_id"],
+                    "Missing correlation id",
+                )
+            )
+        if not delivery.get("idempotency_key"):
+            issues.append(
+                DataQualityIssue(
+                    "integration-idempotency",
+                    "error",
+                    "integration_delivery",
+                    delivery["envelope_id"],
+                    "Missing idempotency key",
+                )
+            )
     return tuple(issues)
 
 

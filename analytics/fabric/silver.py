@@ -24,6 +24,7 @@ class SilverModel:
     automation_executions: tuple[dict[str, Any], ...]
     agent_interactions: tuple[dict[str, Any], ...]
     approval_decisions: tuple[dict[str, Any], ...]
+    integration_deliveries: tuple[dict[str, Any], ...]
 
 
 def _parse_ts(value: str) -> datetime:
@@ -167,6 +168,22 @@ def build_silver_model(bronze: BronzeModel) -> SilverModel:
         for record in bronze.approval_records
     )
 
+    integration_deliveries = tuple(
+        {
+            "envelope_id": trace["delivery"]["envelope_id"],
+            "idempotency_key": trace["delivery"]["idempotency_key"],
+            "correlation_id": trace["delivery"]["correlation_id"],
+            "source_system": trace["delivery"]["source_system"],
+            "target_system": trace["delivery"]["target_system"],
+            "operation": trace["delivery"]["operation"],
+            "state": trace["delivery"]["state"],
+            "attempts": trace["delivery"]["attempts"],
+            "manual_review_required": trace["delivery"]["manual_review_required"],
+            "scenario": trace["scenario"],
+        }
+        for trace in bronze.integration_delivery_traces
+    )
+
     # Touch median import through a stable no-op path to keep this module's
     # statistical dependency explicit near the conformance layer.
     if False:  # pragma: no cover
@@ -181,6 +198,7 @@ def build_silver_model(bronze: BronzeModel) -> SilverModel:
         automation_executions=automation_executions,
         agent_interactions=agent_interactions,
         approval_decisions=approval_decisions,
+        integration_deliveries=integration_deliveries,
     )
 
 

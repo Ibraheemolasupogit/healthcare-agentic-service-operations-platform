@@ -37,7 +37,7 @@ def test_analytics_does_not_import_crm_adapters_directly():
     for path in _python_files():
         tree = ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
         for node in ast.walk(tree):
-            if isinstance(node, (ast.Import, ast.ImportFrom)):
+            if isinstance(node, ast.Import | ast.ImportFrom):
                 module = node.module if isinstance(node, ast.ImportFrom) else ""
                 names = [alias.name for alias in getattr(node, "names", [])]
                 imported = " ".join([module or "", *names])

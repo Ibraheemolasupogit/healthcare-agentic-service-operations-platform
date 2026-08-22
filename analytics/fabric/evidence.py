@@ -64,6 +64,7 @@ def build_analytics_summary(gold: GoldModel | None = None) -> dict[str, Any]:
         "sla_summary": gold.sla_summary,
         "automation_metrics": gold.automation_metrics,
         "copilot_usage": gold.copilot_usage,
+        "integration_metrics": gold.integration_metrics,
         "data_quality": {
             "issue_count": len(quality_issues),
             "issues": [issue.to_dict() for issue in quality_issues],
@@ -72,6 +73,7 @@ def build_analytics_summary(gold: GoldModel | None = None) -> dict[str, Any]:
             "Synthetic operational fixture",
             "canonical service domain",
             "CRM / automation / agent evidence",
+            "integration transport evidence",
             "analytics Bronze ingestion",
             "Silver conformed operational entities",
             "Gold KPI outputs",
@@ -94,6 +96,7 @@ def build_service_operations_report(summary: dict[str, Any] | None = None) -> st
     sla = summary["sla_summary"]
     automation = summary["automation_metrics"]
     ai = summary["copilot_usage"]
+    integration = summary["integration_metrics"]
     return (
         "# Service Operations Analytics Report\n\n"
         "Synthetic/generated portfolio evidence only. This report is derived from "
@@ -122,6 +125,11 @@ def build_service_operations_report(summary: dict[str, Any] | None = None) -> st
         f"- Agent/tool invocations: {ai['agent_tool_invocation_count']}\n"
         f"- Tool invocation mix by risk: {ai['tool_invocations_by_risk']}\n"
         f"- Approval-required AI actions: {ai['approval_required_action_count']}\n\n"
+        "## Integration Observations\n\n"
+        f"- Integration deliveries: {integration['integration_delivery_count']}\n"
+        f"- Delivered envelopes: {integration['delivered_count']}\n"
+        f"- Duplicate deliveries suppressed: {integration['duplicate_count']}\n"
+        f"- Dead-letter/manual-review count: {integration['dead_letter_count']}\n\n"
         "## Limitations and Provenance\n\n"
         "- Dataset is intentionally tiny and synthetic.\n"
         "- No production baseline exists, so no improvement claim is made.\n"
@@ -152,6 +160,7 @@ def generate_all(
         outputs_dir / "sla_summary.csv": _metric_rows(gold.sla_summary),
         outputs_dir / "automation_metrics.csv": _metric_rows(gold.automation_metrics),
         outputs_dir / "copilot_usage.csv": _metric_rows(gold.copilot_usage),
+        outputs_dir / "integration_metrics.csv": _metric_rows(gold.integration_metrics),
     }
 
     for path, payload in outputs.items():

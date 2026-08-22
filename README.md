@@ -185,7 +185,7 @@ principles and their rationale.
 | CRM / Case Management     | Dynamics 365 Customer Service, Salesforce Service Cloud | **Implemented as reference adapters** — deterministic translation only; no SDK, no live tenant |
 | Low-code Automation       | Power Platform (Power Apps, Power Automate, Dataverse) | **Implemented as reference architecture/specifications** — no live tenant, deployed flows, or connector |
 | Conversational / Agentic AI | Copilot Studio, agentic AI patterns                 | **Implemented as reference architecture/specifications** — deterministic local simulation only; no live LLM or tenant |
-| Integration                | API-first services, event/message patterns          | **Partially implemented** — `IntegrationEnvelope` contract + deterministic example generator; no transport/broker yet |
+| Integration                | API-first services, event/message patterns          | **Implemented as local/reference transport** — envelope, webhook processing, idempotency, retry, reconciliation, observability; no live API/broker |
 | Analytics                  | Microsoft Fabric, Power BI                           | **Implemented as reference analytics** — local deterministic transforms, semantic/report specs; no live Fabric or Power BI deployment |
 | Business Process           | Platform-neutral Python domain model                | **Implemented** — taxonomy, lifecycle rules, priority, queues/routing, SLA, escalation, audit trail, synthetic fixtures |
 | Governance                 | Audit/access design patterns                         | **Partially documented** — Power Platform control intent added; no operating governance tooling |
@@ -208,7 +208,7 @@ healthcare-agentic-service-operations-platform/
 ├── copilot/                # Copilot Studio topic/prompt reference architecture — implemented (specifications only)
 ├── ai/                      # Bounded agentic-AI layer, tool registry, knowledge, triage, evaluation — implemented (deterministic)
 ├── analytics/              # Fabric-style analytics, semantic model, Power BI report specs — implemented (deterministic)
-├── integrations/           # IntegrationEnvelope contract + example generator — partially implemented
+├── integrations/           # Integration envelope, reference transport, evidence, and CRM example generation — implemented locally
 ├── governance/             # Audit, access, and responsible-AI controls — placeholder + documented controls
 ├── data/                    # Synthetic data only — generated fixtures/config (data/synthetic/)
 ├── outputs/                 # Generated artefacts (git-ignored contents)
@@ -236,8 +236,8 @@ repository, implemented or not.
 | 3 | Dynamics 365 and Salesforce CRM adapter architecture (deterministic reference mappings, schema documentation, integration envelope) | Done |
 | 4 | Power Platform automation architecture (Power Automate specs, Power Apps/Power Pages architecture, connector contracts, approval/evidence patterns) | Done |
 | 5 | Copilot Studio & bounded agentic AI patterns with human-in-the-loop controls | Done |
-| 6 | Fabric analytics and operational intelligence over generated synthetic evidence | **This milestone** |
-| 7 | Live integration transport (API client/message mechanism around the Milestone 3 `IntegrationEnvelope` contract) | Planned |
+| 6 | Fabric analytics and operational intelligence over generated synthetic evidence | Done |
+| 7 | Integration transport, reliability, reconciliation, and observability around `IntegrationEnvelope` | **This milestone** |
 | 8 | Governance, audit trail, and responsible-AI controls hardening | Planned |
 
 Milestone scope, sequencing, and detail may evolve as the portfolio project
@@ -329,7 +329,8 @@ CRM Adapter Architecture):**
 - ✅ Lightweight `IntegrationEnvelope` contract and a deterministic
   cross-CRM example generator ([`integrations/`](integrations/)) — source
   system, source record id, canonical case id, correlation id, schema
-  version, timestamp, operation. No message broker or transport.
+  version, timestamp, operation, with optional envelope/idempotency/trace
+  metadata. Milestone 7 adds local/reference transport around this contract.
 - ✅ **Enforced architecture boundary**: neither adapter imports a
   `business_process` decision function (`validate_transition`,
   `should_escalate`, `evaluate_sla`, `route_category`, ...) —
@@ -433,7 +434,7 @@ Agentic AI):**
   and [`reports/agentic_ai_evaluation_summary.json`](reports/agentic_ai_evaluation_summary.json).
   These are not live Copilot Studio telemetry.
 
-**Implemented (Milestone 6 — this milestone — Fabric Analytics and
+**Implemented (Milestone 6 — Fabric Analytics and
 Operational Intelligence):**
 
 - ✅ Fabric-style analytical transformation layer under
@@ -459,17 +460,59 @@ Operational Intelligence):**
   [`reports/analytics_summary.json`](reports/analytics_summary.json),
   [`reports/service_operations_report.md`](reports/service_operations_report.md),
   and reproducible CSV exports under `outputs/` (`case_metrics.csv`,
-  `sla_summary.csv`, `automation_metrics.csv`, `copilot_usage.csv`).
+  `sla_summary.csv`, `automation_metrics.csv`, `copilot_usage.csv`,
+  `integration_metrics.csv`).
   These are synthetic/generated portfolio artefacts, not production telemetry.
 - ✅ Analytics boundary tests and data-quality tests proving the analytics layer
   consumes canonical/CRM/automation/agent evidence downstream without becoming
   a transactional source of truth or redefining operational rules.
 
+**Implemented (Milestone 7 — this milestone — Integration Transport,
+Reliability and Observability):**
+
+- ✅ Extended `IntegrationEnvelope` metadata support while preserving the
+  existing Milestone 3 contract: envelope id, target system, causation id,
+  idempotency key, and trace metadata are optional additions.
+- ✅ Local/reference webhook/API processor in [`integrations/webhooks.py`](integrations/webhooks.py)
+  covering schema validation, conceptual authorization, idempotency,
+  duplicate suppression, allow-listed operation dispatch, retry, delivery
+  state, and correlation preservation.
+- ✅ Provider-neutral outbound transport abstraction in
+  [`integrations/transport.py`](integrations/transport.py) with deterministic
+  stub transport only. No HTTP calls, SaaS SDKs, credentials, or production
+  endpoints.
+- ✅ Retry/backoff and dead-letter/manual-review modelling in
+  [`integrations/retry.py`](integrations/retry.py) and
+  [`integrations/delivery.py`](integrations/delivery.py), including
+  `received`, `validated`, `processing`, `delivered`, `retry_pending`,
+  `failed`, `dead_lettered`, and `duplicate` delivery states. This is not
+  canonical case lifecycle.
+- ✅ Conceptual authentication/authorization model in
+  [`integrations/security.py`](integrations/security.py): service identity,
+  audience, environment, source binding, and least-privilege scope checks
+  without token issuance or secrets.
+- ✅ Reconciliation and observability support in
+  [`integrations/reconciliation.py`](integrations/reconciliation.py) and
+  [`integrations/observability.py`](integrations/observability.py), plus
+  analytics integration for delivery success/duplicate/retry/dead-letter
+  metrics.
+- ✅ Deterministic synthetic integration evidence:
+  [`data/synthetic/integration_envelopes.json`](data/synthetic/integration_envelopes.json),
+  [`data/synthetic/integration_delivery_traces.json`](data/synthetic/integration_delivery_traces.json),
+  [`data/synthetic/reconciliation_cases.json`](data/synthetic/reconciliation_cases.json),
+  [`reports/integration_operations_summary.json`](reports/integration_operations_summary.json),
+  and [`reports/reconciliation_report.md`](reports/reconciliation_report.md).
+  These are reference execution traces, not live webhook runs or monitoring
+  telemetry.
+- ✅ Boundary tests proving transport modules do not redefine canonical
+  lifecycle tables, SLA formulae, routing rules, escalation logic, or AI tool
+  permission rules.
+
 **Not yet implemented (later milestones):**
 
 - ❌ No live Dataverse integration (SDK, authentication, or a connected app)
 - ❌ No live Salesforce integration (SDK/API client, authentication, or a connected app)
-- ❌ No webhooks, in either direction
+- ❌ No public production API or live webhooks, in either direction
 - ❌ No deployed Power Automate flows, `.zip` solution exports, `.msapp` files,
   live Power Apps apps, live Power Pages site, production custom connector, or
   live Dataverse API calls
@@ -481,7 +524,8 @@ Operational Intelligence):**
   bypass canonical validation or human approval gates
 - ❌ No live enterprise knowledge connectors
 - ❌ No production AI telemetry
-- ❌ No message broker, event platform, or live transport for `IntegrationEnvelope`
+- ❌ No message broker, event platform, Azure Service Bus/Event Grid, or live
+  transport for `IntegrationEnvelope`
 - ❌ No live Fabric workspace, Lakehouse/Warehouse deployment, Spark job,
   deployed semantic model, deployed Power BI report, live CRM telemetry
   ingestion, production monitoring, or production deployment

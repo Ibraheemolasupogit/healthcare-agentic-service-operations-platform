@@ -15,6 +15,7 @@ CSV extracts here:
 - `sla_summary.csv`
 - `automation_metrics.csv`
 - `copilot_usage.csv`
+- `integration_metrics.csv`
 
 They are generated synthetic portfolio evidence, not live Fabric/Power BI
 exports, and remain ignored because the tracked analytical summaries live in

@@ -24,6 +24,8 @@ def test_semantic_model_declares_required_dimensions():
         "automation_workflow",
         "agent",
         "tool_risk_class",
+        "integration_system",
+        "delivery_state",
     } <= dimensions
 
 
@@ -36,9 +38,11 @@ def test_semantic_model_declares_required_facts_and_measures():
         "fact_automation_execution",
         "fact_agent_interaction",
         "fact_approval_decision",
+        "fact_integration_delivery",
     } <= facts
     assert "Total Cases" in SEMANTIC_MODEL["measures"]
     assert "SLA Compliance Rate" in SEMANTIC_MODEL["measures"]
+    assert "Integration Deliveries" in SEMANTIC_MODEL["measures"]
 
 
 def test_semantic_model_rejects_missing_sections():

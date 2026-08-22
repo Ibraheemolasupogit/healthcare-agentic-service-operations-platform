@@ -2,7 +2,7 @@
 
 This document expands on the roadmap summary in the
 [root README](../README.md#7-delivery-roadmap). Scope and sequencing below are
-indicative and may evolve as the portfolio project progresses. Milestones 1-6
+indicative and may evolve as the portfolio project progresses. Milestones 1-7
 are implemented in this repository; later milestones are not committed or
 scheduled against dates.
 
@@ -73,15 +73,20 @@ documentation, and deterministic analytics reports/CSV exports. This milestone
 does not deploy Fabric, Spark, Lakehouse/Warehouse, semantic model, Power BI,
 or production telemetry.
 
-## Milestone 7 — Integration Layer *(planned)*
+## Milestone 7 — Integration Transport, Reliability and Observability *(done)*
 
-Live transport around the `IntegrationEnvelope` contract introduced in
-Milestone 3 (`integrations/envelope.py`) — an actual API client/message
-mechanism connecting the bounded contexts built in Milestones 3-6, with
-retries, delivery guarantees, authentication, webhook ingestion, and
-observability. The first live transport should preserve the existing
-connector/tool/canonical boundary and should not introduce live LLM or
-tenant dependencies as a side effect.
+Local/reference transport around the `IntegrationEnvelope` contract introduced
+in Milestone 3 (`integrations/envelope.py`): inbound webhook/API request
+handling, conceptual authentication/authorization checks, idempotency,
+retry/backoff metadata, delivery states, outbound transport stubs,
+reconciliation, integration observability, and deterministic synthetic
+evidence. It preserves the existing connector/tool/canonical boundary and
+does not make live SaaS calls.
+
+Still not implemented: public production API, live Dynamics/Salesforce/Power
+Platform webhooks, production OAuth/token exchange, broker deployment, Azure
+Service Bus/Event Grid, live monitoring backend, or production integration
+deployment.
 
 ## Milestone 8 — Governance Hardening *(planned)*
 

@@ -1,0 +1,242 @@
+[
+  {
+    "event_type": "integration_delivery",
+    "envelope": {
+      "source_system": "external",
+      "source_record_id": "EXT-1001",
+      "canonical_case_id": "SR-DS-1001",
+      "correlation_id": "504395cf-82f1-54b4-a580-95355e518199",
+      "schema_version": "1.0",
+      "timestamp": "2026-01-12T15:00:00+00:00",
+      "operation": "create",
+      "target_system": "business_process",
+      "causation_id": "synthetic-m7-scenario",
+      "idempotency_key": "external:EXT-1001:create:business_process"
+    },
+    "delivery": {
+      "envelope_id": "78d0e374-0912-5568-9853-0b33aed3928f",
+      "idempotency_key": "external:EXT-1001:create:business_process",
+      "correlation_id": "504395cf-82f1-54b4-a580-95355e518199",
+      "source_system": "external",
+      "target_system": "business_process",
+      "operation": "create",
+      "state": "delivered",
+      "attempts": 1,
+      "created_at": "2026-01-12T15:00:00+00:00",
+      "updated_at": "2026-01-12T15:00:00+00:00",
+      "outcome": "delivered via local stub transport; receipt=stub-receipt:504395cf-82f1-54b4-a580-95355e518199:1",
+      "error": null,
+      "retryable": false,
+      "next_backoff_seconds": null,
+      "manual_review_required": false
+    },
+    "synthetic": true,
+    "note": "Deterministic reference event; not live webhook or monitoring telemetry.",
+    "scenario": "successful inbound delivery",
+    "retry_policy": {
+      "max_attempts": 3,
+      "base_delay_seconds": 30,
+      "max_delay_seconds": 120
+    }
+  },
+  {
+    "event_type": "integration_delivery",
+    "envelope": {
+      "source_system": "external",
+      "source_record_id": "EXT-1001",
+      "canonical_case_id": "SR-DS-1001",
+      "correlation_id": "504395cf-82f1-54b4-a580-95355e518199",
+      "schema_version": "1.0",
+      "timestamp": "2026-01-12T15:00:00+00:00",
+      "operation": "create",
+      "target_system": "business_process",
+      "causation_id": "synthetic-m7-scenario",
+      "idempotency_key": "external:EXT-1001:create:business_process"
+    },
+    "delivery": {
+      "envelope_id": "78d0e374-0912-5568-9853-0b33aed3928f",
+      "idempotency_key": "external:EXT-1001:create:business_process",
+      "correlation_id": "504395cf-82f1-54b4-a580-95355e518199",
+      "source_system": "external",
+      "target_system": "business_process",
+      "operation": "create",
+      "state": "duplicate",
+      "attempts": 0,
+      "created_at": "2026-01-12T15:00:00+00:00",
+      "updated_at": "2026-01-12T15:00:00+00:00",
+      "outcome": "duplicate suppressed; original=78d0e374-0912-5568-9853-0b33aed3928f",
+      "error": null,
+      "retryable": false,
+      "next_backoff_seconds": null,
+      "manual_review_required": false
+    },
+    "synthetic": true,
+    "note": "Deterministic reference event; not live webhook or monitoring telemetry.",
+    "scenario": "duplicate webhook",
+    "retry_policy": {
+      "max_attempts": 3,
+      "base_delay_seconds": 30,
+      "max_delay_seconds": 120
+    }
+  },
+  {
+    "event_type": "integration_delivery",
+    "envelope": {
+      "source_system": "power_platform",
+      "source_record_id": "FLOW-RUN-1003",
+      "canonical_case_id": "SR-FA-1003",
+      "correlation_id": "8c26c63a-6520-5321-ab5c-e3856d561422",
+      "schema_version": "1.0",
+      "timestamp": "2026-01-12T15:00:00+00:00",
+      "operation": "automation_event",
+      "target_system": "dynamics365",
+      "causation_id": "synthetic-m7-scenario",
+      "idempotency_key": "power_platform:FLOW-RUN-1003:automation_event:dynamics365"
+    },
+    "delivery": {
+      "envelope_id": "45f24395-2f48-5dad-93b5-e2f3d316359b",
+      "idempotency_key": "power_platform:FLOW-RUN-1003:automation_event:dynamics365",
+      "correlation_id": "8c26c63a-6520-5321-ab5c-e3856d561422",
+      "source_system": "power_platform",
+      "target_system": "dynamics365",
+      "operation": "automation_event",
+      "state": "delivered",
+      "attempts": 2,
+      "created_at": "2026-01-12T15:00:00+00:00",
+      "updated_at": "2026-01-12T15:00:00+00:00",
+      "outcome": "delivered via local stub transport; receipt=stub-receipt:8c26c63a-6520-5321-ab5c-e3856d561422:2",
+      "error": null,
+      "retryable": false,
+      "next_backoff_seconds": null,
+      "manual_review_required": false
+    },
+    "synthetic": true,
+    "note": "Deterministic reference event; not live webhook or monitoring telemetry.",
+    "scenario": "transient outbound failure followed by successful retry",
+    "retry_policy": {
+      "max_attempts": 3,
+      "base_delay_seconds": 30,
+      "max_delay_seconds": 120
+    }
+  },
+  {
+    "event_type": "integration_delivery",
+    "envelope": {
+      "source_system": "salesforce",
+      "source_record_id": "500BAD",
+      "canonical_case_id": "SR-AI-1004",
+      "correlation_id": "65908f53-f8d1-5f38-9238-d2620bc95b5f",
+      "schema_version": "0.9",
+      "timestamp": "2026-01-12T15:00:00+00:00",
+      "operation": "sync",
+      "target_system": "dynamics365",
+      "causation_id": "synthetic-m7-scenario",
+      "idempotency_key": "salesforce:500BAD:sync:dynamics365"
+    },
+    "delivery": {
+      "envelope_id": "b6772cec-74f0-57d8-963c-159e1f755392",
+      "idempotency_key": "salesforce:500BAD:sync:dynamics365",
+      "correlation_id": "65908f53-f8d1-5f38-9238-d2620bc95b5f",
+      "source_system": "salesforce",
+      "target_system": "dynamics365",
+      "operation": "sync",
+      "state": "failed",
+      "attempts": 0,
+      "created_at": "2026-01-12T15:00:00+00:00",
+      "updated_at": "2026-01-12T15:00:00+00:00",
+      "outcome": "non-retryable validation/auth failure",
+      "error": "unsupported schema_version 0.9",
+      "retryable": false,
+      "next_backoff_seconds": null,
+      "manual_review_required": false
+    },
+    "synthetic": true,
+    "note": "Deterministic reference event; not live webhook or monitoring telemetry.",
+    "scenario": "non-retryable validation failure",
+    "retry_policy": {
+      "max_attempts": 3,
+      "base_delay_seconds": 30,
+      "max_delay_seconds": 120
+    }
+  },
+  {
+    "event_type": "integration_delivery",
+    "envelope": {
+      "source_system": "salesforce",
+      "source_record_id": "500DEAD",
+      "canonical_case_id": "SR-DR-1006",
+      "correlation_id": "9a0ecfe7-ec1c-5b47-b2b7-4712ec45776d",
+      "schema_version": "1.0",
+      "timestamp": "2026-01-12T15:00:00+00:00",
+      "operation": "sync",
+      "target_system": "dynamics365",
+      "causation_id": "synthetic-m7-scenario",
+      "idempotency_key": "salesforce:500DEAD:sync:dynamics365"
+    },
+    "delivery": {
+      "envelope_id": "e133eb06-967c-5acb-a667-02969515a37b",
+      "idempotency_key": "salesforce:500DEAD:sync:dynamics365",
+      "correlation_id": "9a0ecfe7-ec1c-5b47-b2b7-4712ec45776d",
+      "source_system": "salesforce",
+      "target_system": "dynamics365",
+      "operation": "sync",
+      "state": "dead_lettered",
+      "attempts": 3,
+      "created_at": "2026-01-12T15:00:00+00:00",
+      "updated_at": "2026-01-12T15:00:00+00:00",
+      "outcome": "delivery failed; manual review required",
+      "error": "transient transport failure for salesforce:500DEAD:sync:dynamics365",
+      "retryable": false,
+      "next_backoff_seconds": null,
+      "manual_review_required": true
+    },
+    "synthetic": true,
+    "note": "Deterministic reference event; not live webhook or monitoring telemetry.",
+    "scenario": "exhausted retries to dead-letter",
+    "retry_policy": {
+      "max_attempts": 3,
+      "base_delay_seconds": 30,
+      "max_delay_seconds": 120
+    }
+  },
+  {
+    "event_type": "integration_delivery",
+    "envelope": {
+      "source_system": "dynamics365",
+      "source_record_id": "INC-MISMATCH",
+      "canonical_case_id": "SR-CE-1002",
+      "correlation_id": "5f94e7bc-022f-5b60-9683-4f59076d37f1",
+      "schema_version": "1.0",
+      "timestamp": "2026-01-12T15:00:00+00:00",
+      "operation": "sync",
+      "target_system": "salesforce",
+      "causation_id": "synthetic-m7-scenario",
+      "idempotency_key": "dynamics365:INC-MISMATCH:sync:salesforce"
+    },
+    "delivery": {
+      "envelope_id": "synthetic-correlation-mismatch",
+      "idempotency_key": "dynamics365:INC-MISMATCH:sync:salesforce",
+      "correlation_id": "wrong-correlation-id",
+      "source_system": "dynamics365",
+      "target_system": "salesforce",
+      "operation": "sync",
+      "state": "delivered",
+      "attempts": 1,
+      "created_at": "2026-01-12T15:00:00+00:00",
+      "updated_at": "2026-01-12T15:00:00+00:00",
+      "outcome": "synthetic reconciliation-only inconsistency",
+      "error": null,
+      "retryable": false,
+      "next_backoff_seconds": null,
+      "manual_review_required": false
+    },
+    "synthetic": true,
+    "note": "Deterministic reference event; not live webhook or monitoring telemetry.",
+    "scenario": "reconciliation detecting downstream inconsistency",
+    "retry_policy": {
+      "max_attempts": 3,
+      "base_delay_seconds": 30,
+      "max_delay_seconds": 120
+    }
+  }
+]

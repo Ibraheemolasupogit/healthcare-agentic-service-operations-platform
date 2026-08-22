@@ -43,6 +43,15 @@ screenshots, deployed report, workspace, or production dataset exists.
 - AI evaluation pass/fail
 - Refusal/safety outcomes
 
+### Integration Reliability
+
+- Integration deliveries
+- Delivery success/failure/dead-letter status
+- Duplicate webhook suppression
+- Retry involvement
+- Manual-review outcomes
+- Source/target system distribution
+
 All visuals should carry a synthetic/reference evidence label. The report
 must not claim production performance, improvement percentages, or live
 operational monitoring.

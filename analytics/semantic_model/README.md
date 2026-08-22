@@ -15,6 +15,8 @@ workspace, or XMLA endpoint.
 - Automation Workflow
 - Agent
 - Tool Risk Class
+- Integration System
+- Delivery State
 
 ## Facts
 
@@ -24,6 +26,7 @@ workspace, or XMLA endpoint.
 - Automation Execution
 - Agent Interaction
 - Approval Decision
+- Integration Delivery
 
 ## Modelling Decisions
 

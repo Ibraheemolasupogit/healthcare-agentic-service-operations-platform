@@ -34,8 +34,15 @@ platforms. [`integrations/envelope.py`](../integrations/envelope.py) defines
 the lightweight `IntegrationEnvelope` contract (source system, source record
 id, canonical case id, correlation id, schema version, timestamp, operation)
 that a payload travels with; [`integrations/examples.py`](../integrations/examples.py)
-shows where a future live connector would sit — no transport or message
-broker is implemented yet.
+shows where a future live connector would sit.
+
+As of Milestone 7, [`integrations/`](../integrations/) also contains a
+local/reference transport boundary around the envelope: webhook/API
+validation, conceptual auth, idempotency, retry/backoff metadata,
+delivery-state tracking, outbound transport stubs, reconciliation, and
+synthetic observability evidence. It does not implement a public API, live
+webhooks, message broker, production OAuth/token exchange, live SaaS calls,
+or a monitoring backend.
 
 As of Milestone 4, [`power_platform/connectors/`](../power_platform/connectors/)
 adds the intended custom-connector/API boundary for Power Platform
@@ -100,10 +107,10 @@ one BI tool's proprietary format.
 
 As of Milestone 6, analytics is implemented as a downstream, Fabric-style
 reference layer: it ingests existing canonical, CRM, Power Platform, approval,
-Copilot, agent, and AI-evaluation evidence; conforms it into Silver entities;
-derives Gold KPIs; and documents a semantic model and Power BI report design.
-It does not write back to service operations and is not a transactional
-source of truth.
+Copilot, agent, AI-evaluation, and integration transport evidence; conforms
+it into Silver entities; derives Gold KPIs; and documents a semantic model
+and Power BI report design. It does not write back to service operations and
+is not a transactional source of truth.
 
 **Modular, replaceable SaaS components**
 Each platform-specific directory is a bounded context behind a stable
@@ -196,6 +203,30 @@ synthetic operational fixture → canonical service domain → CRM / automation 
 agent evidence → analytical transformation → Gold metric → semantic measure →
 dashboard/report. Analytics consumes evidence and produces intelligence; it
 never becomes operational state.
+
+## Integration Transport Diagram
+
+```mermaid
+flowchart TD
+    EXT["External CRM / Power Platform / Service"]
+    API["Webhook / API Boundary"]
+    IDEMP["Envelope Validation + Idempotency"]
+    RETRY["Dispatch / Retry"]
+    OPS["Canonical Operations / Adapters"]
+    OBS["Delivery Record + Observability"]
+    REC["Reconciliation / Analytics"]
+
+    EXT --> API
+    API --> IDEMP
+    IDEMP --> RETRY
+    RETRY --> OPS
+    RETRY --> OBS
+    OBS --> REC
+```
+
+The transport layer preserves correlation, handles duplicate and failed
+deliveries, and emits evidence. It does not decide valid case lifecycle
+transitions, SLA status, routing, escalation, or AI tool permissions.
 
 ## High-Level Diagram
 

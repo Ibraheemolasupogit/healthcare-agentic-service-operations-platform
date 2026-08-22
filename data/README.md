@@ -53,6 +53,17 @@ synthetic data above, but does not add new raw source files under `data/`.
 Its tracked report outputs live in [`reports/`](../reports/), and its
 reproducible CSV extracts live under [`outputs/`](../outputs/).
 
+As of Milestone 7, [`integrations/evidence.py`](../integrations/evidence.py)
+(run via `python -m integrations.evidence`) additionally generates:
+
+- `integration_envelopes.json` — synthetic/reference envelopes exercising
+  inbound API/webhook operations and outbound delivery
+- `integration_delivery_traces.json` — deterministic delivery traces for
+  success, duplicate suppression, retry, validation failure, dead-letter, and
+  reconciliation scenarios
+- `reconciliation_cases.json` — deterministic reconciliation findings over
+  transport evidence
+
 Every file is regenerated identically by re-running its generator — nothing
 here is hand-authored, and none of it is fetched from a live system.
 

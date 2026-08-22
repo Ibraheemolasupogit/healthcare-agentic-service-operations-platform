@@ -2,9 +2,9 @@
 
 A small, platform-neutral metadata wrapper around a translated payload
 exchanged between the canonical domain and a platform adapter (or, in a
-later milestone, a real connector). This is a data shape only — there is no
-transport, queue, retry, or delivery-guarantee logic here. See
-integrations/README.md for how a future API connector would use it.
+later milestone, a real connector). The envelope is still only metadata:
+transport, retry, delivery state, and observability live in adjacent
+Milestone 7 modules rather than inside this data contract.
 """
 
 from __future__ import annotations
@@ -26,6 +26,9 @@ class SourceSystem(StrEnum):
     CANONICAL = "business_process"
     DYNAMICS_365 = "dynamics365"
     SALESFORCE = "salesforce"
+    POWER_PLATFORM = "power_platform"
+    COPILOT = "copilot"
+    EXTERNAL = "external"
 
 
 class IntegrationOperation(StrEnum):
@@ -35,6 +38,9 @@ class IntegrationOperation(StrEnum):
     UPDATE = "update"
     UPSERT = "upsert"
     SYNC = "sync"
+    WEBHOOK = "webhook"
+    APPROVAL_DECISION = "approval_decision"
+    AUTOMATION_EVENT = "automation_event"
 
 
 @dataclass(frozen=True, slots=True)
@@ -56,6 +62,11 @@ class IntegrationEnvelope:
     schema_version: str
     timestamp: datetime
     operation: IntegrationOperation
+    envelope_id: str | None = None
+    target_system: SourceSystem | None = None
+    causation_id: str | None = None
+    idempotency_key: str | None = None
+    trace: dict[str, str] | None = None
 
 
 def new_correlation_id(seed: str) -> str:
@@ -69,7 +80,7 @@ def new_correlation_id(seed: str) -> str:
 
 def envelope_to_dict(envelope: IntegrationEnvelope) -> dict[str, Any]:
     """Convert an `IntegrationEnvelope` to a JSON-safe dict."""
-    return {
+    payload: dict[str, Any] = {
         "source_system": envelope.source_system.value,
         "source_record_id": envelope.source_record_id,
         "canonical_case_id": envelope.canonical_case_id,
@@ -78,3 +89,12 @@ def envelope_to_dict(envelope: IntegrationEnvelope) -> dict[str, Any]:
         "timestamp": envelope.timestamp.isoformat(),
         "operation": envelope.operation.value,
     }
+    optional = {
+        "envelope_id": envelope.envelope_id,
+        "target_system": envelope.target_system.value if envelope.target_system else None,
+        "causation_id": envelope.causation_id,
+        "idempotency_key": envelope.idempotency_key,
+        "trace": envelope.trace,
+    }
+    payload.update({key: value for key, value in optional.items() if value is not None})
+    return payload

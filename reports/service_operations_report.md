@@ -35,6 +35,13 @@ Synthetic/generated portfolio evidence only. This report is derived from reposit
 - Tool invocation mix by risk: {'read-only': 1, 'recommendation': 0, 'state-changing': 1, 'consequential': 0}
 - Approval-required AI actions: 1
 
+## Integration Observations
+
+- Integration deliveries: 6
+- Delivered envelopes: 3
+- Duplicate deliveries suppressed: 1
+- Dead-letter/manual-review count: 1
+
 ## Limitations and Provenance
 
 - Dataset is intentionally tiny and synthetic.

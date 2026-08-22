@@ -9,9 +9,9 @@ deployment exists.
 
 | Layer | Implemented shape | Source |
 |-------|-------------------|--------|
-| Bronze | Raw/source-aligned records: cases, case events, CRM mapping examples, automation traces, approval records, Copilot conversations, agent tool traces, AI evaluation evidence | Existing generated JSON evidence under `data/synthetic/` and `reports/` |
-| Silver | Conformed entities: service case, lifecycle event, queue, SLA event, escalation, automation execution, agent interaction, approval decision | `analytics.fabric.silver.build_silver_model()` |
-| Gold | Business-ready outputs: case metrics, SLA summary, automation metrics, Copilot/AI usage | `analytics.fabric.gold.build_gold_model()` |
+| Bronze | Raw/source-aligned records: cases, case events, CRM mapping examples, automation traces, approval records, Copilot conversations, agent tool traces, AI evaluation evidence, integration delivery traces, reconciliation cases | Existing generated JSON evidence under `data/synthetic/` and `reports/` |
+| Silver | Conformed entities: service case, lifecycle event, queue, SLA event, escalation, automation execution, agent interaction, approval decision, integration delivery | `analytics.fabric.silver.build_silver_model()` |
+| Gold | Business-ready outputs: case metrics, SLA summary, automation metrics, Copilot/AI usage, integration delivery metrics | `analytics.fabric.gold.build_gold_model()` |
 
 Analytics remains downstream of the operational system. It never writes back
 to `business_process`, CRM adapters, Power Platform specs, or AI tools.
@@ -21,7 +21,7 @@ to `business_process`, CRM adapters, Power Platform specs, or AI tools.
 ```text
 Synthetic operational fixture
 -> canonical service domain
--> CRM / automation / agent evidence
+-> CRM / automation / agent / integration evidence
 -> analytics Bronze ingestion
 -> Silver conformed operational entities
 -> Gold KPI outputs
@@ -33,5 +33,5 @@ Synthetic operational fixture
 
 `data_quality.py` validates required IDs, category/priority/status values,
 duplicate case IDs, timestamp shape, non-negative durations, known queues,
-referential integrity, and required correlation IDs for automation, agent,
-and approval evidence.
+referential integrity, and required correlation/idempotency IDs for automation,
+agent, approval, and integration evidence.

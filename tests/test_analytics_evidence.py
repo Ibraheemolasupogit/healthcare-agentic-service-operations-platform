@@ -16,6 +16,7 @@ def test_analytics_summary_contains_kpis_and_lineage():
     assert summary["sla_summary"]["sla_compliance_rate_percent"] == 83.33
     assert summary["automation_metrics"]["automation_execution_count"] == 1
     assert summary["copilot_usage"]["agent_tool_invocation_count"] == 2
+    assert summary["integration_metrics"]["integration_delivery_count"] == 6
     assert summary["data_quality"]["issue_count"] == 0
     assert "Gold KPI outputs" in summary["lineage"]
     assert "no live Fabric workspace" in summary["note"]
@@ -38,6 +39,7 @@ def test_generate_all_writes_expected_files(tmp_path):
         "sla_summary.csv",
         "automation_metrics.csv",
         "copilot_usage.csv",
+        "integration_metrics.csv",
     }
     for path in written.values():
         assert path.is_file()
@@ -58,6 +60,7 @@ def test_generated_csv_files_are_readable(tmp_path):
         "sla_summary.csv",
         "automation_metrics.csv",
         "copilot_usage.csv",
+        "integration_metrics.csv",
     ):
         with written[name].open(encoding="utf-8", newline="") as handle:
             rows = list(csv.DictReader(handle))

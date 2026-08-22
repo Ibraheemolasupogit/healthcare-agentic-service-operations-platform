@@ -33,7 +33,8 @@ It also regenerates ignored, reproducible CSV exports under `outputs/`:
 - `outputs/sla_summary.csv`
 - `outputs/automation_metrics.csv`
 - `outputs/copilot_usage.csv`
+- `outputs/integration_metrics.csv`
 
 Analytics consumes existing canonical, CRM, automation, approval, Copilot,
-agent, and AI-evaluation evidence. It does not invent live telemetry and
-does not become a transactional source of truth.
+agent, AI-evaluation, and integration transport evidence. It does not invent
+live telemetry and does not become a transactional source of truth.

@@ -134,6 +134,6 @@ def test_no_adapter_file_calls_business_process_via_module_attribute_access():
         }
         if hits:
             violations[str(path.relative_to(REPO_ROOT))] = hits
-    assert not violations, (
-        f"Adapter file(s) access business_process via attribute chain: {violations}"
-    )
+    assert (
+        not violations
+    ), f"Adapter file(s) access business_process via attribute chain: {violations}"

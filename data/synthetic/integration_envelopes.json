@@ -1,0 +1,74 @@
+[
+  {
+    "source_system": "external",
+    "source_record_id": "EXT-1001",
+    "canonical_case_id": "SR-DS-1001",
+    "correlation_id": "504395cf-82f1-54b4-a580-95355e518199",
+    "schema_version": "1.0",
+    "timestamp": "2026-01-12T15:00:00+00:00",
+    "operation": "create",
+    "target_system": "business_process",
+    "causation_id": "synthetic-m7-scenario",
+    "idempotency_key": "external:EXT-1001:create:business_process"
+  },
+  {
+    "source_system": "external",
+    "source_record_id": "EXT-1001",
+    "canonical_case_id": "SR-DS-1001",
+    "correlation_id": "504395cf-82f1-54b4-a580-95355e518199",
+    "schema_version": "1.0",
+    "timestamp": "2026-01-12T15:00:00+00:00",
+    "operation": "create",
+    "target_system": "business_process",
+    "causation_id": "synthetic-m7-scenario",
+    "idempotency_key": "external:EXT-1001:create:business_process"
+  },
+  {
+    "source_system": "power_platform",
+    "source_record_id": "FLOW-RUN-1003",
+    "canonical_case_id": "SR-FA-1003",
+    "correlation_id": "8c26c63a-6520-5321-ab5c-e3856d561422",
+    "schema_version": "1.0",
+    "timestamp": "2026-01-12T15:00:00+00:00",
+    "operation": "automation_event",
+    "target_system": "dynamics365",
+    "causation_id": "synthetic-m7-scenario",
+    "idempotency_key": "power_platform:FLOW-RUN-1003:automation_event:dynamics365"
+  },
+  {
+    "source_system": "salesforce",
+    "source_record_id": "500BAD",
+    "canonical_case_id": "SR-AI-1004",
+    "correlation_id": "65908f53-f8d1-5f38-9238-d2620bc95b5f",
+    "schema_version": "0.9",
+    "timestamp": "2026-01-12T15:00:00+00:00",
+    "operation": "sync",
+    "target_system": "dynamics365",
+    "causation_id": "synthetic-m7-scenario",
+    "idempotency_key": "salesforce:500BAD:sync:dynamics365"
+  },
+  {
+    "source_system": "salesforce",
+    "source_record_id": "500DEAD",
+    "canonical_case_id": "SR-DR-1006",
+    "correlation_id": "9a0ecfe7-ec1c-5b47-b2b7-4712ec45776d",
+    "schema_version": "1.0",
+    "timestamp": "2026-01-12T15:00:00+00:00",
+    "operation": "sync",
+    "target_system": "dynamics365",
+    "causation_id": "synthetic-m7-scenario",
+    "idempotency_key": "salesforce:500DEAD:sync:dynamics365"
+  },
+  {
+    "source_system": "dynamics365",
+    "source_record_id": "INC-MISMATCH",
+    "canonical_case_id": "SR-CE-1002",
+    "correlation_id": "5f94e7bc-022f-5b60-9683-4f59076d37f1",
+    "schema_version": "1.0",
+    "timestamp": "2026-01-12T15:00:00+00:00",
+    "operation": "sync",
+    "target_system": "salesforce",
+    "causation_id": "synthetic-m7-scenario",
+    "idempotency_key": "dynamics365:INC-MISMATCH:sync:salesforce"
+  }
+]

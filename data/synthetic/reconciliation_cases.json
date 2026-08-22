@@ -1,0 +1,34 @@
+[
+  {
+    "check_id": "undelivered-envelope",
+    "severity": "error",
+    "canonical_case_id": "SR-AI-1004",
+    "correlation_id": "65908f53-f8d1-5f38-9238-d2620bc95b5f",
+    "finding": "Delivery state is failed",
+    "recommended_action": "Send to manual review and retry after root cause is corrected."
+  },
+  {
+    "check_id": "undelivered-envelope",
+    "severity": "error",
+    "canonical_case_id": "SR-DR-1006",
+    "correlation_id": "9a0ecfe7-ec1c-5b47-b2b7-4712ec45776d",
+    "finding": "Delivery state is dead_lettered",
+    "recommended_action": "Send to manual review and retry after root cause is corrected."
+  },
+  {
+    "check_id": "duplicate-external-record-mapping",
+    "severity": "error",
+    "canonical_case_id": "SR-CE-1002",
+    "correlation_id": "5f94e7bc-022f-5b60-9683-4f59076d37f1",
+    "finding": "External record case-duplicate-001 is mapped to SR-DR-1006 and SR-CE-1002.",
+    "recommended_action": "Quarantine mapping and resolve canonical/external identity conflict."
+  },
+  {
+    "check_id": "correlation-mismatch",
+    "severity": "error",
+    "canonical_case_id": "SR-CE-1002",
+    "correlation_id": "5f94e7bc-022f-5b60-9683-4f59076d37f1",
+    "finding": "Envelope and delivery correlation ids differ.",
+    "recommended_action": "Preserve original correlation id across retry and provider hops."
+  }
+]

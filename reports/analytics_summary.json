@@ -101,6 +101,42 @@
     "approval_required_action_count": 1,
     "note": "AI-assistance usage is synthetic/reference evidence, not production telemetry."
   },
+  "integration_metrics": {
+    "generated_from": "analytics.fabric.gold.build_integration_metrics",
+    "integration_delivery_count": 6,
+    "delivered_count": 3,
+    "duplicate_count": 1,
+    "failed_delivery_count": 1,
+    "dead_letter_count": 1,
+    "retry_delivery_count": 2,
+    "manual_review_required_count": 1,
+    "delivery_success_rate_percent": 50.0,
+    "duplicate_rate_percent": 16.67,
+    "retry_rate_percent": 33.33,
+    "deliveries_by_source_system": {
+      "dynamics365": 1,
+      "external": 2,
+      "power_platform": 1,
+      "salesforce": 2
+    },
+    "deliveries_by_target_system": {
+      "business_process": 2,
+      "dynamics365": 3,
+      "salesforce": 1
+    },
+    "deliveries_by_operation": {
+      "automation_event": 1,
+      "create": 2,
+      "sync": 3
+    },
+    "deliveries_by_state": {
+      "dead_lettered": 1,
+      "delivered": 3,
+      "duplicate": 1,
+      "failed": 1
+    },
+    "note": "Integration metrics use deterministic synthetic transport traces only."
+  },
   "data_quality": {
     "issue_count": 0,
     "issues": []
@@ -109,6 +145,7 @@
     "Synthetic operational fixture",
     "canonical service domain",
     "CRM / automation / agent evidence",
+    "integration transport evidence",
     "analytics Bronze ingestion",
     "Silver conformed operational entities",
     "Gold KPI outputs",
