@@ -133,7 +133,7 @@ and assures the reference implementation.
 | Governance controls | Implemented reference controls | [`governance/`](governance/) | [`reports/governance_summary.json`](reports/governance_summary.json) |
 | Release assurance | Implemented reference checks | [`governance/release.py`](governance/release.py) | [`reports/release_assurance.json`](reports/release_assurance.json) |
 
-## What This Supports In An Interview
+## What This Project Demonstrates
 
 The project is designed to support technical discussion of:
 
