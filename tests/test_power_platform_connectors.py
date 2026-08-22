@@ -49,9 +49,9 @@ def test_every_connector_operation_example_is_json_serializable(operation):
 def test_operations_that_wrap_canonical_functions_resolve_on_business_process():
     for operation in CONNECTOR_OPERATIONS:
         if operation.wraps_canonical is not None:
-            assert callable(
-                getattr(business_process, operation.wraps_canonical, None)
-            ), operation.name
+            assert callable(getattr(business_process, operation.wraps_canonical, None)), (
+                operation.name
+            )
 
 
 def test_operations_that_wrap_adapter_functions_resolve_on_dynamics365():

@@ -56,9 +56,9 @@ def test_fixtures_contain_no_patient_identifiable_or_clinical_content():
         assert not _NHS_NUMBER_PATTERN.search(text), case.case_id
         lowered = text.lower()
         for pattern in _FORBIDDEN_PATTERNS:
-            assert not pattern.search(
-                lowered
-            ), f"{case.case_id} contains forbidden term {pattern.pattern!r}"
+            assert not pattern.search(lowered), (
+                f"{case.case_id} contains forbidden term {pattern.pattern!r}"
+            )
 
 
 def test_routed_or_later_cases_have_a_queue_and_owner():
