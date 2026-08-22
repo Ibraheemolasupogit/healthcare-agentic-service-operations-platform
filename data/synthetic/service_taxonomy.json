@@ -1,0 +1,26 @@
+{
+  "service_categories": [
+    "Digital Support",
+    "Clinical Equipment",
+    "Facilities",
+    "Access and Identity",
+    "Application Support",
+    "Data and Reporting"
+  ],
+  "case_lifecycle": [
+    "Submitted",
+    "Classified",
+    "Routed",
+    "In Progress",
+    "Pending",
+    "Escalated",
+    "Resolved",
+    "Closed"
+  ],
+  "priorities": [
+    "Low",
+    "Medium",
+    "High",
+    "Critical"
+  ]
+}

@@ -8,16 +8,20 @@ portfolio/simulation artefact — see the
 ## Architecture Principles
 
 **Platform-neutral business-process design**
-The case taxonomy and lifecycle are defined once, in
-[`business_process/`](../business_process/), as plain Python types with no
-dependency on any CRM SDK. Every platform bounded context implements *against*
-this model rather than each defining its own.
+The case taxonomy, lifecycle, priority, routing, SLA, and escalation rules
+are defined once, in [`business_process/`](../business_process/), as plain
+Python types and pure functions with no dependency on any CRM SDK. Every
+platform bounded context implements *against* this model rather than each
+defining its own. See [`docs/business_process.md`](business_process.md) for
+the full model and its diagrams.
 
 **Dynamics 365 and Salesforce as bounded application contexts**
 Each CRM is treated as an interchangeable implementation detail for case
 origination and agent-facing UI — not as the system of record for business
 process logic. A design should be able to describe "how would this look on
-the other platform?" without changing the process model.
+the other platform?" without changing the process model. See
+[`docs/business_process.md`](business_process.md) §7 for the specific
+canonical-domain-vs-adapter boundary this implies for Milestone 3.
 
 **API-first integration**
 Cross-system communication goes through [`integrations/`](../integrations/)

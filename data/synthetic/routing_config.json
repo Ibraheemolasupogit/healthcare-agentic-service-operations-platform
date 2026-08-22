@@ -1,0 +1,18 @@
+{
+  "routing_rules": {
+    "Digital Support": "Digital Support",
+    "Clinical Equipment": "Clinical Technology",
+    "Facilities": "Facilities Operations",
+    "Access and Identity": "Identity and Access",
+    "Application Support": "Applications",
+    "Data and Reporting": "Data Services"
+  },
+  "queue_owners": {
+    "Digital Support": "digital-support-team",
+    "Clinical Technology": "clinical-technology-team",
+    "Facilities Operations": "facilities-operations-team",
+    "Identity and Access": "identity-access-team",
+    "Applications": "applications-team",
+    "Data Services": "data-services-team"
+  }
+}

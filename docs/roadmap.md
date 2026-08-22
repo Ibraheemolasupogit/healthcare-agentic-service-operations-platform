@@ -5,7 +5,7 @@ This document expands on the roadmap summary in the
 indicative and may evolve as the portfolio project progresses — nothing past
 Milestone 1 is committed or scheduled against dates.
 
-## Milestone 1 — Repository Foundation *(this milestone)*
+## Milestone 1 — Repository Foundation *(done)*
 
 Architecture-first repository scaffold: bounded-context directories for every
 target domain, a platform-neutral service taxonomy and case lifecycle
@@ -13,18 +13,25 @@ target domain, a platform-neutral service taxonomy and case lifecycle
 engineering baseline (packaging, lint, type-check, tests, Docker, CI).
 No platform integration, agent, or analytics code.
 
-## Milestone 2 — Business Process Implementation *(planned)*
+## Milestone 2 — Business Process Modelling & Platform-Neutral Service Operations Model *(this milestone)*
 
-Turn the Milestone 1 taxonomy/lifecycle types into an actual (still
-platform-neutral) case model: validated case records, lifecycle transition
-rules, and a first synthetic dataset generator under
-[`data/synthetic/`](../data/synthetic/).
+Turned the Milestone 1 taxonomy/lifecycle types into an actual (still
+platform-neutral) case model: the `Case`/`CaseEvent` aggregate, enforced
+lifecycle transition rules, priority, deterministic queue/routing, a
+configurable SLA model, deterministic escalation triggers, resolution
+outcomes, serialization, and a deterministic synthetic dataset generator
+under [`data/synthetic/`](../data/synthetic/) and
+[`reports/`](../reports/). See [`docs/business_process.md`](business_process.md).
+Still no persistence, workflow engine, or scheduler — and still no CRM,
+Power Platform, Copilot Studio, or agent code.
 
 ## Milestone 3 — Dynamics 365 & Salesforce Bounded Contexts *(planned)*
 
 Reference design artefacts (schema/entity modelling, illustrative
-configuration) showing how the Milestone 2 case model maps onto each
-platform. Not a live tenant or connected app in either case.
+configuration, and adapter functions per
+[`docs/business_process.md`](business_process.md) §7) showing how the
+Milestone 2 canonical case model maps onto each platform. Not a live tenant
+or connected app in either case.
 
 ## Milestone 4 — Power Platform Automation *(planned)*
 

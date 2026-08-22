@@ -1,0 +1,110 @@
+{
+  "Digital Support": {
+    "Low": {
+      "response_minutes": 480,
+      "resolution_minutes": 4320
+    },
+    "Medium": {
+      "response_minutes": 120,
+      "resolution_minutes": 1440
+    },
+    "High": {
+      "response_minutes": 30,
+      "resolution_minutes": 480
+    },
+    "Critical": {
+      "response_minutes": 15,
+      "resolution_minutes": 240
+    }
+  },
+  "Clinical Equipment": {
+    "Low": {
+      "response_minutes": 480,
+      "resolution_minutes": 2160
+    },
+    "Medium": {
+      "response_minutes": 120,
+      "resolution_minutes": 720
+    },
+    "High": {
+      "response_minutes": 30,
+      "resolution_minutes": 240
+    },
+    "Critical": {
+      "response_minutes": 15,
+      "resolution_minutes": 120
+    }
+  },
+  "Facilities": {
+    "Low": {
+      "response_minutes": 480,
+      "resolution_minutes": 5400
+    },
+    "Medium": {
+      "response_minutes": 120,
+      "resolution_minutes": 1800
+    },
+    "High": {
+      "response_minutes": 30,
+      "resolution_minutes": 600
+    },
+    "Critical": {
+      "response_minutes": 15,
+      "resolution_minutes": 300
+    }
+  },
+  "Access and Identity": {
+    "Low": {
+      "response_minutes": 480,
+      "resolution_minutes": 3240
+    },
+    "Medium": {
+      "response_minutes": 120,
+      "resolution_minutes": 1080
+    },
+    "High": {
+      "response_minutes": 30,
+      "resolution_minutes": 360
+    },
+    "Critical": {
+      "response_minutes": 15,
+      "resolution_minutes": 180
+    }
+  },
+  "Application Support": {
+    "Low": {
+      "response_minutes": 480,
+      "resolution_minutes": 4320
+    },
+    "Medium": {
+      "response_minutes": 120,
+      "resolution_minutes": 1440
+    },
+    "High": {
+      "response_minutes": 30,
+      "resolution_minutes": 480
+    },
+    "Critical": {
+      "response_minutes": 15,
+      "resolution_minutes": 240
+    }
+  },
+  "Data and Reporting": {
+    "Low": {
+      "response_minutes": 480,
+      "resolution_minutes": 6480
+    },
+    "Medium": {
+      "response_minutes": 120,
+      "resolution_minutes": 2160
+    },
+    "High": {
+      "response_minutes": 30,
+      "resolution_minutes": 720
+    },
+    "Critical": {
+      "response_minutes": 15,
+      "resolution_minutes": 360
+    }
+  }
+}

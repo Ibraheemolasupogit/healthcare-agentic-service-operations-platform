@@ -35,6 +35,13 @@ specific task. Every agent action is designed to be logged in a form that can
 be reviewed after the fact — who/what triggered it, what it did, and what
 approved it — rather than being opaque.
 
+As of Milestone 2, the *data model* for this exists: every case carries a
+`CaseEvent` history (`business_process/models.py`) recording who (`actor`),
+what (`event_type`/`detail`), and when for every lifecycle move, resolution,
+and escalation. This is the audit data shape only — durable storage,
+tamper-evidence, and cross-case audit review/reporting remain
+[`governance/`](../governance/) responsibilities for a later milestone.
+
 ## Data governance
 
 All data anywhere in this repository — code fixtures, docs examples, anything

@@ -6,7 +6,8 @@
 > run against a live Dynamics 365 or Salesforce tenant. See the
 > [Portfolio & Simulation Disclaimer](#10-portfolio--simulation-disclaimer) below.
 
-**Status:** Milestone 1 — Repository Foundation (see [§9](#9-current-implementation-status)).
+**Status:** Milestone 2 — Business Process Modelling & Platform-Neutral Service
+Operations Model (see [§9](#9-current-implementation-status)).
 
 ---
 
@@ -81,6 +82,10 @@ Submitted → Classified → Routed → In Progress → Pending → Escalated �
 This lifecycle and taxonomy are defined once, platform-neutrally, in
 [`business_process/`](business_process/), so that Dynamics 365, Salesforce, and any
 future channel implement the *same* business process rather than inventing their own.
+Each case also carries a priority, a configurable SLA target, deterministic
+queue/owner routing, an audit trail, and a resolution outcome — see
+[`docs/business_process.md`](docs/business_process.md) for the full model,
+including the case lifecycle and routing diagrams.
 
 ## 3. Target Capabilities
 
@@ -179,7 +184,7 @@ principles and their rationale.
 | Conversational / Agentic AI | Copilot Studio, agentic AI patterns                 | Bounded context with placeholder docs |
 | Integration                | API-first services, event/message patterns          | Bounded context with placeholder docs |
 | Analytics                  | Microsoft Fabric, Power BI                           | Bounded context with placeholder docs |
-| Business Process           | Platform-neutral Python domain model                | **Implemented** — taxonomy & lifecycle types |
+| Business Process           | Platform-neutral Python domain model                | **Implemented** — taxonomy, lifecycle rules, priority, queues/routing, SLA, escalation, audit trail, synthetic fixtures |
 | Governance                 | Audit/access design patterns                         | Bounded context with placeholder docs |
 | Engineering Baseline       | Python 3.11+, pytest, ruff, mypy, Docker, GitHub Actions | **Implemented** |
 
@@ -193,7 +198,7 @@ exist yet.
 
 ```
 healthcare-agentic-service-operations-platform/
-├── business_process/     # Platform-neutral process model (taxonomy, lifecycle) — implemented
+├── business_process/     # Canonical service operations model (case, lifecycle, SLA, routing) — implemented
 ├── dynamics365/           # Dynamics 365 Customer Service bounded context — placeholder
 ├── salesforce/            # Salesforce Service Cloud bounded context — placeholder
 ├── power_platform/        # Power Platform (Power Apps/Automate/Dataverse) — placeholder
@@ -202,10 +207,10 @@ healthcare-agentic-service-operations-platform/
 ├── analytics/              # Fabric / Power BI analytics — placeholder
 ├── integrations/           # API-first integration layer — placeholder
 ├── governance/             # Audit, access, and responsible-AI controls — placeholder
-├── data/                    # Synthetic data only — no real patient/organisational data
+├── data/                    # Synthetic data only — generated fixtures/config (data/synthetic/)
 ├── outputs/                 # Generated artefacts (git-ignored contents)
 ├── reports/                 # Generated reports (git-ignored contents)
-├── docs/                    # Extended architecture, governance, and roadmap docs
+├── docs/                    # Extended architecture, business process, governance, and roadmap docs
 ├── tests/                   # Automated tests
 ├── .github/workflows/       # CI pipeline
 ├── Dockerfile
@@ -222,8 +227,8 @@ assets are included.
 
 | Milestone | Scope | Status |
 |-----------|-------|--------|
-| 1 | Repository foundation: architecture, structure, engineering baseline, CI | **This milestone** |
-| 2 | Platform-neutral business process implementation (case model, taxonomy, lifecycle rules, synthetic data) | Planned |
+| 1 | Repository foundation: architecture, structure, engineering baseline, CI | Done |
+| 2 | Platform-neutral business process implementation (case model, lifecycle rules, priority, queues/routing, SLA, escalation, audit trail, synthetic fixtures) | **This milestone** |
 | 3 | Dynamics 365 and Salesforce bounded-context reference implementations (design artefacts / metadata, not live tenants) | Planned |
 | 4 | Power Platform automation patterns (Power Automate flow designs, Dataverse schema) | Planned |
 | 5 | Copilot Studio & agentic AI patterns with human-in-the-loop controls | Planned |
@@ -267,20 +272,45 @@ See [`docs/governance.md`](docs/governance.md) for extended rationale.
 
 ## 9. Current Implementation Status
 
-**Milestone 1 (this milestone) delivers repository foundation only:**
+**Implemented (Milestone 1 — Repository Foundation):**
 
 - ✅ Repository structure and bounded-context placeholders for every target domain
-- ✅ Platform-neutral service taxonomy and case lifecycle **types** (no workflow
-  engine, state transitions, or persistence yet)
 - ✅ Engineering baseline: `pyproject.toml`, `requirements.txt`, `.gitignore`,
   `Dockerfile`, GitHub Actions CI (lint, type-check, test)
-- ✅ Initial automated tests validating the taxonomy/lifecycle types and repository
-  structure
+
+**Implemented (Milestone 2 — this milestone — Business Process Modelling &
+Platform-Neutral Service Operations Model):**
+
+- ✅ Platform-neutral service taxonomy and case lifecycle, now with **explicit,
+  enforced transition rules** (`business_process/lifecycle.py`) — invalid
+  moves are rejected deterministically, not silently accepted
+- ✅ Case priority (`Priority`), deterministic queue/routing model
+  (`queues.py`), and case ownership by team
+- ✅ A simple, configurable SLA model (`sla.py`) — response/resolution
+  targets by priority and category, with breach evaluation
+- ✅ Deterministic escalation triggers (`escalation.py`) — SLA breach or
+  critical-priority-pending, not an AI/agent decision
+- ✅ The canonical `Case`/`CaseEvent` aggregate (`models.py`) with a full
+  audit trail and resolution outcomes
+- ✅ JSON-safe serialization and six deterministic synthetic case fixtures
+  spanning every service category (`fixtures.py`), generated into
+  [`data/synthetic/`](data/synthetic/) and [`reports/`](reports/) by
+  [`business_process/evidence.py`](business_process/evidence.py)
+- ✅ Expanded documentation: [`docs/business_process.md`](docs/business_process.md)
+  (service operating model, lifecycle diagram, routing diagram, SLA model,
+  escalation model, roles/responsibilities, and the canonical-domain-vs-
+  platform-adapter boundary)
+- ✅ Comprehensive automated tests (case creation, transitions, rejected
+  invalid transitions, SLA/priority behaviour, routing, escalation,
+  deterministic fixtures, serialization)
+
+**Not yet implemented (later milestones):**
+
 - ❌ No Dynamics 365, Salesforce, Power Platform, or Copilot Studio integration code
-- ❌ No agentic AI implementation
+- ❌ No agentic AI or LLM-based triage implementation
 - ❌ No Fabric/Power BI analytics implementation
-- ❌ No workflow/state-machine implementation for the case lifecycle
-- ❌ No synthetic data generation yet
+- ❌ No persistence layer, workflow engine, or scheduler — `business_process/`
+  models the business rules only, not a running system
 - ❌ No deployment of any kind
 
 ## 10. Portfolio & Simulation Disclaimer

@@ -1,0 +1,346 @@
+[
+  {
+    "case_id": "SR-DS-1001",
+    "title": "Laptop will not connect to corporate Wi-Fi",
+    "description": "Staff laptop repeatedly fails to authenticate against the corporate wireless network after a recent OS update.",
+    "category": "Digital Support",
+    "priority": "Medium",
+    "stage": "Closed",
+    "queue": "Digital Support",
+    "owner": "digital-support-team",
+    "created_at": "2026-01-12T09:00:00+00:00",
+    "updated_at": "2026-01-12T10:40:00+00:00",
+    "resolution": "Fixed",
+    "resolution_notes": "Reissued network profile; laptop reconnected successfully.",
+    "history": [
+      {
+        "timestamp": "2026-01-12T09:00:00+00:00",
+        "actor": "requestor",
+        "event_type": "created",
+        "detail": "Case submitted in category 'Digital Support' with priority 'Medium'",
+        "from_stage": null,
+        "to_stage": "Submitted"
+      },
+      {
+        "timestamp": "2026-01-12T09:05:00+00:00",
+        "actor": "intake-system",
+        "event_type": "transition",
+        "detail": "Classified into 'Digital Support'",
+        "from_stage": "Submitted",
+        "to_stage": "Classified"
+      },
+      {
+        "timestamp": "2026-01-12T09:05:00+00:00",
+        "actor": "intake-system",
+        "event_type": "transition",
+        "detail": "Routed to 'Digital Support' queue, owner 'digital-support-team'",
+        "from_stage": "Classified",
+        "to_stage": "Routed"
+      },
+      {
+        "timestamp": "2026-01-12T09:20:00+00:00",
+        "actor": "digital-support-team",
+        "event_type": "transition",
+        "detail": "Work started",
+        "from_stage": "Routed",
+        "to_stage": "In Progress"
+      },
+      {
+        "timestamp": "2026-01-12T10:30:00+00:00",
+        "actor": "digital-support-team",
+        "event_type": "transition",
+        "detail": "Resolved: Fixed",
+        "from_stage": "In Progress",
+        "to_stage": "Resolved"
+      },
+      {
+        "timestamp": "2026-01-12T10:40:00+00:00",
+        "actor": "digital-support-team",
+        "event_type": "transition",
+        "detail": "Case closed",
+        "from_stage": "Resolved",
+        "to_stage": "Closed"
+      }
+    ]
+  },
+  {
+    "case_id": "SR-CE-1002",
+    "title": "Infusion pump fleet firmware advisory",
+    "description": "Manufacturer advisory received for an infusion pump model deployed across the trust; fleet firmware status needs review. No patient or usage data is involved.",
+    "category": "Clinical Equipment",
+    "priority": "Critical",
+    "stage": "Escalated",
+    "queue": "Clinical Technology",
+    "owner": "clinical-technology-team",
+    "created_at": "2026-01-12T09:00:00+00:00",
+    "updated_at": "2026-01-12T14:00:00+00:00",
+    "resolution": null,
+    "resolution_notes": null,
+    "history": [
+      {
+        "timestamp": "2026-01-12T09:00:00+00:00",
+        "actor": "requestor",
+        "event_type": "created",
+        "detail": "Case submitted in category 'Clinical Equipment' with priority 'Critical'",
+        "from_stage": null,
+        "to_stage": "Submitted"
+      },
+      {
+        "timestamp": "2026-01-12T09:05:00+00:00",
+        "actor": "intake-system",
+        "event_type": "transition",
+        "detail": "Classified into 'Clinical Equipment'",
+        "from_stage": "Submitted",
+        "to_stage": "Classified"
+      },
+      {
+        "timestamp": "2026-01-12T09:05:00+00:00",
+        "actor": "intake-system",
+        "event_type": "transition",
+        "detail": "Routed to 'Clinical Technology' queue, owner 'clinical-technology-team'",
+        "from_stage": "Classified",
+        "to_stage": "Routed"
+      },
+      {
+        "timestamp": "2026-01-12T09:15:00+00:00",
+        "actor": "clinical-technology-team",
+        "event_type": "transition",
+        "detail": "Work started",
+        "from_stage": "Routed",
+        "to_stage": "In Progress"
+      },
+      {
+        "timestamp": "2026-01-12T14:00:00+00:00",
+        "actor": "clinical-technology-team",
+        "event_type": "transition",
+        "detail": "Escalated: SLA resolution target breached",
+        "from_stage": "In Progress",
+        "to_stage": "Escalated"
+      }
+    ]
+  },
+  {
+    "case_id": "SR-FA-1003",
+    "title": "Meeting room air conditioning fault",
+    "description": "Air conditioning unit in a ground-floor meeting room is not cooling; an external contractor call-out is required.",
+    "category": "Facilities",
+    "priority": "Low",
+    "stage": "Pending",
+    "queue": "Facilities Operations",
+    "owner": "facilities-operations-team",
+    "created_at": "2026-01-12T09:00:00+00:00",
+    "updated_at": "2026-01-12T11:00:00+00:00",
+    "resolution": null,
+    "resolution_notes": null,
+    "history": [
+      {
+        "timestamp": "2026-01-12T09:00:00+00:00",
+        "actor": "requestor",
+        "event_type": "created",
+        "detail": "Case submitted in category 'Facilities' with priority 'Low'",
+        "from_stage": null,
+        "to_stage": "Submitted"
+      },
+      {
+        "timestamp": "2026-01-12T09:10:00+00:00",
+        "actor": "intake-system",
+        "event_type": "transition",
+        "detail": "Classified into 'Facilities'",
+        "from_stage": "Submitted",
+        "to_stage": "Classified"
+      },
+      {
+        "timestamp": "2026-01-12T09:10:00+00:00",
+        "actor": "intake-system",
+        "event_type": "transition",
+        "detail": "Routed to 'Facilities Operations' queue, owner 'facilities-operations-team'",
+        "from_stage": "Classified",
+        "to_stage": "Routed"
+      },
+      {
+        "timestamp": "2026-01-12T10:00:00+00:00",
+        "actor": "facilities-operations-team",
+        "event_type": "transition",
+        "detail": "Work started",
+        "from_stage": "Routed",
+        "to_stage": "In Progress"
+      },
+      {
+        "timestamp": "2026-01-12T11:00:00+00:00",
+        "actor": "facilities-operations-team",
+        "event_type": "transition",
+        "detail": "Awaiting external contractor call-out slot.",
+        "from_stage": "In Progress",
+        "to_stage": "Pending"
+      }
+    ]
+  },
+  {
+    "case_id": "SR-AI-1004",
+    "title": "New starter access provisioning request",
+    "description": "Standard system access request for a new starter joining a clinical administration team, per the standard joiner checklist.",
+    "category": "Access and Identity",
+    "priority": "High",
+    "stage": "Closed",
+    "queue": "Identity and Access",
+    "owner": "identity-access-team",
+    "created_at": "2026-01-12T09:00:00+00:00",
+    "updated_at": "2026-01-12T09:50:00+00:00",
+    "resolution": "Fixed",
+    "resolution_notes": "Standard access profile provisioned per joiner checklist.",
+    "history": [
+      {
+        "timestamp": "2026-01-12T09:00:00+00:00",
+        "actor": "requestor",
+        "event_type": "created",
+        "detail": "Case submitted in category 'Access and Identity' with priority 'High'",
+        "from_stage": null,
+        "to_stage": "Submitted"
+      },
+      {
+        "timestamp": "2026-01-12T09:05:00+00:00",
+        "actor": "intake-system",
+        "event_type": "transition",
+        "detail": "Classified into 'Access and Identity'",
+        "from_stage": "Submitted",
+        "to_stage": "Classified"
+      },
+      {
+        "timestamp": "2026-01-12T09:05:00+00:00",
+        "actor": "intake-system",
+        "event_type": "transition",
+        "detail": "Routed to 'Identity and Access' queue, owner 'identity-access-team'",
+        "from_stage": "Classified",
+        "to_stage": "Routed"
+      },
+      {
+        "timestamp": "2026-01-12T09:30:00+00:00",
+        "actor": "identity-access-team",
+        "event_type": "transition",
+        "detail": "Work started",
+        "from_stage": "Routed",
+        "to_stage": "In Progress"
+      },
+      {
+        "timestamp": "2026-01-12T09:45:00+00:00",
+        "actor": "identity-access-team",
+        "event_type": "transition",
+        "detail": "Resolved: Fixed",
+        "from_stage": "In Progress",
+        "to_stage": "Resolved"
+      },
+      {
+        "timestamp": "2026-01-12T09:50:00+00:00",
+        "actor": "identity-access-team",
+        "event_type": "transition",
+        "detail": "Case closed",
+        "from_stage": "Resolved",
+        "to_stage": "Closed"
+      }
+    ]
+  },
+  {
+    "case_id": "SR-AS-1005",
+    "title": "Rostering application intermittent timeout",
+    "description": "Line-of-business rostering application intermittently times out when generating weekly rota exports.",
+    "category": "Application Support",
+    "priority": "Medium",
+    "stage": "Routed",
+    "queue": "Applications",
+    "owner": "applications-team",
+    "created_at": "2026-01-12T09:00:00+00:00",
+    "updated_at": "2026-01-12T09:08:00+00:00",
+    "resolution": null,
+    "resolution_notes": null,
+    "history": [
+      {
+        "timestamp": "2026-01-12T09:00:00+00:00",
+        "actor": "requestor",
+        "event_type": "created",
+        "detail": "Case submitted in category 'Application Support' with priority 'Medium'",
+        "from_stage": null,
+        "to_stage": "Submitted"
+      },
+      {
+        "timestamp": "2026-01-12T09:08:00+00:00",
+        "actor": "intake-system",
+        "event_type": "transition",
+        "detail": "Classified into 'Application Support'",
+        "from_stage": "Submitted",
+        "to_stage": "Classified"
+      },
+      {
+        "timestamp": "2026-01-12T09:08:00+00:00",
+        "actor": "intake-system",
+        "event_type": "transition",
+        "detail": "Routed to 'Applications' queue, owner 'applications-team'",
+        "from_stage": "Classified",
+        "to_stage": "Routed"
+      }
+    ]
+  },
+  {
+    "case_id": "SR-DR-1006",
+    "title": "Monthly synthetic activity report export request",
+    "description": "Request for a scheduled export of aggregate, non-identifiable monthly service activity figures for internal review.",
+    "category": "Data and Reporting",
+    "priority": "Low",
+    "stage": "Closed",
+    "queue": "Data Services",
+    "owner": "data-services-team",
+    "created_at": "2026-01-12T09:00:00+00:00",
+    "updated_at": "2026-01-12T14:10:00+00:00",
+    "resolution": "No Action Required",
+    "resolution_notes": "Report already covered by an existing scheduled export; requestor notified.",
+    "history": [
+      {
+        "timestamp": "2026-01-12T09:00:00+00:00",
+        "actor": "requestor",
+        "event_type": "created",
+        "detail": "Case submitted in category 'Data and Reporting' with priority 'Low'",
+        "from_stage": null,
+        "to_stage": "Submitted"
+      },
+      {
+        "timestamp": "2026-01-12T09:15:00+00:00",
+        "actor": "intake-system",
+        "event_type": "transition",
+        "detail": "Classified into 'Data and Reporting'",
+        "from_stage": "Submitted",
+        "to_stage": "Classified"
+      },
+      {
+        "timestamp": "2026-01-12T09:15:00+00:00",
+        "actor": "intake-system",
+        "event_type": "transition",
+        "detail": "Routed to 'Data Services' queue, owner 'data-services-team'",
+        "from_stage": "Classified",
+        "to_stage": "Routed"
+      },
+      {
+        "timestamp": "2026-01-12T13:00:00+00:00",
+        "actor": "data-services-team",
+        "event_type": "transition",
+        "detail": "Work started",
+        "from_stage": "Routed",
+        "to_stage": "In Progress"
+      },
+      {
+        "timestamp": "2026-01-12T14:00:00+00:00",
+        "actor": "data-services-team",
+        "event_type": "transition",
+        "detail": "Resolved: No Action Required",
+        "from_stage": "In Progress",
+        "to_stage": "Resolved"
+      },
+      {
+        "timestamp": "2026-01-12T14:10:00+00:00",
+        "actor": "data-services-team",
+        "event_type": "transition",
+        "detail": "Case closed",
+        "from_stage": "Resolved",
+        "to_stage": "Closed"
+      }
+    ]
+  }
+]
