@@ -3,10 +3,11 @@
 > **Portfolio project.** A synthetic, architecture-first demonstration of enterprise
 > business solution design for healthcare-style service operations. It is **not**
 > connected to any real NHS system, does not process real patient data, and does not
-> run against a live Dynamics 365, Salesforce, or Power Platform tenant. See the
+> run against a live Dynamics 365, Salesforce, Power Platform, Copilot Studio,
+> Fabric, or Power BI tenant/workspace. See the
 > [Portfolio & Simulation Disclaimer](#10-portfolio--simulation-disclaimer) below.
 
-**Status:** Milestone 5 — Copilot Studio and Bounded Agentic AI
+**Status:** Milestone 6 — Fabric Analytics and Operational Intelligence
 (see [§9](#9-current-implementation-status)).
 
 ---
@@ -185,7 +186,7 @@ principles and their rationale.
 | Low-code Automation       | Power Platform (Power Apps, Power Automate, Dataverse) | **Implemented as reference architecture/specifications** — no live tenant, deployed flows, or connector |
 | Conversational / Agentic AI | Copilot Studio, agentic AI patterns                 | **Implemented as reference architecture/specifications** — deterministic local simulation only; no live LLM or tenant |
 | Integration                | API-first services, event/message patterns          | **Partially implemented** — `IntegrationEnvelope` contract + deterministic example generator; no transport/broker yet |
-| Analytics                  | Microsoft Fabric, Power BI                           | Bounded context with placeholder docs |
+| Analytics                  | Microsoft Fabric, Power BI                           | **Implemented as reference analytics** — local deterministic transforms, semantic/report specs; no live Fabric or Power BI deployment |
 | Business Process           | Platform-neutral Python domain model                | **Implemented** — taxonomy, lifecycle rules, priority, queues/routing, SLA, escalation, audit trail, synthetic fixtures |
 | Governance                 | Audit/access design patterns                         | **Partially documented** — Power Platform control intent added; no operating governance tooling |
 | Engineering Baseline       | Python 3.11+, pytest, ruff, mypy, Docker, GitHub Actions | **Implemented** |
@@ -206,7 +207,7 @@ healthcare-agentic-service-operations-platform/
 ├── power_platform/        # Power Platform automation/app/portal/connector reference architecture — implemented (specifications only)
 ├── copilot/                # Copilot Studio topic/prompt reference architecture — implemented (specifications only)
 ├── ai/                      # Bounded agentic-AI layer, tool registry, knowledge, triage, evaluation — implemented (deterministic)
-├── analytics/              # Fabric / Power BI analytics — placeholder
+├── analytics/              # Fabric-style analytics, semantic model, Power BI report specs — implemented (deterministic)
 ├── integrations/           # IntegrationEnvelope contract + example generator — partially implemented
 ├── governance/             # Audit, access, and responsible-AI controls — placeholder + documented controls
 ├── data/                    # Synthetic data only — generated fixtures/config (data/synthetic/)
@@ -234,9 +235,9 @@ repository, implemented or not.
 | 2 | Platform-neutral business process implementation (case model, lifecycle rules, priority, queues/routing, SLA, escalation, audit trail, synthetic fixtures) | Done |
 | 3 | Dynamics 365 and Salesforce CRM adapter architecture (deterministic reference mappings, schema documentation, integration envelope) | Done |
 | 4 | Power Platform automation architecture (Power Automate specs, Power Apps/Power Pages architecture, connector contracts, approval/evidence patterns) | Done |
-| 5 | Copilot Studio & bounded agentic AI patterns with human-in-the-loop controls | **This milestone** |
-| 6 | Live integration transport (API client/message mechanism around the Milestone 3 `IntegrationEnvelope` contract) | Planned |
-| 7 | Fabric / Power BI analytics over synthetic case data | Planned |
+| 5 | Copilot Studio & bounded agentic AI patterns with human-in-the-loop controls | Done |
+| 6 | Fabric analytics and operational intelligence over generated synthetic evidence | **This milestone** |
+| 7 | Live integration transport (API client/message mechanism around the Milestone 3 `IntegrationEnvelope` contract) | Planned |
 | 8 | Governance, audit trail, and responsible-AI controls hardening | Planned |
 
 Milestone scope, sequencing, and detail may evolve as the portfolio project
@@ -388,7 +389,7 @@ Architecture):**
   tables, routing rules, SLA formulae, or escalation logic. Existing Dynamics
   365 and Salesforce adapter boundary tests remain intact.
 
-**Implemented (Milestone 5 — this milestone — Copilot Studio and Bounded
+**Implemented (Milestone 5 — Copilot Studio and Bounded
 Agentic AI):**
 
 - ✅ Copilot Studio reference architecture under
@@ -432,6 +433,38 @@ Agentic AI):**
   and [`reports/agentic_ai_evaluation_summary.json`](reports/agentic_ai_evaluation_summary.json).
   These are not live Copilot Studio telemetry.
 
+**Implemented (Milestone 6 — this milestone — Fabric Analytics and
+Operational Intelligence):**
+
+- ✅ Fabric-style analytical transformation layer under
+  [`analytics/fabric/`](analytics/fabric/) with Bronze ingestion over existing
+  generated evidence, Silver conformed operational entities, Gold KPI outputs,
+  and lightweight data-quality checks. No Spark, Fabric SDK, Lakehouse, or
+  Warehouse dependency is introduced.
+- ✅ Operational KPI generation covering case volume, category/priority/status
+  distribution, open/resolved cases, mean/median resolution time where evidence
+  supports it, SLA compliance and breach counts, escalation rate, queue
+  workload, resolution outcomes, automation execution counts, approval
+  workload, agent/tool invocation counts, and tool-risk mix.
+- ✅ Reference semantic model metadata under
+  [`analytics/semantic_model/`](analytics/semantic_model/) with dimensions,
+  facts, grains, relationships, measures, filter direction assumptions, and
+  slowly changing attribute handling notes.
+- ✅ Reference Power BI report design under
+  [`analytics/powerbi/`](analytics/powerbi/) covering Executive Service
+  Overview, Operational Queue Performance, SLA and Escalation, Automation
+  Performance, and Agentic AI Assurance pages. No `.pbix`, screenshots, or
+  deployed reports are fabricated.
+- ✅ Deterministic analytics evidence:
+  [`reports/analytics_summary.json`](reports/analytics_summary.json),
+  [`reports/service_operations_report.md`](reports/service_operations_report.md),
+  and reproducible CSV exports under `outputs/` (`case_metrics.csv`,
+  `sla_summary.csv`, `automation_metrics.csv`, `copilot_usage.csv`).
+  These are synthetic/generated portfolio artefacts, not production telemetry.
+- ✅ Analytics boundary tests and data-quality tests proving the analytics layer
+  consumes canonical/CRM/automation/agent evidence downstream without becoming
+  a transactional source of truth or redefining operational rules.
+
 **Not yet implemented (later milestones):**
 
 - ❌ No live Dataverse integration (SDK, authentication, or a connected app)
@@ -449,7 +482,9 @@ Agentic AI):**
 - ❌ No live enterprise knowledge connectors
 - ❌ No production AI telemetry
 - ❌ No message broker, event platform, or live transport for `IntegrationEnvelope`
-- ❌ No Fabric/Power BI analytics implementation
+- ❌ No live Fabric workspace, Lakehouse/Warehouse deployment, Spark job,
+  deployed semantic model, deployed Power BI report, live CRM telemetry
+  ingestion, production monitoring, or production deployment
 - ❌ No persistence layer, workflow engine, or scheduler — `business_process/`
   models the business rules only, not a running system
 - ❌ No deployment of any kind, and no production readiness claimed anywhere
@@ -460,8 +495,8 @@ This repository is an **independent portfolio project** built to demonstrate
 enterprise business solution architecture skills. It is **not**:
 
 - affiliated with, endorsed by, or built for the NHS or any NHS organisation;
-- connected to any real Dynamics 365, Salesforce, Power Platform, or Copilot Studio
-  tenant;
+- connected to any real Dynamics 365, Salesforce, Power Platform, Copilot Studio,
+  Fabric, or Power BI tenant/workspace;
 - processing, storing, or referencing real patient, clinical, or staff data;
 - evidence of a production deployment, live customer delivery, or client
   engagement.

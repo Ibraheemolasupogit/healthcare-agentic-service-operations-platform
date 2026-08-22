@@ -47,6 +47,12 @@ As of Milestone 5, [`ai/evaluation.py`](../ai/evaluation.py) (run via
   not live Copilot Studio telemetry
 - `ai_evaluation_cases.json` — deterministic synthetic AI evaluation cases
 
+As of Milestone 6, [`analytics/fabric/evidence.py`](../analytics/fabric/evidence.py)
+(run via `python -m analytics.fabric.evidence`) consumes the generated
+synthetic data above, but does not add new raw source files under `data/`.
+Its tracked report outputs live in [`reports/`](../reports/), and its
+reproducible CSV extracts live under [`outputs/`](../outputs/).
+
 Every file is regenerated identically by re-running its generator — nothing
 here is hand-authored, and none of it is fetched from a live system.
 

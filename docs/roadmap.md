@@ -2,7 +2,7 @@
 
 This document expands on the roadmap summary in the
 [root README](../README.md#7-delivery-roadmap). Scope and sequencing below are
-indicative and may evolve as the portfolio project progresses. Milestones 1-5
+indicative and may evolve as the portfolio project progresses. Milestones 1-6
 are implemented in this repository; later milestones are not committed or
 scheduled against dates.
 
@@ -64,20 +64,24 @@ deterministic behaviour only: no live Copilot Studio tenant, Azure OpenAI or
 Foundry call, production LLM deployment, autonomous case mutation, live
 enterprise knowledge connector, or production telemetry.
 
-## Milestone 6 — Integration Layer *(planned)*
+## Milestone 6 — Fabric Analytics and Operational Intelligence *(done)*
+
+Fabric-style analytical modelling over existing generated evidence:
+Bronze/Silver/Gold local transformations, operational KPIs, data-quality
+checks, semantic-model metadata, Power BI report specification, lineage
+documentation, and deterministic analytics reports/CSV exports. This milestone
+does not deploy Fabric, Spark, Lakehouse/Warehouse, semantic model, Power BI,
+or production telemetry.
+
+## Milestone 7 — Integration Layer *(planned)*
 
 Live transport around the `IntegrationEnvelope` contract introduced in
 Milestone 3 (`integrations/envelope.py`) — an actual API client/message
-mechanism connecting the bounded contexts built in Milestones 3-5, with
+mechanism connecting the bounded contexts built in Milestones 3-6, with
 retries, delivery guarantees, authentication, webhook ingestion, and
 observability. The first live transport should preserve the existing
 connector/tool/canonical boundary and should not introduce live LLM or
 tenant dependencies as a side effect.
-
-## Milestone 7 — Fabric / Power BI Analytics *(planned)*
-
-Operational reporting over the synthetic case data from Milestone 2, designed
-as portable evidence under [`reports/`](../reports/).
 
 ## Milestone 8 — Governance Hardening *(planned)*
 

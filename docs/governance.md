@@ -101,6 +101,28 @@ There is no live Copilot Studio tenant, Azure OpenAI/Foundry endpoint,
 production LLM deployment, autonomous case mutation, enterprise knowledge
 connector, or production telemetry in Milestone 5.
 
+As of Milestone 6, analytics governance is implemented as reference metadata
+and deterministic checks:
+
+- All analytics inputs are synthetic generated evidence from this repository.
+- Lineage is documented from fixture/source evidence through Bronze, Silver,
+  Gold, semantic measures, and report pages.
+- Metric definitions live in [`analytics/fabric/gold.py`](../analytics/fabric/gold.py)
+  and the semantic-model metadata, with tests covering KPI outputs.
+- Data-quality checks validate IDs, canonical enum values, timestamps,
+  duplicate case IDs, queue references, referential integrity, non-negative
+  durations, and required correlation IDs.
+- Analytics ownership is separated from operations: analytics can summarize
+  and report, but must not update canonical cases, CRM mappings, Power
+  Platform workflow specs, or AI tool decisions.
+- Reproducibility is enforced through deterministic generators and tracked
+  summaries under [`reports/`](../reports/); CSV exports under `outputs/`
+  are reproducible and ignored by default.
+- Semantic-model and Power BI artefacts are specifications only. There is no
+  live Fabric workspace, Lakehouse/Warehouse, Spark job, deployed semantic
+  model, deployed Power BI report, live CRM telemetry ingestion, production
+  monitoring, or production deployment.
+
 ## Data governance
 
 All data anywhere in this repository — code fixtures, docs examples, anything

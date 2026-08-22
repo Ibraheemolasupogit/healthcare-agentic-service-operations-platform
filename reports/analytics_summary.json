@@ -1,0 +1,119 @@
+{
+  "generated_from": "analytics.fabric.evidence (deterministic, synthetic)",
+  "case_metrics": {
+    "generated_from": "analytics.fabric.gold.build_case_metrics",
+    "total_cases": 6,
+    "open_cases": 3,
+    "resolved_cases": 3,
+    "case_volume_by_category": {
+      "Access and Identity": 1,
+      "Application Support": 1,
+      "Clinical Equipment": 1,
+      "Data and Reporting": 1,
+      "Digital Support": 1,
+      "Facilities": 1
+    },
+    "case_volume_by_priority": {
+      "Critical": 1,
+      "High": 1,
+      "Low": 2,
+      "Medium": 2
+    },
+    "case_volume_by_status": {
+      "Closed": 3,
+      "Escalated": 1,
+      "Pending": 1,
+      "Routed": 1
+    },
+    "queue_workload": {
+      "Applications": 1,
+      "Clinical Technology": 1,
+      "Data Services": 1,
+      "Digital Support": 1,
+      "Facilities Operations": 1,
+      "Identity and Access": 1
+    },
+    "resolution_outcomes": {
+      "Fixed": 2,
+      "No Action Required": 1,
+      "Unknown": 3
+    },
+    "mean_resolution_minutes": 145.0,
+    "median_resolution_minutes": 90.0,
+    "escalation_count": 1,
+    "escalation_rate_percent": 16.67,
+    "note": "Synthetic/generated portfolio evidence; not production metrics."
+  },
+  "sla_summary": {
+    "generated_from": "analytics.fabric.gold.build_sla_summary",
+    "case_count": 6,
+    "sla_compliant_count": 5,
+    "sla_compliance_rate_percent": 83.33,
+    "sla_breach_count": 1,
+    "response_breach_count": 0,
+    "resolution_breach_count": 1,
+    "breaches_by_category": {
+      "Clinical Equipment": 1
+    },
+    "breaches_by_priority": {
+      "Critical": 1
+    },
+    "note": "SLA status is derived via business_process.sla, not an analytics rule copy."
+  },
+  "automation_metrics": {
+    "generated_from": "analytics.fabric.gold.build_automation_metrics",
+    "automation_execution_count": 1,
+    "automation_success_count": 1,
+    "automation_failure_count": 0,
+    "automation_success_rate_percent": 100.0,
+    "automation_step_count": 8,
+    "approval_decision_count": 2,
+    "human_approval_rate_percent": 66.67,
+    "approval_decisions_by_outcome": {
+      "Approved": 1,
+      "Rejected": 1
+    },
+    "note": "Automation metrics use simulated/reference traces only."
+  },
+  "copilot_usage": {
+    "generated_from": "analytics.fabric.gold.build_copilot_usage",
+    "agent_tool_invocation_count": 2,
+    "agent_invocations_by_agent": {
+      "knowledge-agent": 1,
+      "service-operations-coordinator": 1
+    },
+    "tool_invocations_by_name": {
+      "retrieve_knowledge": 1,
+      "transition_case": 1
+    },
+    "tool_invocations_by_risk": {
+      "read-only": 1,
+      "recommendation": 0,
+      "state-changing": 1,
+      "consequential": 0
+    },
+    "recommendation_vs_state_changing": {
+      "recommendation": 0,
+      "state_changing": 1,
+      "consequential": 0,
+      "read_only": 1
+    },
+    "approval_required_action_count": 1,
+    "note": "AI-assistance usage is synthetic/reference evidence, not production telemetry."
+  },
+  "data_quality": {
+    "issue_count": 0,
+    "issues": []
+  },
+  "lineage": [
+    "Synthetic operational fixture",
+    "canonical service domain",
+    "CRM / automation / agent evidence",
+    "analytics Bronze ingestion",
+    "Silver conformed operational entities",
+    "Gold KPI outputs",
+    "semantic model measures",
+    "Power BI reference report"
+  ],
+  "note": "Synthetic/generated portfolio evidence only \u2014 no live Fabric workspace, Lakehouse/Warehouse deployment, Spark job, semantic-model deployment, Power BI report, or production telemetry."
+}

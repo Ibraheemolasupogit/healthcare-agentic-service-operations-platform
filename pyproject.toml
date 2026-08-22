@@ -28,11 +28,12 @@ dev = [
 
 [tool.setuptools.packages.find]
 # Only domains with real, implemented Python code are packaged.
-# analytics/ and governance/ are currently documentation-only bounded-context
-# placeholders — see their README.md files — and are added here as they gain
-# real implementations in later milestones.
+# governance/ is currently a documentation-only bounded-context placeholder —
+# see its README.md — and is added here as it gains real implementation in a
+# later milestone.
 include = [
     "ai*",
+    "analytics*",
     "business_process*",
     "copilot*",
     "dynamics365*",
@@ -49,6 +50,7 @@ testpaths = ["tests"]
 [tool.coverage.run]
 source = [
     "ai",
+    "analytics",
     "business_process",
     "copilot",
     "dynamics365",

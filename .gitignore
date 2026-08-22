@@ -38,8 +38,8 @@ Thumbs.db
 # --- Generated artefacts (kept out of version control; folders kept via .gitkeep) ---
 # reports/ is transient/reproducible by default (regenerate via
 # `python -m business_process.evidence` / `python -m power_platform.evidence` /
-# `python -m ai.evaluation`); the explicitly unignored JSON reports are
-# intentionally tracked as portfolio evidence — see reports/README.md.
+# `python -m ai.evaluation` / `python -m analytics.fabric.evidence`); the
+# explicitly unignored reports are intentionally tracked as portfolio evidence.
 outputs/*
 !outputs/.gitkeep
 !outputs/README.md
@@ -49,6 +49,8 @@ reports/*
 !reports/case_summary.json
 !reports/automation_summary.json
 !reports/agentic_ai_evaluation_summary.json
+!reports/analytics_summary.json
+!reports/service_operations_report.md
 
 # --- Docker ---
 *.log

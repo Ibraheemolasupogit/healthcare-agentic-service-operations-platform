@@ -98,6 +98,13 @@ this repository — see [`data/README.md`](../data/README.md).
 (e.g. to files under [`reports/`](../reports/)) rather than living only inside
 one BI tool's proprietary format.
 
+As of Milestone 6, analytics is implemented as a downstream, Fabric-style
+reference layer: it ingests existing canonical, CRM, Power Platform, approval,
+Copilot, agent, and AI-evaluation evidence; conforms it into Silver entities;
+derives Gold KPIs; and documents a semantic model and Power BI report design.
+It does not write back to service operations and is not a transactional
+source of truth.
+
 **Modular, replaceable SaaS components**
 Each platform-specific directory is a bounded context behind a stable
 conceptual interface (the case lifecycle) so it can, in principle, be swapped
@@ -161,6 +168,34 @@ tool is allowed to reach canonical operations. Even after approval,
 `business_process` remains the deterministic backstop: invalid transitions,
 SLA calculations, routing, and escalation rules cannot be overridden by
 generated text.
+
+## Analytics Flow Diagram
+
+```mermaid
+flowchart TD
+    OPS["Service Operations"]
+    EVID["CRM / Power Platform / Agent Evidence"]
+    INGEST["Analytics Ingestion Boundary"]
+    BRONZE["Fabric-style Bronze\nraw/source-aligned"]
+    SILVER["Fabric-style Silver\nconformed entities"]
+    GOLD["Fabric-style Gold\nKPI outputs"]
+    SEM["Semantic Model\n(reference metadata)"]
+    PBI["Power BI / Executive Reporting\n(reference design)"]
+
+    OPS --> EVID
+    EVID --> INGEST
+    INGEST --> BRONZE
+    BRONZE --> SILVER
+    SILVER --> GOLD
+    GOLD --> SEM
+    SEM --> PBI
+```
+
+Lineage is intentionally explicit:
+synthetic operational fixture → canonical service domain → CRM / automation /
+agent evidence → analytical transformation → Gold metric → semantic measure →
+dashboard/report. Analytics consumes evidence and produces intelligence; it
+never becomes operational state.
 
 ## High-Level Diagram
 
