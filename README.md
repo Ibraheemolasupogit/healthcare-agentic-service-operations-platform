@@ -3,10 +3,10 @@
 > **Portfolio project.** A synthetic, architecture-first demonstration of enterprise
 > business solution design for healthcare-style service operations. It is **not**
 > connected to any real NHS system, does not process real patient data, and does not
-> run against a live Dynamics 365 or Salesforce tenant. See the
+> run against a live Dynamics 365, Salesforce, or Power Platform tenant. See the
 > [Portfolio & Simulation Disclaimer](#10-portfolio--simulation-disclaimer) below.
 
-**Status:** Milestone 3 — Dynamics 365 and Salesforce CRM Adapter Architecture
+**Status:** Milestone 4 — Power Platform Automation Architecture
 (see [§9](#9-current-implementation-status)).
 
 ---
@@ -182,15 +182,15 @@ principles and their rationale.
 | Layer                     | Representative Technology                          | Role in this repository |
 |---------------------------|------------------------------------------------------|----------------------------------------|
 | CRM / Case Management     | Dynamics 365 Customer Service, Salesforce Service Cloud | **Implemented as reference adapters** — deterministic translation only; no SDK, no live tenant |
-| Low-code Automation       | Power Platform (Power Apps, Power Automate, Dataverse) | Bounded context with placeholder docs |
+| Low-code Automation       | Power Platform (Power Apps, Power Automate, Dataverse) | **Implemented as reference architecture/specifications** — no live tenant, deployed flows, or connector |
 | Conversational / Agentic AI | Copilot Studio, agentic AI patterns                 | Bounded context with placeholder docs |
 | Integration                | API-first services, event/message patterns          | **Partially implemented** — `IntegrationEnvelope` contract + deterministic example generator; no transport/broker yet |
 | Analytics                  | Microsoft Fabric, Power BI                           | Bounded context with placeholder docs |
 | Business Process           | Platform-neutral Python domain model                | **Implemented** — taxonomy, lifecycle rules, priority, queues/routing, SLA, escalation, audit trail, synthetic fixtures |
-| Governance                 | Audit/access design patterns                         | Bounded context with placeholder docs |
+| Governance                 | Audit/access design patterns                         | **Partially documented** — Power Platform control intent added; no operating governance tooling |
 | Engineering Baseline       | Python 3.11+, pytest, ruff, mypy, Docker, GitHub Actions | **Implemented** |
 
-Dependencies are kept deliberately minimal for this milestone — see
+Dependencies are kept deliberately minimal for the implemented milestones — see
 [`requirements.txt`](requirements.txt) and [`pyproject.toml`](pyproject.toml).
 Platform-specific SDKs are intentionally **not** installed until a milestone
 actually implements against them, to avoid implying integrations that do not
@@ -203,15 +203,15 @@ healthcare-agentic-service-operations-platform/
 ├── business_process/     # Canonical service operations model (case, lifecycle, SLA, routing) — implemented
 ├── dynamics365/           # Dynamics 365 / Dataverse reference adapter — implemented (deterministic, no SDK)
 ├── salesforce/            # Salesforce Service Cloud reference adapter — implemented (deterministic, no SDK)
-├── power_platform/        # Power Platform (Power Apps/Automate/Dataverse) — placeholder
+├── power_platform/        # Power Platform automation/app/portal/connector reference architecture — implemented (specifications only)
 ├── copilot/                # Copilot Studio conversational AI — placeholder
 ├── ai/                      # Agentic AI patterns and guardrails — placeholder
 ├── analytics/              # Fabric / Power BI analytics — placeholder
 ├── integrations/           # IntegrationEnvelope contract + example generator — partially implemented
-├── governance/             # Audit, access, and responsible-AI controls — placeholder
+├── governance/             # Audit, access, and responsible-AI controls — placeholder + documented controls
 ├── data/                    # Synthetic data only — generated fixtures/config (data/synthetic/)
 ├── outputs/                 # Generated artefacts (git-ignored contents)
-├── reports/                 # Generated reports (case_summary.json tracked; rest git-ignored)
+├── reports/                 # Generated reports (selected evidence tracked; rest git-ignored)
 ├── docs/                    # Extended architecture, business process, CRM schema mapping, governance, and roadmap docs
 ├── tests/                   # Automated tests
 ├── .github/workflows/       # CI pipeline
@@ -232,8 +232,8 @@ repository, implemented or not.
 |-----------|-------|--------|
 | 1 | Repository foundation: architecture, structure, engineering baseline, CI | Done |
 | 2 | Platform-neutral business process implementation (case model, lifecycle rules, priority, queues/routing, SLA, escalation, audit trail, synthetic fixtures) | Done |
-| 3 | Dynamics 365 and Salesforce CRM adapter architecture (deterministic reference mappings, schema documentation, integration envelope) | **This milestone** |
-| 4 | Power Platform automation patterns (Power Automate flow designs, Dataverse schema) | Planned |
+| 3 | Dynamics 365 and Salesforce CRM adapter architecture (deterministic reference mappings, schema documentation, integration envelope) | Done |
+| 4 | Power Platform automation architecture (Power Automate specs, Power Apps/Power Pages architecture, connector contracts, approval/evidence patterns) | **This milestone** |
 | 5 | Copilot Studio & agentic AI patterns with human-in-the-loop controls | Planned |
 | 6 | Live integration transport (API client/message mechanism around the Milestone 3 `IntegrationEnvelope` contract) | Planned |
 | 7 | Fabric / Power BI analytics over synthetic case data | Planned |
@@ -304,7 +304,7 @@ Service Operations Model):**
   model, roles/responsibilities, and the canonical-domain-vs-platform-adapter
   boundary)
 
-**Implemented (Milestone 3 — this milestone — Dynamics 365 and Salesforce
+**Implemented (Milestone 3 — Dynamics 365 and Salesforce
 CRM Adapter Architecture):**
 
 - ✅ Canonical service operations model — unchanged, still the single
@@ -346,12 +346,56 @@ CRM Adapter Architecture):**
   unsupported values, deterministic identifiers, canonical case identity
   preservation, and the no-reimplementation boundary)
 
+**Implemented (Milestone 4 — this milestone — Power Platform Automation
+Architecture):**
+
+- ✅ Version-controlled Power Automate reference workflow specifications
+  under [`power_platform/power_automate/`](power_platform/power_automate/):
+  new service request intake, SLA monitoring/escalation, human approval for
+  a consequential non-clinical action, and resolution/closure notification.
+  These are deterministic JSON specifications generated from
+  [`power_platform/flows.py`](power_platform/flows.py), not exported
+  Power Automate solutions or live tenant artefacts.
+- ✅ Power Apps reference service-operations application architecture in
+  [`power_platform/power_apps/`](power_platform/power_apps/): submission,
+  my requests, operations queue, case detail, SLA status, escalation/approval,
+  and resolution/feedback views with role and data-boundary constraints.
+- ✅ Power Pages self-service portal architecture in
+  [`power_platform/power_pages/`](power_platform/power_pages/): authenticated
+  request submission, own-request tracking, permitted status visibility,
+  knowledge/self-service entry point, and feedback, without unrestricted case
+  data exposure.
+- ✅ Connector/API boundary contract in
+  [`power_platform/connectors/`](power_platform/connectors/) for representative
+  operations including `create_case`, `get_case`, `transition_case`,
+  `evaluate_sla`, `evaluate_escalation`, `resolve_case`,
+  `list_service_categories`, `retrieve_queue_assignment`, and
+  `sync_dynamics_representation`. No real custom connector, endpoint, secret,
+  or Dataverse plugin is built.
+- ✅ Human-in-the-loop approval model
+  ([`power_platform/approvals.py`](power_platform/approvals.py)) carrying
+  requester, approver role, decision, reason, timestamps, correlation id,
+  audit result, and timeout outcome. It deliberately models elevated access,
+  not clinical treatment approval.
+- ✅ Deterministic synthetic automation evidence:
+  [`data/synthetic/power_platform_approval_examples.json`](data/synthetic/power_platform_approval_examples.json),
+  [`data/synthetic/power_platform_execution_trace.json`](data/synthetic/power_platform_execution_trace.json),
+  and [`reports/automation_summary.json`](reports/automation_summary.json).
+  The execution trace is explicitly labelled as simulated reference evidence,
+  not live Power Automate run history.
+- ✅ Architecture-boundary tests proving workflow specs and connector
+  contracts reference real canonical operations and do not redefine lifecycle
+  tables, routing rules, SLA formulae, or escalation logic. Existing Dynamics
+  365 and Salesforce adapter boundary tests remain intact.
+
 **Not yet implemented (later milestones):**
 
 - ❌ No live Dataverse integration (SDK, authentication, or a connected app)
 - ❌ No live Salesforce integration (SDK/API client, authentication, or a connected app)
 - ❌ No webhooks, in either direction
-- ❌ No Power Platform automation (Power Automate, Power Apps)
+- ❌ No deployed Power Automate flows, `.zip` solution exports, `.msapp` files,
+  live Power Apps apps, live Power Pages site, production custom connector, or
+  live Dataverse API calls
 - ❌ No Copilot Studio implementation
 - ❌ No agentic AI or LLM-based triage implementation
 - ❌ No message broker, event platform, or live transport for `IntegrationEnvelope`

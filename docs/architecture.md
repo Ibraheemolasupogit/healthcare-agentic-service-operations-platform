@@ -37,6 +37,12 @@ that a payload travels with; [`integrations/examples.py`](../integrations/exampl
 shows where a future live connector would sit — no transport or message
 broker is implemented yet.
 
+As of Milestone 4, [`power_platform/connectors/`](../power_platform/connectors/)
+adds the intended custom-connector/API boundary for Power Platform
+orchestration. It references canonical operations such as `create_case`,
+`transition_case`, `evaluate_sla`, `evaluate_escalation`, and `resolve_case`
+without building a live endpoint or custom connector.
+
 **Loose coupling**
 Every bounded context is designed to be replaced independently — e.g.
 swapping Dynamics 365 for Salesforce, or one analytics tool for another,
@@ -47,12 +53,25 @@ Any agentic AI action with a real-world effect (state change, notification,
 escalation) has a defined human approval checkpoint before it takes effect,
 tracked through [`governance/`](../governance/).
 
+Milestone 4 applies the same principle to deterministic automation for
+consequential non-clinical actions: the Power Automate approval pattern
+records requester, approver role, decision, reason, timestamps, correlation
+id, audit result, and timeout outcome before any approved downstream action
+continues.
+
 **Deterministic automation vs. autonomous agent behaviour**
 [`power_platform/`](../power_platform/) (Power Automate-style flows) is
 explicitly deterministic: fixed rules, fixed outcomes. [`ai/`](../ai/) and
 [`copilot/`](../copilot/) are explicitly agentic: model-driven decisions with
 bounded scope. Documentation and design artefacts must make clear which
 category any given step falls into.
+
+As of Milestone 4, the deterministic automation side is implemented as
+reference specifications only: Power Automate JSON specs, Power Apps and
+Power Pages architecture documents, connector contracts, approval examples,
+and synthetic automation evidence. There are no live Power Platform flows,
+Dataverse calls, exported solutions, Copilot Studio assets, LLM calls, or
+autonomous agents.
 
 **Least privilege**
 Every integration credential and agent capability is scoped to the minimum
@@ -77,7 +96,36 @@ Each platform-specific directory is a bounded context behind a stable
 conceptual interface (the case lifecycle) so it can, in principle, be swapped
 for an equivalent product.
 
-## Diagram
+## Power Platform Orchestration Diagram
+
+```mermaid
+flowchart TD
+    U["User / Operator"]
+    UI["Power Apps / Power Pages"]
+    PA["Power Automate"]
+    HITL{"Human approval\n(consequential action?)"}
+    BP["Canonical Service Operations\nbusiness_process"]
+    D365["Dynamics 365 Adapter"]
+    CRM["Dataverse / CRM Boundary"]
+
+    U --> UI
+    UI --> PA
+    PA --> HITL
+    HITL -->|approved or not required| BP
+    HITL -->|rejected or timed out| AUDIT["Audit evidence"]
+    BP --> D365
+    D365 --> CRM
+    PA --> AUDIT
+    CRM --> AUDIT
+```
+
+The important direction is one-way for business decisions:
+Power Platform orchestrates interaction, approval, notification, and evidence;
+[`business_process/`](../business_process/) decides lifecycle validity,
+priority, routing, SLA status, and escalation; [`dynamics365/`](../dynamics365/)
+translates the resulting canonical state for the Dataverse/CRM boundary.
+
+## High-Level Diagram
 
 See the [architecture diagram](../README.md#4-high-level-solution-architecture)
 in the root README for the current high-level view: healthcare users/service

@@ -1,0 +1,36 @@
+[
+  {
+    "request": {
+      "approval_id": "AR-AI-9001",
+      "case_id": "SR-AI-1004",
+      "requested_action": "Grant elevated Dataverse security role: Clinical Systems Administrator (time-boxed, 24h)",
+      "requester": "identity-access-team",
+      "approver_role": "identity-access-team-lead",
+      "correlation_id": "1d00feb7-6b3b-5651-b051-6c7a2ba8eccb",
+      "requested_at": "2026-01-12T11:00:00+00:00",
+      "timeout_at": "2026-01-12T15:00:00+00:00"
+    },
+    "decision": "Approved",
+    "reason": "Time-boxed elevation justified by an active on-call rotation; standard joiner checklist already on file.",
+    "decided_by": "identity-access-team-lead",
+    "decided_at": "2026-01-12T11:45:00+00:00",
+    "audit_event_id": "AE-AR-9001-DECISION"
+  },
+  {
+    "request": {
+      "approval_id": "AR-AI-9002",
+      "case_id": "SR-AI-1004",
+      "requested_action": "Grant permanent elevated Dataverse security role: System Customizer",
+      "requester": "identity-access-team",
+      "approver_role": "identity-access-team-lead",
+      "correlation_id": "05022188-f682-5262-a8c6-dd7fd7eb0b57",
+      "requested_at": "2026-01-12T11:00:00+00:00",
+      "timeout_at": "2026-01-12T15:00:00+00:00"
+    },
+    "decision": "Rejected",
+    "reason": "Permanent elevation not justified for this role; a time-boxed grant should be requested instead.",
+    "decided_by": "identity-access-team-lead",
+    "decided_at": "2026-01-12T11:50:00+00:00",
+    "audit_event_id": "AE-AR-9002-DECISION"
+  }
+]

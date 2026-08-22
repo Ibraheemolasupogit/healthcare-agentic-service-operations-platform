@@ -1,0 +1,126 @@
+{
+  "flow_id": "power-automate-sla-monitoring-v1",
+  "name": "SLA Monitoring and Escalation",
+  "description": "Periodically re-evaluates each open case's SLA status using business_process, escalates where the canonical rules say to, and keeps the Dynamics representation in sync.",
+  "trigger_type": "schedule",
+  "trigger_detail": "Recurring schedule (e.g. every 15 minutes), plus an event-driven re-check on case update",
+  "inputs": [
+    "case_id"
+  ],
+  "outputs": [
+    "sla_status",
+    "escalation_reason",
+    "dynamics_sync_status"
+  ],
+  "steps": [
+    {
+      "step_id": "get-case",
+      "name": "Get current case state",
+      "kind": "connector_call",
+      "description": "Retrieve current canonical case state via the connector boundary.",
+      "operation": "get_case",
+      "condition": null,
+      "requires_human": false,
+      "on_failure": ""
+    },
+    {
+      "step_id": "get-sla-target",
+      "name": "Get SLA target",
+      "kind": "canonical_operation",
+      "description": "Look up the case's response/resolution targets by category and priority.",
+      "operation": "get_sla_target",
+      "condition": null,
+      "requires_human": false,
+      "on_failure": ""
+    },
+    {
+      "step_id": "evaluate-sla",
+      "name": "Evaluate SLA status",
+      "kind": "canonical_operation",
+      "description": "Evaluate breach state against the target. This flow does not compute breach thresholds itself.",
+      "operation": "evaluate_sla",
+      "condition": null,
+      "requires_human": false,
+      "on_failure": ""
+    },
+    {
+      "step_id": "evaluate-escalation",
+      "name": "Evaluate escalation eligibility",
+      "kind": "canonical_operation",
+      "description": "Determine whether the case qualifies for escalation, and why, from its priority, stage, and SLA status.",
+      "operation": "determine_escalation_reason",
+      "condition": null,
+      "requires_human": false,
+      "on_failure": ""
+    },
+    {
+      "step_id": "condition-escalate",
+      "name": "Branch on escalation reason",
+      "kind": "condition",
+      "description": "Proceed to escalate only if a reason was returned; otherwise the run ends here for this case.",
+      "operation": null,
+      "condition": "escalation reason is not None",
+      "requires_human": false,
+      "on_failure": ""
+    },
+    {
+      "step_id": "escalate-case",
+      "name": "Escalate case",
+      "kind": "canonical_operation",
+      "description": "Move the case to ESCALATED, recording the reason business_process returned. Only reached when condition-escalate is true.",
+      "operation": "escalate_case",
+      "condition": null,
+      "requires_human": false,
+      "on_failure": ""
+    },
+    {
+      "step_id": "map-to-dynamics",
+      "name": "Map to Dynamics representation",
+      "kind": "adapter_operation",
+      "description": "Translate the escalated case, including current SLA fields, into a reference DynamicsIncident.",
+      "operation": "to_dynamics_incident",
+      "condition": null,
+      "requires_human": false,
+      "on_failure": ""
+    },
+    {
+      "step_id": "sync-crm",
+      "name": "Persist CRM representation",
+      "kind": "connector_call",
+      "description": "Push the updated representation to the CRM boundary.",
+      "operation": "sync_dynamics_representation",
+      "condition": null,
+      "requires_human": false,
+      "on_failure": ""
+    },
+    {
+      "step_id": "notify-escalation",
+      "name": "Notify queue owner of escalation",
+      "kind": "notification",
+      "description": "Notify the case's owning team that it has escalated.",
+      "operation": null,
+      "condition": null,
+      "requires_human": false,
+      "on_failure": ""
+    },
+    {
+      "step_id": "audit-escalation",
+      "name": "Record escalation audit evidence",
+      "kind": "audit_event",
+      "description": "Record the escalation with its reason, case_id, and correlation_id.",
+      "operation": null,
+      "condition": null,
+      "requires_human": false,
+      "on_failure": ""
+    }
+  ],
+  "idempotency_strategy": "Re-running this flow for the same case_id before its stage changes must not create a duplicate escalation. business_process.lifecycle provides a canonical backstop: ESCALATED -> ESCALATED is not in ALLOWED_TRANSITIONS, so a repeat escalate_case call on an already-escalated case raises InvalidLifecycleTransitionError rather than escalating twice.",
+  "correlation_strategy": "correlation_id = integrations.envelope.new_correlation_id(f'sla-monitor:{case_id}:{run_timestamp}'), unique per scheduled run so each escalation attempt is independently traceable.",
+  "failure_handling": "If evaluate_sla or escalate_case raise for one case, that case's processing aborts, is recorded via an audit event with status=failed, and the scheduled run continues to the next case (partial failure isolation) rather than failing the entire batch.",
+  "audit_events": [
+    "sla_evaluated",
+    "escalation_raised",
+    "escalation_notification_sent"
+  ],
+  "version": "1.0"
+}

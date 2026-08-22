@@ -1,0 +1,73 @@
+{
+  "trace_type": "simulated_reference_example",
+  "flow_id": "power-automate-intake-v1",
+  "canonical_case_id": "SR-DS-9002",
+  "correlation_id": "simulated-correlation-intake-SR-DS-9002",
+  "note": "Deterministic simulation only \u2014 not a live Power Platform run history.",
+  "steps": [
+    {
+      "step_id": "validate-input",
+      "name": "Validate request fields",
+      "kind": "condition",
+      "operation": null,
+      "status": "simulated_success",
+      "timestamp": "2026-01-15T09:00:00+00:00"
+    },
+    {
+      "step_id": "create-case",
+      "name": "Create canonical case",
+      "kind": "canonical_operation",
+      "operation": "create_case",
+      "status": "simulated_success",
+      "timestamp": "2026-01-15T09:01:00+00:00"
+    },
+    {
+      "step_id": "classify-and-route",
+      "name": "Classify and route",
+      "kind": "canonical_operation",
+      "operation": "classify_and_route",
+      "status": "simulated_success",
+      "timestamp": "2026-01-15T09:02:00+00:00"
+    },
+    {
+      "step_id": "map-to-dynamics",
+      "name": "Map to Dynamics representation",
+      "kind": "adapter_operation",
+      "operation": "to_dynamics_incident",
+      "status": "simulated_success",
+      "timestamp": "2026-01-15T09:03:00+00:00"
+    },
+    {
+      "step_id": "map-timeline",
+      "name": "Map audit timeline",
+      "kind": "adapter_operation",
+      "operation": "to_dynamics_timeline",
+      "status": "simulated_success",
+      "timestamp": "2026-01-15T09:04:00+00:00"
+    },
+    {
+      "step_id": "sync-crm",
+      "name": "Persist CRM representation",
+      "kind": "connector_call",
+      "operation": "sync_dynamics_representation",
+      "status": "simulated_success",
+      "timestamp": "2026-01-15T09:05:00+00:00"
+    },
+    {
+      "step_id": "acknowledge-requestor",
+      "name": "Issue acknowledgement",
+      "kind": "notification",
+      "operation": null,
+      "status": "simulated_success",
+      "timestamp": "2026-01-15T09:06:00+00:00"
+    },
+    {
+      "step_id": "audit-intake",
+      "name": "Record intake audit evidence",
+      "kind": "audit_event",
+      "operation": null,
+      "status": "simulated_success",
+      "timestamp": "2026-01-15T09:07:00+00:00"
+    }
+  ]
+}

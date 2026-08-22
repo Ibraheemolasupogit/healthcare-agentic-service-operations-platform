@@ -3,9 +3,12 @@
 Bounded context for the **API-first integration layer** connecting
 case-management platforms, automation, agentic AI, and analytics.
 
-**Status: partially implemented (Milestone 3).** This directory now holds a
-lightweight data contract and a deterministic example generator — it is
-**not** a message broker, event platform, or live connector.
+**Status: partially implemented (Milestone 3), with a Power Platform-facing
+connector contract added in Milestone 4.** This directory holds a lightweight
+data contract and a deterministic example generator — it is **not** a
+message broker, event platform, or live connector. Milestone 4's intended
+Power Platform API/custom-connector boundary lives under
+[`power_platform/connectors/`](../power_platform/connectors/).
 
 ## What's implemented
 
@@ -17,8 +20,9 @@ lightweight data contract and a deterministic example generator — it is
 ## What's still a placeholder
 
 No transport (HTTP client, message queue, event bus), no retries or
-delivery guarantees, no authentication, no webhook ingestion, and no
-connection to a live Dynamics 365 or Salesforce environment. See
+delivery guarantees, no authentication, no webhook ingestion, no production
+custom connector implementation, and no connection to a live Dynamics 365,
+Salesforce, or Dataverse environment. See
 [`docs/roadmap.md`](../docs/roadmap.md) and the root
 [README's current implementation status](../README.md#9-current-implementation-status).
 

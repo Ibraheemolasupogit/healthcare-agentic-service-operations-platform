@@ -1,0 +1,111 @@
+{
+  "flow_id": "power-automate-intake-v1",
+  "name": "New Service Request Intake",
+  "description": "Takes a new service request from Power Apps, Power Pages, or an inbound integration event, creates the canonical case, classifies and routes it, translates it into a Dynamics 365 reference representation, and acknowledges the requestor.",
+  "trigger_type": "event",
+  "trigger_detail": "Power Apps canvas app submission, Power Pages portal submission, or an inbound IntegrationEnvelope event with operation=create",
+  "inputs": [
+    "requestor",
+    "title",
+    "description",
+    "category",
+    "priority"
+  ],
+  "outputs": [
+    "canonical_case_id",
+    "dynamics_incident_id",
+    "acknowledgement_reference"
+  ],
+  "steps": [
+    {
+      "step_id": "validate-input",
+      "name": "Validate request fields",
+      "kind": "condition",
+      "description": "Confirm title/description are non-empty and category/priority are members of the canonical taxonomy before any case is created.",
+      "operation": null,
+      "condition": "title and description non-empty; category in ServiceCategory; priority in Priority",
+      "requires_human": false,
+      "on_failure": "Return a validation error to the caller; no case is created; no audit event is raised."
+    },
+    {
+      "step_id": "create-case",
+      "name": "Create canonical case",
+      "kind": "canonical_operation",
+      "description": "Create the case in SUBMITTED stage via the connector boundary's create_case operation.",
+      "operation": "create_case",
+      "condition": null,
+      "requires_human": false,
+      "on_failure": ""
+    },
+    {
+      "step_id": "classify-and-route",
+      "name": "Classify and route",
+      "kind": "canonical_operation",
+      "description": "Classify into CLASSIFIED then ROUTED using the canonical routing table; assigns queue and owner deterministically. This flow does not decide the queue itself.",
+      "operation": "classify_and_route",
+      "condition": null,
+      "requires_human": false,
+      "on_failure": ""
+    },
+    {
+      "step_id": "map-to-dynamics",
+      "name": "Map to Dynamics representation",
+      "kind": "adapter_operation",
+      "description": "Translate the routed canonical case into a reference DynamicsIncident. No SLA fields are populated yet (not evaluated at intake).",
+      "operation": "to_dynamics_incident",
+      "condition": null,
+      "requires_human": false,
+      "on_failure": ""
+    },
+    {
+      "step_id": "map-timeline",
+      "name": "Map audit timeline",
+      "kind": "adapter_operation",
+      "description": "Translate the case's audit history so far into reference Dynamics timeline entries.",
+      "operation": "to_dynamics_timeline",
+      "condition": null,
+      "requires_human": false,
+      "on_failure": ""
+    },
+    {
+      "step_id": "sync-crm",
+      "name": "Persist CRM representation",
+      "kind": "connector_call",
+      "description": "Push the translated representation to the CRM boundary via the connector contract.",
+      "operation": "sync_dynamics_representation",
+      "condition": null,
+      "requires_human": false,
+      "on_failure": "Canonical case creation has already succeeded and is not rolled back. Raise a crm_sync_failed audit event and queue manual reconciliation \u2014 see 'CRM update failure after canonical success' in power_platform/README.md."
+    },
+    {
+      "step_id": "acknowledge-requestor",
+      "name": "Issue acknowledgement",
+      "kind": "notification",
+      "description": "Notify the requestor that their case was received, with its canonical_case_id for tracking.",
+      "operation": null,
+      "condition": null,
+      "requires_human": false,
+      "on_failure": ""
+    },
+    {
+      "step_id": "audit-intake",
+      "name": "Record intake audit evidence",
+      "kind": "audit_event",
+      "description": "Record that intake completed, referencing canonical_case_id and correlation_id.",
+      "operation": null,
+      "condition": null,
+      "requires_human": false,
+      "on_failure": ""
+    }
+  ],
+  "idempotency_strategy": "The caller (Power Apps/Power Pages/integration event) must supply a client-generated request token; the flow checks for an existing case created from the same token within a short window before calling create_case again, since create_case itself has no natural idempotency key (see power_platform/connectors.py create_case caveat).",
+  "correlation_strategy": "correlation_id = integrations.envelope.new_correlation_id(f'intake:{request_token}'), generated once at validate-input and threaded through every subsequent step and audit event.",
+  "failure_handling": "Steps validate-input through classify-and-route must all succeed or the flow aborts with no partial case created (create_case and classify_and_route both raise on invalid input/state, per business_process). A failure in sync-crm after canonical success is handled per that step's on_failure \u2014 canonical state is the source of truth and is never reverted to match a failed CRM write.",
+  "audit_events": [
+    "case_created",
+    "case_routed",
+    "crm_synced",
+    "acknowledgement_sent"
+  ],
+  "version": "1.0"
+}

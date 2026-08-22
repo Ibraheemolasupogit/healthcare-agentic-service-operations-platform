@@ -37,7 +37,7 @@ jobs:
         run: ruff format --check .
 
       - name: Type check (mypy)
-        run: mypy business_process dynamics365 salesforce integrations
+        run: mypy business_process dynamics365 salesforce integrations power_platform
 
       - name: Test (pytest)
         run: pytest --cov --cov-report=term-missing

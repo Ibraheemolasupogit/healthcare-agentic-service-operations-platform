@@ -1,0 +1,100 @@
+{
+  "flow_id": "power-automate-approval-v1",
+  "name": "Human Approval for a Consequential Action",
+  "description": "Routes a consequential, non-clinical action (e.g. an elevated Dataverse security role grant) related to an existing case to a human approver, and records the outcome as immutable audit evidence regardless of decision.",
+  "trigger_type": "event",
+  "trigger_detail": "A Power Apps action or connector call requesting a consequential action against an existing canonical case",
+  "inputs": [
+    "case_id",
+    "requested_action",
+    "requester",
+    "approver_role"
+  ],
+  "outputs": [
+    "approval_id",
+    "decision",
+    "decided_by",
+    "decided_at"
+  ],
+  "steps": [
+    {
+      "step_id": "get-case",
+      "name": "Get related case",
+      "kind": "connector_call",
+      "description": "Retrieve the canonical case this approval relates to.",
+      "operation": "get_case",
+      "condition": null,
+      "requires_human": false,
+      "on_failure": ""
+    },
+    {
+      "step_id": "create-approval-request",
+      "name": "Create approval request",
+      "kind": "approval",
+      "description": "System creates an ApprovalRequest (requester, approver_role, correlation_id, timeout_at) and routes it to the approver role's queue.",
+      "operation": null,
+      "condition": null,
+      "requires_human": false,
+      "on_failure": ""
+    },
+    {
+      "step_id": "await-approval-decision",
+      "name": "Await human decision",
+      "kind": "approval",
+      "description": "A person holding approver_role reviews the request and records a decision (Approved/Rejected) with a reason, or the request times out per timeout_at.",
+      "operation": null,
+      "condition": null,
+      "requires_human": true,
+      "on_failure": "No decision by timeout_at is recorded as an explicit Timed Out decision, not a silent failure."
+    },
+    {
+      "step_id": "record-approval-audit",
+      "name": "Record approval audit evidence",
+      "kind": "audit_event",
+      "description": "Persist the full ApprovalRecord \u2014 requester, approver role, decision, reason, timestamp, correlation id \u2014 regardless of outcome.",
+      "operation": null,
+      "condition": null,
+      "requires_human": false,
+      "on_failure": ""
+    },
+    {
+      "step_id": "notify-outcome",
+      "name": "Notify requester and approver of outcome",
+      "kind": "notification",
+      "description": "Notify both parties of the final decision and its reason.",
+      "operation": null,
+      "condition": null,
+      "requires_human": false,
+      "on_failure": ""
+    },
+    {
+      "step_id": "condition-approved",
+      "name": "Branch on decision",
+      "kind": "condition",
+      "description": "Only an Approved decision proceeds to apply the requested action; Rejected/Timed Out stop here \u2014 audit and notification are already recorded either way.",
+      "operation": null,
+      "condition": "decision == Approved",
+      "requires_human": false,
+      "on_failure": ""
+    },
+    {
+      "step_id": "apply-approved-action",
+      "name": "Apply approved action",
+      "kind": "connector_call",
+      "description": "Only reached when Approved: move the related case forward via the connector boundary, so canonical lifecycle rules still govern whether that move is valid.",
+      "operation": "transition_case",
+      "condition": null,
+      "requires_human": false,
+      "on_failure": ""
+    }
+  ],
+  "idempotency_strategy": "approval_id is generated once at request creation and is the idempotency key \u2014 a duplicate trigger (e.g. a retried Power Apps submission) must look up an existing ApprovalRequest by its natural key (case_id + requested_action + requester) before creating a new one.",
+  "correlation_strategy": "correlation_id ties the approval request to both case_id and any downstream notification/audit events: integrations.envelope.new_correlation_id(f'approval:{case_id}:{requested_action}').",
+  "failure_handling": "Approval timeout is treated as an explicit ApprovalDecision.TIMED_OUT outcome, audited and notified identically to a Rejected decision \u2014 a case is never left in an ungoverned, undecided state.",
+  "audit_events": [
+    "approval_requested",
+    "approval_decided",
+    "approval_notification_sent"
+  ],
+  "version": "1.0"
+}

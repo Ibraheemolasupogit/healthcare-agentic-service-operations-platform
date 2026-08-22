@@ -1,0 +1,118 @@
+{
+  "flow_id": "power-automate-resolution-notification-v1",
+  "name": "Resolution and Closure Notification",
+  "description": "Once a case reaches RESOLVED, synchronizes its Dynamics representation, notifies the requestor, optionally invites feedback, and closes the case.",
+  "trigger_type": "event",
+  "trigger_detail": "Triggered once resolve_case has moved a case to RESOLVED (e.g. by a queue worker's Power Apps action)",
+  "inputs": [
+    "case_id",
+    "resolution_outcome",
+    "resolution_notes"
+  ],
+  "outputs": [
+    "dynamics_sync_status",
+    "notification_status",
+    "feedback_requested"
+  ],
+  "steps": [
+    {
+      "step_id": "get-case",
+      "name": "Get resolved case",
+      "kind": "connector_call",
+      "description": "Retrieve current canonical case state.",
+      "operation": "get_case",
+      "condition": null,
+      "requires_human": false,
+      "on_failure": ""
+    },
+    {
+      "step_id": "confirm-resolved",
+      "name": "Confirm case is still RESOLVED",
+      "kind": "condition",
+      "description": "Guard against a duplicate or late-delivered trigger re-processing an already-closed case.",
+      "operation": null,
+      "condition": "case.stage == RESOLVED",
+      "requires_human": false,
+      "on_failure": "If the case is not in RESOLVED stage (e.g. duplicate/late trigger, or already CLOSED), abort without notifying again."
+    },
+    {
+      "step_id": "map-to-dynamics",
+      "name": "Map to Dynamics representation",
+      "kind": "adapter_operation",
+      "description": "Translate the resolved case, including its resolution, into a reference DynamicsIncident.",
+      "operation": "to_dynamics_incident",
+      "condition": null,
+      "requires_human": false,
+      "on_failure": ""
+    },
+    {
+      "step_id": "map-timeline",
+      "name": "Map audit timeline",
+      "kind": "adapter_operation",
+      "description": "Translate the case's full audit history into reference Dynamics timeline entries.",
+      "operation": "to_dynamics_timeline",
+      "condition": null,
+      "requires_human": false,
+      "on_failure": ""
+    },
+    {
+      "step_id": "sync-crm",
+      "name": "Persist CRM representation",
+      "kind": "connector_call",
+      "description": "Push the resolved representation to the CRM boundary.",
+      "operation": "sync_dynamics_representation",
+      "condition": null,
+      "requires_human": false,
+      "on_failure": ""
+    },
+    {
+      "step_id": "notify-requestor",
+      "name": "Notify requestor of resolution",
+      "kind": "notification",
+      "description": "Notify the requestor that their case was resolved, including outcome and notes.",
+      "operation": null,
+      "condition": null,
+      "requires_human": false,
+      "on_failure": ""
+    },
+    {
+      "step_id": "request-feedback",
+      "name": "Invite feedback",
+      "kind": "notification",
+      "description": "Optionally invite the requestor to confirm the fix or provide feedback. Feedback is informational only \u2014 it does not itself change canonical state (see docs/architecture.md human-in-the-loop principle).",
+      "operation": null,
+      "condition": null,
+      "requires_human": false,
+      "on_failure": ""
+    },
+    {
+      "step_id": "audit-resolution-notification",
+      "name": "Record resolution-notification audit evidence",
+      "kind": "audit_event",
+      "description": "Record requestor notified, feedback requested, timestamps, and correlation id.",
+      "operation": null,
+      "condition": null,
+      "requires_human": false,
+      "on_failure": ""
+    },
+    {
+      "step_id": "close-case",
+      "name": "Close case",
+      "kind": "canonical_operation",
+      "description": "Move the case to CLOSED. Modelled here as the flow's final step to show the full Resolved -> Closed path; a real deployment might defer this to a later, scheduled follow-up flow to allow a feedback window first.",
+      "operation": "close_case",
+      "condition": null,
+      "requires_human": false,
+      "on_failure": ""
+    }
+  ],
+  "idempotency_strategy": "case_id + 'resolution-notification' is the natural idempotency key. The confirm-resolved condition step ensures a redelivered or duplicate trigger cannot send a second notification once close_case has already run, since a closed case's stage is no longer RESOLVED \u2014 the canonical lifecycle rules provide the backstop.",
+  "correlation_strategy": "correlation_id = integrations.envelope.new_correlation_id(f'resolution-notify:{case_id}')",
+  "failure_handling": "If CRM sync fails after canonical resolution has already succeeded, the flow does not roll back canonical state \u2014 it raises a crm_sync_failed audit event and queues manual reconciliation, since canonical business state is the source of truth and must never be reverted to match a failed CRM write.",
+  "audit_events": [
+    "case_resolved_notification_sent",
+    "feedback_requested",
+    "case_closed"
+  ],
+  "version": "1.0"
+}

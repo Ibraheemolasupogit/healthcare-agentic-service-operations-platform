@@ -25,6 +25,18 @@ As of Milestone 3, [`integrations/examples.py`](../integrations/examples.py)
 See [`docs/crm_schema_mapping.md`](../docs/crm_schema_mapping.md) for what
 every field in these two files means and how it was derived.
 
+As of Milestone 4, [`power_platform/evidence.py`](../power_platform/evidence.py)
+(run via `python -m power_platform.evidence`) additionally generates:
+
+- `power_platform_approval_examples.json` — the two deterministic human-approval
+  examples (one Approved, one Rejected)
+- `power_platform_execution_trace.json` — a **simulated** step-by-step run of
+  the intake flow, explicitly labelled `"trace_type": "simulated_reference_example"`
+  — not a live Power Platform run history
+
+See [`power_platform/README.md`](../power_platform/README.md) for what these
+represent and their explicit simulation labelling.
+
 Every file is regenerated identically by re-running its generator — nothing
 here is hand-authored, and none of it is fetched from a live system.
 

@@ -49,6 +49,35 @@ network access at all — they are pure functions over data already in
 memory. Least privilege for a *live* connector (what it may read/write, and
 under what identity) is a Milestone 6 concern once real transport exists.
 
+As of Milestone 4, Power Platform controls are documented but not operated:
+[`power_platform/`](../power_platform/) contains reference specifications,
+connector contracts, approval examples, and synthetic evidence only. A real
+tenant implementation would need:
+
+- Separate development, test, and production Power Platform environments,
+  with solution-aware configuration promoted between them.
+- Least-privilege connection references and service identities scoped to the
+  connector operations they call; no maker or administrator identity should
+  be embedded in a flow definition.
+- Secrets stored outside flow specifications, for example in managed
+  connection configuration or a governed secret store; this repository must
+  never contain tenant IDs, client secrets, certificates, or passwords.
+- DLP policies that prevent service-operation flows from mixing healthcare
+  case data connectors with unmanaged consumer connectors.
+- Human approval for consequential actions such as elevated access grants,
+  recorded with requester, approver role, decision, reason, timestamp,
+  correlation id, audit result, and timeout/exception outcome.
+- Manual-review/dead-letter handling for failed canonical-to-CRM sync,
+  notification failure, duplicate trigger ambiguity, and partial failure
+  after canonical state has already changed.
+- Reconciliation reporting that treats `business_process` canonical state
+  as the source of truth and Dataverse/CRM records as synchronized
+  representations.
+
+These are design controls only in Milestone 4. There is no deployed
+environment, DLP policy, connection reference, service principal, custom
+connector, or live audit store in this repository.
+
 ## Data governance
 
 All data anywhere in this repository — code fixtures, docs examples, anything

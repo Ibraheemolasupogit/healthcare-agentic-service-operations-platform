@@ -2,8 +2,9 @@
 
 This document expands on the roadmap summary in the
 [root README](../README.md#7-delivery-roadmap). Scope and sequencing below are
-indicative and may evolve as the portfolio project progresses — nothing past
-Milestone 1 is committed or scheduled against dates.
+indicative and may evolve as the portfolio project progresses. Milestones 1-4
+are implemented in this repository; later milestones are not committed or
+scheduled against dates.
 
 ## Milestone 1 — Repository Foundation *(done)*
 
@@ -25,7 +26,7 @@ under [`data/synthetic/`](../data/synthetic/) and
 Still no persistence, workflow engine, or scheduler — and still no CRM,
 Power Platform, Copilot Studio, or agent code.
 
-## Milestone 3 — Dynamics 365 & Salesforce CRM Adapter Architecture *(this milestone)*
+## Milestone 3 — Dynamics 365 & Salesforce CRM Adapter Architecture *(done)*
 
 Built reference adapters — [`dynamics365/`](../dynamics365/) and
 [`salesforce/`](../salesforce/) — mapping the Milestone 2 canonical case
@@ -40,17 +41,28 @@ Neither adapter imports a `business_process` decision function — enforced
 by `tests/test_adapter_boundary.py`. Not a live tenant, connected app, SDK
 session, or credential in either case.
 
-## Milestone 4 — Power Platform Automation *(planned)*
+## Milestone 4 — Power Platform Automation Architecture *(done)*
 
-Deterministic workflow patterns (Power Automate flow designs, Dataverse
-schema) for routing, notification, and escalation steps of the case
-lifecycle.
+Deterministic Power Platform orchestration around the canonical service
+operations model: version-controlled Power Automate reference workflow
+specifications, Power Apps service-operations application architecture,
+Power Pages self-service portal architecture, connector/API contracts,
+human approval pattern, reliability/security guidance, and deterministic
+synthetic automation evidence. This milestone deliberately stops at
+reference specifications and generated evidence — no live Microsoft tenant,
+exported Power Automate solution, `.msapp`, deployed portal, custom
+connector, Dataverse API call, credential, Copilot Studio, LLM triage, or
+autonomous agent is implemented.
 
 ## Milestone 5 — Copilot Studio & Agentic AI *(planned)*
 
-Conversational triage patterns (Copilot Studio) and bounded autonomous case
-actions ([`ai/`](../ai/)), with human-in-the-loop checkpoints defined per the
-principles in [`docs/governance.md`](governance.md).
+Recommended next scope: conversational triage and assisted service-desk
+patterns in Copilot Studio, plus bounded agentic AI design in [`ai/`](../ai/).
+Any LLM or agent behaviour should sit behind the same connector/canonical
+boundary introduced by Milestone 4, use synthetic prompts/examples only,
+avoid autonomous case mutation by default, and require documented
+human-in-the-loop checkpoints for consequential actions per
+[`docs/governance.md`](governance.md).
 
 ## Milestone 6 — Integration Layer *(planned)*
 

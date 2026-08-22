@@ -1,0 +1,57 @@
+{
+  "generated_from": "power_platform.evidence (deterministic, synthetic)",
+  "flows": {
+    "count": 4,
+    "flow_ids": [
+      "power-automate-intake-v1",
+      "power-automate-sla-monitoring-v1",
+      "power-automate-approval-v1",
+      "power-automate-resolution-notification-v1"
+    ],
+    "by_trigger_type": {
+      "power-automate-intake-v1": "event",
+      "power-automate-sla-monitoring-v1": "schedule",
+      "power-automate-approval-v1": "event",
+      "power-automate-resolution-notification-v1": "event"
+    },
+    "total_steps": 34,
+    "steps_by_kind": {
+      "condition": 4,
+      "canonical_operation": 7,
+      "adapter_operation": 5,
+      "connector_call": 7,
+      "notification": 5,
+      "audit_event": 4,
+      "approval": 2
+    },
+    "steps_requiring_human": 1
+  },
+  "connector_operations": {
+    "count": 9,
+    "idempotent_count": 8,
+    "names": [
+      "create_case",
+      "transition_case",
+      "get_case",
+      "evaluate_sla",
+      "evaluate_escalation",
+      "resolve_case",
+      "list_service_categories",
+      "retrieve_queue_assignment",
+      "sync_dynamics_representation"
+    ]
+  },
+  "approval_examples": {
+    "count": 2,
+    "decisions": {
+      "Approved": 1,
+      "Rejected": 1
+    }
+  },
+  "execution_trace_example": {
+    "flow_id": "power-automate-intake-v1",
+    "step_count": 8,
+    "trace_type": "simulated_reference_example"
+  },
+  "note": "Synthetic portfolio evidence only \u2014 no live Power Platform environment, deployed flow, or run history. See README Portfolio & Simulation Disclaimer."
+}
