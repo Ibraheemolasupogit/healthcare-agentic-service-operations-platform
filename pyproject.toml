@@ -28,11 +28,11 @@ dev = [
 
 [tool.setuptools.packages.find]
 # Only domains with real, implemented Python code are packaged.
-# Other domains (dynamics365/, salesforce/, power_platform/, copilot/, ai/,
-# analytics/, integrations/, governance/) are currently documentation-only
-# bounded-context placeholders — see their README.md files — and are added
-# here as they gain real implementations in later milestones.
-include = ["business_process*"]
+# power_platform/, copilot/, ai/, analytics/, governance/ are currently
+# documentation-only bounded-context placeholders — see their README.md
+# files — and are added here as they gain real implementations in later
+# milestones.
+include = ["business_process*", "dynamics365*", "salesforce*", "integrations*"]
 
 [tool.pytest.ini_options]
 minversion = "8.0"
@@ -40,7 +40,7 @@ addopts = "-ra --strict-markers"
 testpaths = ["tests"]
 
 [tool.coverage.run]
-source = ["business_process"]
+source = ["business_process", "dynamics365", "salesforce", "integrations"]
 
 [tool.ruff]
 line-length = 100

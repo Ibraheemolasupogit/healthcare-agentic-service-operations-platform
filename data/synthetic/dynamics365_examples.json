@@ -1,0 +1,445 @@
+[
+  {
+    "envelope": {
+      "source_system": "dynamics365",
+      "source_record_id": "f8658f5e-2b2d-5c3f-89c3-fdbc6d0a5a3e",
+      "canonical_case_id": "SR-DS-1001",
+      "correlation_id": "979761fa-8f97-5e77-85f2-ccc8431208d5",
+      "schema_version": "1.0",
+      "timestamp": "2026-01-12T15:00:00+00:00",
+      "operation": "upsert"
+    },
+    "incident": {
+      "incidentid": "f8658f5e-2b2d-5c3f-89c3-fdbc6d0a5a3e",
+      "ticketnumber": "SR-DS-1001",
+      "title": "Laptop will not connect to corporate Wi-Fi",
+      "description": "Staff laptop repeatedly fails to authenticate against the corporate wireless network after a recent OS update.",
+      "prioritycode": 3,
+      "statecode": 1,
+      "statuscode": "Problem Solved",
+      "owning_team": "digital-support-team",
+      "queue_name": "Digital Support Queue",
+      "createdon": "2026-01-12T09:00:00+00:00",
+      "modifiedon": "2026-01-12T10:40:00+00:00",
+      "responsebyapplicable": "2026-01-12T11:00:00+00:00",
+      "resolvebyapplicable": "2026-01-13T09:00:00+00:00",
+      "sla_response_breached": false,
+      "sla_resolution_breached": false,
+      "resolution": {
+        "subject": "Fixed",
+        "description": "Reissued network profile; laptop reconnected successfully."
+      }
+    },
+    "timeline": [
+      {
+        "annotationid": "38e2808c-344c-52c3-988b-b528ea6e7f30",
+        "regarding_incidentid": "f8658f5e-2b2d-5c3f-89c3-fdbc6d0a5a3e",
+        "subject": "Case created",
+        "notetext": "Case submitted in category 'Digital Support' with priority 'Medium'",
+        "createdon": "2026-01-12T09:00:00+00:00",
+        "createdby": "requestor"
+      },
+      {
+        "annotationid": "1201e1ef-4c77-589c-8eec-6a4ca634b324",
+        "regarding_incidentid": "f8658f5e-2b2d-5c3f-89c3-fdbc6d0a5a3e",
+        "subject": "Status changed to Classified",
+        "notetext": "Classified into 'Digital Support'",
+        "createdon": "2026-01-12T09:05:00+00:00",
+        "createdby": "intake-system"
+      },
+      {
+        "annotationid": "d47e8076-691b-52d3-8a96-83ea432ce37a",
+        "regarding_incidentid": "f8658f5e-2b2d-5c3f-89c3-fdbc6d0a5a3e",
+        "subject": "Status changed to Routed",
+        "notetext": "Routed to 'Digital Support' queue, owner 'digital-support-team'",
+        "createdon": "2026-01-12T09:05:00+00:00",
+        "createdby": "intake-system"
+      },
+      {
+        "annotationid": "de86a0e2-60a3-544a-9bdd-db24582bf54d",
+        "regarding_incidentid": "f8658f5e-2b2d-5c3f-89c3-fdbc6d0a5a3e",
+        "subject": "Status changed to In Progress",
+        "notetext": "Work started",
+        "createdon": "2026-01-12T09:20:00+00:00",
+        "createdby": "digital-support-team"
+      },
+      {
+        "annotationid": "b6028973-a36f-5f55-b597-e2e1c7a10e50",
+        "regarding_incidentid": "f8658f5e-2b2d-5c3f-89c3-fdbc6d0a5a3e",
+        "subject": "Status changed to Resolved",
+        "notetext": "Resolved: Fixed",
+        "createdon": "2026-01-12T10:30:00+00:00",
+        "createdby": "digital-support-team"
+      },
+      {
+        "annotationid": "01f905b0-38a8-5e85-8815-3fc0be42b9f8",
+        "regarding_incidentid": "f8658f5e-2b2d-5c3f-89c3-fdbc6d0a5a3e",
+        "subject": "Status changed to Closed",
+        "notetext": "Case closed",
+        "createdon": "2026-01-12T10:40:00+00:00",
+        "createdby": "digital-support-team"
+      }
+    ]
+  },
+  {
+    "envelope": {
+      "source_system": "dynamics365",
+      "source_record_id": "67c159d9-30d4-5de1-86e6-ec0535d08784",
+      "canonical_case_id": "SR-CE-1002",
+      "correlation_id": "1d0f4714-20fe-5dbf-9a2e-1d0be7ace292",
+      "schema_version": "1.0",
+      "timestamp": "2026-01-12T15:00:00+00:00",
+      "operation": "upsert"
+    },
+    "incident": {
+      "incidentid": "67c159d9-30d4-5de1-86e6-ec0535d08784",
+      "ticketnumber": "SR-CE-1002",
+      "title": "Infusion pump fleet firmware advisory",
+      "description": "Manufacturer advisory received for an infusion pump model deployed across the trust; fleet firmware status needs review. No patient or usage data is involved.",
+      "prioritycode": 1,
+      "statecode": 0,
+      "statuscode": "Escalated",
+      "owning_team": "clinical-technology-team",
+      "queue_name": "Clinical Technology Queue",
+      "createdon": "2026-01-12T09:00:00+00:00",
+      "modifiedon": "2026-01-12T14:00:00+00:00",
+      "responsebyapplicable": "2026-01-12T09:15:00+00:00",
+      "resolvebyapplicable": "2026-01-12T11:00:00+00:00",
+      "sla_response_breached": false,
+      "sla_resolution_breached": true,
+      "resolution": null
+    },
+    "timeline": [
+      {
+        "annotationid": "209ad2bc-e13d-5063-b03c-c21aee2319f6",
+        "regarding_incidentid": "67c159d9-30d4-5de1-86e6-ec0535d08784",
+        "subject": "Case created",
+        "notetext": "Case submitted in category 'Clinical Equipment' with priority 'Critical'",
+        "createdon": "2026-01-12T09:00:00+00:00",
+        "createdby": "requestor"
+      },
+      {
+        "annotationid": "19d147da-d8ec-5f95-b17e-a54699c05f71",
+        "regarding_incidentid": "67c159d9-30d4-5de1-86e6-ec0535d08784",
+        "subject": "Status changed to Classified",
+        "notetext": "Classified into 'Clinical Equipment'",
+        "createdon": "2026-01-12T09:05:00+00:00",
+        "createdby": "intake-system"
+      },
+      {
+        "annotationid": "dd5f6335-c2f8-5dbc-a599-7a551292bf6b",
+        "regarding_incidentid": "67c159d9-30d4-5de1-86e6-ec0535d08784",
+        "subject": "Status changed to Routed",
+        "notetext": "Routed to 'Clinical Technology' queue, owner 'clinical-technology-team'",
+        "createdon": "2026-01-12T09:05:00+00:00",
+        "createdby": "intake-system"
+      },
+      {
+        "annotationid": "dad1e6ff-e518-5db6-a704-320b50638b26",
+        "regarding_incidentid": "67c159d9-30d4-5de1-86e6-ec0535d08784",
+        "subject": "Status changed to In Progress",
+        "notetext": "Work started",
+        "createdon": "2026-01-12T09:15:00+00:00",
+        "createdby": "clinical-technology-team"
+      },
+      {
+        "annotationid": "cc203514-b79f-58d7-a2e3-337faa2f65bb",
+        "regarding_incidentid": "67c159d9-30d4-5de1-86e6-ec0535d08784",
+        "subject": "Status changed to Escalated",
+        "notetext": "Escalated: SLA resolution target breached",
+        "createdon": "2026-01-12T14:00:00+00:00",
+        "createdby": "clinical-technology-team"
+      }
+    ]
+  },
+  {
+    "envelope": {
+      "source_system": "dynamics365",
+      "source_record_id": "2f085cf5-c079-58ff-92c0-bc53c273fd2b",
+      "canonical_case_id": "SR-FA-1003",
+      "correlation_id": "620c1f22-0b1e-50cd-93e3-6a7f3a393685",
+      "schema_version": "1.0",
+      "timestamp": "2026-01-12T15:00:00+00:00",
+      "operation": "upsert"
+    },
+    "incident": {
+      "incidentid": "2f085cf5-c079-58ff-92c0-bc53c273fd2b",
+      "ticketnumber": "SR-FA-1003",
+      "title": "Meeting room air conditioning fault",
+      "description": "Air conditioning unit in a ground-floor meeting room is not cooling; an external contractor call-out is required.",
+      "prioritycode": 4,
+      "statecode": 0,
+      "statuscode": "On Hold",
+      "owning_team": "facilities-operations-team",
+      "queue_name": "Facilities Operations Queue",
+      "createdon": "2026-01-12T09:00:00+00:00",
+      "modifiedon": "2026-01-12T11:00:00+00:00",
+      "responsebyapplicable": "2026-01-12T17:00:00+00:00",
+      "resolvebyapplicable": "2026-01-16T03:00:00+00:00",
+      "sla_response_breached": false,
+      "sla_resolution_breached": false,
+      "resolution": null
+    },
+    "timeline": [
+      {
+        "annotationid": "bed7d304-e908-50ed-9144-6142ee67a138",
+        "regarding_incidentid": "2f085cf5-c079-58ff-92c0-bc53c273fd2b",
+        "subject": "Case created",
+        "notetext": "Case submitted in category 'Facilities' with priority 'Low'",
+        "createdon": "2026-01-12T09:00:00+00:00",
+        "createdby": "requestor"
+      },
+      {
+        "annotationid": "61571db1-02ca-5003-8ed9-b427b4530fba",
+        "regarding_incidentid": "2f085cf5-c079-58ff-92c0-bc53c273fd2b",
+        "subject": "Status changed to Classified",
+        "notetext": "Classified into 'Facilities'",
+        "createdon": "2026-01-12T09:10:00+00:00",
+        "createdby": "intake-system"
+      },
+      {
+        "annotationid": "3635012a-0df6-5024-b8a7-24f344db9642",
+        "regarding_incidentid": "2f085cf5-c079-58ff-92c0-bc53c273fd2b",
+        "subject": "Status changed to Routed",
+        "notetext": "Routed to 'Facilities Operations' queue, owner 'facilities-operations-team'",
+        "createdon": "2026-01-12T09:10:00+00:00",
+        "createdby": "intake-system"
+      },
+      {
+        "annotationid": "de078893-62b4-58c0-ac47-91e1d5458de0",
+        "regarding_incidentid": "2f085cf5-c079-58ff-92c0-bc53c273fd2b",
+        "subject": "Status changed to In Progress",
+        "notetext": "Work started",
+        "createdon": "2026-01-12T10:00:00+00:00",
+        "createdby": "facilities-operations-team"
+      },
+      {
+        "annotationid": "41d2b63a-094d-5a99-9180-3dec99a295ce",
+        "regarding_incidentid": "2f085cf5-c079-58ff-92c0-bc53c273fd2b",
+        "subject": "Status changed to Pending",
+        "notetext": "Awaiting external contractor call-out slot.",
+        "createdon": "2026-01-12T11:00:00+00:00",
+        "createdby": "facilities-operations-team"
+      }
+    ]
+  },
+  {
+    "envelope": {
+      "source_system": "dynamics365",
+      "source_record_id": "7b2a087b-2ca7-5077-975b-72e12d232c47",
+      "canonical_case_id": "SR-AI-1004",
+      "correlation_id": "29f57788-4532-551d-ae86-8fe0983211da",
+      "schema_version": "1.0",
+      "timestamp": "2026-01-12T15:00:00+00:00",
+      "operation": "upsert"
+    },
+    "incident": {
+      "incidentid": "7b2a087b-2ca7-5077-975b-72e12d232c47",
+      "ticketnumber": "SR-AI-1004",
+      "title": "New starter access provisioning request",
+      "description": "Standard system access request for a new starter joining a clinical administration team, per the standard joiner checklist.",
+      "prioritycode": 2,
+      "statecode": 1,
+      "statuscode": "Problem Solved",
+      "owning_team": "identity-access-team",
+      "queue_name": "Identity and Access Queue",
+      "createdon": "2026-01-12T09:00:00+00:00",
+      "modifiedon": "2026-01-12T09:50:00+00:00",
+      "responsebyapplicable": "2026-01-12T09:30:00+00:00",
+      "resolvebyapplicable": "2026-01-12T15:00:00+00:00",
+      "sla_response_breached": false,
+      "sla_resolution_breached": false,
+      "resolution": {
+        "subject": "Fixed",
+        "description": "Standard access profile provisioned per joiner checklist."
+      }
+    },
+    "timeline": [
+      {
+        "annotationid": "710e6e16-5d9a-5e82-b08d-d639d6f9e9d1",
+        "regarding_incidentid": "7b2a087b-2ca7-5077-975b-72e12d232c47",
+        "subject": "Case created",
+        "notetext": "Case submitted in category 'Access and Identity' with priority 'High'",
+        "createdon": "2026-01-12T09:00:00+00:00",
+        "createdby": "requestor"
+      },
+      {
+        "annotationid": "29b10a5e-f2a8-5272-aa8c-256fd3d25c09",
+        "regarding_incidentid": "7b2a087b-2ca7-5077-975b-72e12d232c47",
+        "subject": "Status changed to Classified",
+        "notetext": "Classified into 'Access and Identity'",
+        "createdon": "2026-01-12T09:05:00+00:00",
+        "createdby": "intake-system"
+      },
+      {
+        "annotationid": "ca54dcd8-a39e-5023-b366-4b9977e91921",
+        "regarding_incidentid": "7b2a087b-2ca7-5077-975b-72e12d232c47",
+        "subject": "Status changed to Routed",
+        "notetext": "Routed to 'Identity and Access' queue, owner 'identity-access-team'",
+        "createdon": "2026-01-12T09:05:00+00:00",
+        "createdby": "intake-system"
+      },
+      {
+        "annotationid": "331f66f7-3219-54bd-a7b7-a7d6a3a32ed6",
+        "regarding_incidentid": "7b2a087b-2ca7-5077-975b-72e12d232c47",
+        "subject": "Status changed to In Progress",
+        "notetext": "Work started",
+        "createdon": "2026-01-12T09:30:00+00:00",
+        "createdby": "identity-access-team"
+      },
+      {
+        "annotationid": "86475e15-6692-56aa-b1e6-e7a596aa044f",
+        "regarding_incidentid": "7b2a087b-2ca7-5077-975b-72e12d232c47",
+        "subject": "Status changed to Resolved",
+        "notetext": "Resolved: Fixed",
+        "createdon": "2026-01-12T09:45:00+00:00",
+        "createdby": "identity-access-team"
+      },
+      {
+        "annotationid": "0bab0d42-9523-5ff1-8902-e2f5c82af4b3",
+        "regarding_incidentid": "7b2a087b-2ca7-5077-975b-72e12d232c47",
+        "subject": "Status changed to Closed",
+        "notetext": "Case closed",
+        "createdon": "2026-01-12T09:50:00+00:00",
+        "createdby": "identity-access-team"
+      }
+    ]
+  },
+  {
+    "envelope": {
+      "source_system": "dynamics365",
+      "source_record_id": "b56d5d29-b42d-5fb9-a887-06b99993e5be",
+      "canonical_case_id": "SR-AS-1005",
+      "correlation_id": "92055174-f5db-5a58-92c6-761ef631565d",
+      "schema_version": "1.0",
+      "timestamp": "2026-01-12T15:00:00+00:00",
+      "operation": "upsert"
+    },
+    "incident": {
+      "incidentid": "b56d5d29-b42d-5fb9-a887-06b99993e5be",
+      "ticketnumber": "SR-AS-1005",
+      "title": "Rostering application intermittent timeout",
+      "description": "Line-of-business rostering application intermittently times out when generating weekly rota exports.",
+      "prioritycode": 3,
+      "statecode": 0,
+      "statuscode": "Routed",
+      "owning_team": "applications-team",
+      "queue_name": "Applications Queue",
+      "createdon": "2026-01-12T09:00:00+00:00",
+      "modifiedon": "2026-01-12T09:08:00+00:00",
+      "responsebyapplicable": "2026-01-12T11:00:00+00:00",
+      "resolvebyapplicable": "2026-01-13T09:00:00+00:00",
+      "sla_response_breached": true,
+      "sla_resolution_breached": false,
+      "resolution": null
+    },
+    "timeline": [
+      {
+        "annotationid": "e33e519b-e573-569e-90b0-2a2cd93e626f",
+        "regarding_incidentid": "b56d5d29-b42d-5fb9-a887-06b99993e5be",
+        "subject": "Case created",
+        "notetext": "Case submitted in category 'Application Support' with priority 'Medium'",
+        "createdon": "2026-01-12T09:00:00+00:00",
+        "createdby": "requestor"
+      },
+      {
+        "annotationid": "7b93ec29-eee3-52c3-836a-3404a29ed6f0",
+        "regarding_incidentid": "b56d5d29-b42d-5fb9-a887-06b99993e5be",
+        "subject": "Status changed to Classified",
+        "notetext": "Classified into 'Application Support'",
+        "createdon": "2026-01-12T09:08:00+00:00",
+        "createdby": "intake-system"
+      },
+      {
+        "annotationid": "a00f510c-4ed4-50c2-8c33-85a270589d4b",
+        "regarding_incidentid": "b56d5d29-b42d-5fb9-a887-06b99993e5be",
+        "subject": "Status changed to Routed",
+        "notetext": "Routed to 'Applications' queue, owner 'applications-team'",
+        "createdon": "2026-01-12T09:08:00+00:00",
+        "createdby": "intake-system"
+      }
+    ]
+  },
+  {
+    "envelope": {
+      "source_system": "dynamics365",
+      "source_record_id": "f0c6f84f-32d5-5c74-8379-f2b5b9c01a89",
+      "canonical_case_id": "SR-DR-1006",
+      "correlation_id": "0afcefef-1c96-531e-96c4-4c7c02311f88",
+      "schema_version": "1.0",
+      "timestamp": "2026-01-12T15:00:00+00:00",
+      "operation": "upsert"
+    },
+    "incident": {
+      "incidentid": "f0c6f84f-32d5-5c74-8379-f2b5b9c01a89",
+      "ticketnumber": "SR-DR-1006",
+      "title": "Monthly synthetic activity report export request",
+      "description": "Request for a scheduled export of aggregate, non-identifiable monthly service activity figures for internal review.",
+      "prioritycode": 4,
+      "statecode": 1,
+      "statuscode": "Problem Solved",
+      "owning_team": "data-services-team",
+      "queue_name": "Data Services Queue",
+      "createdon": "2026-01-12T09:00:00+00:00",
+      "modifiedon": "2026-01-12T14:10:00+00:00",
+      "responsebyapplicable": "2026-01-12T17:00:00+00:00",
+      "resolvebyapplicable": "2026-01-16T21:00:00+00:00",
+      "sla_response_breached": false,
+      "sla_resolution_breached": false,
+      "resolution": {
+        "subject": "No Action Required",
+        "description": "Report already covered by an existing scheduled export; requestor notified."
+      }
+    },
+    "timeline": [
+      {
+        "annotationid": "d06829de-7ab7-5963-ba9b-4bd732ad83ce",
+        "regarding_incidentid": "f0c6f84f-32d5-5c74-8379-f2b5b9c01a89",
+        "subject": "Case created",
+        "notetext": "Case submitted in category 'Data and Reporting' with priority 'Low'",
+        "createdon": "2026-01-12T09:00:00+00:00",
+        "createdby": "requestor"
+      },
+      {
+        "annotationid": "08c3bf7f-dfda-51b4-98e9-8d8f8f0bb092",
+        "regarding_incidentid": "f0c6f84f-32d5-5c74-8379-f2b5b9c01a89",
+        "subject": "Status changed to Classified",
+        "notetext": "Classified into 'Data and Reporting'",
+        "createdon": "2026-01-12T09:15:00+00:00",
+        "createdby": "intake-system"
+      },
+      {
+        "annotationid": "6a5f7142-96d9-5a3e-8d78-ba63e740aa42",
+        "regarding_incidentid": "f0c6f84f-32d5-5c74-8379-f2b5b9c01a89",
+        "subject": "Status changed to Routed",
+        "notetext": "Routed to 'Data Services' queue, owner 'data-services-team'",
+        "createdon": "2026-01-12T09:15:00+00:00",
+        "createdby": "intake-system"
+      },
+      {
+        "annotationid": "b4045c1a-7ea9-55cb-97fb-7b60a2ad0b6f",
+        "regarding_incidentid": "f0c6f84f-32d5-5c74-8379-f2b5b9c01a89",
+        "subject": "Status changed to In Progress",
+        "notetext": "Work started",
+        "createdon": "2026-01-12T13:00:00+00:00",
+        "createdby": "data-services-team"
+      },
+      {
+        "annotationid": "d92fcece-61e6-5dd2-8158-eb55cd1b7b42",
+        "regarding_incidentid": "f0c6f84f-32d5-5c74-8379-f2b5b9c01a89",
+        "subject": "Status changed to Resolved",
+        "notetext": "Resolved: No Action Required",
+        "createdon": "2026-01-12T14:00:00+00:00",
+        "createdby": "data-services-team"
+      },
+      {
+        "annotationid": "f1878f0f-a707-511e-a714-dda5ebad6ce9",
+        "regarding_incidentid": "f0c6f84f-32d5-5c74-8379-f2b5b9c01a89",
+        "subject": "Status changed to Closed",
+        "notetext": "Case closed",
+        "createdon": "2026-01-12T14:10:00+00:00",
+        "createdby": "data-services-team"
+      }
+    ]
+  }
+]

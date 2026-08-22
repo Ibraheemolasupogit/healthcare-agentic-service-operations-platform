@@ -13,7 +13,19 @@ Home for **synthetic data only**.
 - `cases.json` — the six deterministic synthetic case fixtures (with full
   audit history), one per service category
 
-Every file is regenerated identically by re-running the generator — nothing
+As of Milestone 3, [`integrations/examples.py`](../integrations/examples.py)
+(run via `python -m integrations.examples`) additionally generates:
+
+- `dynamics365_examples.json` — each of the six fixture cases translated to
+  a reference `DynamicsIncident` + timeline, each wrapped in an
+  `IntegrationEnvelope`
+- `salesforce_examples.json` — the same six cases translated to a reference
+  `SalesforceCase` + Chatter feed, each wrapped in an `IntegrationEnvelope`
+
+See [`docs/crm_schema_mapping.md`](../docs/crm_schema_mapping.md) for what
+every field in these two files means and how it was derived.
+
+Every file is regenerated identically by re-running its generator — nothing
 here is hand-authored, and none of it is fetched from a live system.
 
 **Rules for anything added here (see [`docs/governance.md`](../docs/governance.md)):**

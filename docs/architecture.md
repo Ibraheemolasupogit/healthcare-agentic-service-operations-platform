@@ -19,14 +19,23 @@ the full model and its diagrams.
 Each CRM is treated as an interchangeable implementation detail for case
 origination and agent-facing UI — not as the system of record for business
 process logic. A design should be able to describe "how would this look on
-the other platform?" without changing the process model. See
-[`docs/business_process.md`](business_process.md) §7 for the specific
-canonical-domain-vs-adapter boundary this implies for Milestone 3.
+the other platform?" without changing the process model. As of Milestone 3
+this is implemented, not just described: [`dynamics365/`](../dynamics365/)
+and [`salesforce/`](../salesforce/) are pure, deterministic reference
+adapters over the same canonical model — see
+[`docs/business_process.md`](business_process.md) §7 and
+[`docs/crm_schema_mapping.md`](crm_schema_mapping.md) for the field-by-field
+mapping and its boundary enforcement (`tests/test_adapter_boundary.py`).
 
 **API-first integration**
 Cross-system communication goes through [`integrations/`](../integrations/)
 service contracts, never direct database or UI-layer coupling between two
-platforms.
+platforms. [`integrations/envelope.py`](../integrations/envelope.py) defines
+the lightweight `IntegrationEnvelope` contract (source system, source record
+id, canonical case id, correlation id, schema version, timestamp, operation)
+that a payload travels with; [`integrations/examples.py`](../integrations/examples.py)
+shows where a future live connector would sit — no transport or message
+broker is implemented yet.
 
 **Loose coupling**
 Every bounded context is designed to be replaced independently — e.g.

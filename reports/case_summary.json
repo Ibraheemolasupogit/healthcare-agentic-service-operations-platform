@@ -1,0 +1,19 @@
+{
+  "generated_from": "business_process.fixtures.build_synthetic_cases",
+  "total_cases": 6,
+  "cases_by_stage": {
+    "Closed": 3,
+    "Escalated": 1,
+    "Pending": 1,
+    "Routed": 1
+  },
+  "cases_by_category": {
+    "Digital Support": 1,
+    "Clinical Equipment": 1,
+    "Facilities": 1,
+    "Access and Identity": 1,
+    "Application Support": 1,
+    "Data and Reporting": 1
+  },
+  "note": "Synthetic portfolio evidence only. See README Portfolio & Simulation Disclaimer."
+}

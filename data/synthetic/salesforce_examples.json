@@ -1,0 +1,520 @@
+[
+  {
+    "envelope": {
+      "source_system": "salesforce",
+      "source_record_id": "500736807CF02A65A4",
+      "canonical_case_id": "SR-DS-1001",
+      "correlation_id": "5514ab80-fbc3-591a-8d57-6765109f3d7f",
+      "schema_version": "1.0",
+      "timestamp": "2026-01-12T15:00:00+00:00",
+      "operation": "upsert"
+    },
+    "case": {
+      "id": "500736807CF02A65A4",
+      "case_number": "36197583",
+      "canonical_case_id": "SR-DS-1001",
+      "subject": "Laptop will not connect to corporate Wi-Fi",
+      "description": "Staff laptop repeatedly fails to authenticate against the corporate wireless network after a recent OS update.",
+      "priority": "Medium",
+      "status": "Closed",
+      "is_closed": true,
+      "owner_id": "00G614307A63524C32",
+      "queue_name": "Digital_Support_Queue",
+      "created_date": "2026-01-12T09:00:00+00:00",
+      "last_modified_date": "2026-01-12T10:40:00+00:00",
+      "entitlement_name": "Digital Support Medium Entitlement",
+      "milestones": [
+        {
+          "milestone_type": "First Response",
+          "target_date": "2026-01-12T11:00:00+00:00",
+          "is_violated": false,
+          "completion_date": null
+        },
+        {
+          "milestone_type": "Resolution",
+          "target_date": "2026-01-13T09:00:00+00:00",
+          "is_violated": false,
+          "completion_date": null
+        }
+      ],
+      "resolution_code": "Fixed",
+      "resolution_notes": "Reissued network profile; laptop reconnected successfully.",
+      "closed_date": "2026-01-12T10:40:00+00:00"
+    },
+    "feed": [
+      {
+        "feed_item_id": "0D543260579BCDD6B5",
+        "parent_id": "500736807CF02A65A4",
+        "body": "Case submitted in category 'Digital Support' with priority 'Medium'",
+        "created_by": "requestor",
+        "created_date": "2026-01-12T09:00:00+00:00",
+        "feed_item_type": "TextPost"
+      },
+      {
+        "feed_item_id": "0D51353C9F63EE98A7",
+        "parent_id": "500736807CF02A65A4",
+        "body": "Classified into 'Digital Support'",
+        "created_by": "intake-system",
+        "created_date": "2026-01-12T09:05:00+00:00",
+        "feed_item_type": "TextPost"
+      },
+      {
+        "feed_item_id": "0D506F7A3DC9A7EEC5",
+        "parent_id": "500736807CF02A65A4",
+        "body": "Routed to 'Digital Support' queue, owner 'digital-support-team'",
+        "created_by": "intake-system",
+        "created_date": "2026-01-12T09:05:00+00:00",
+        "feed_item_type": "TextPost"
+      },
+      {
+        "feed_item_id": "0D553B9CAF3A13E322",
+        "parent_id": "500736807CF02A65A4",
+        "body": "Work started",
+        "created_by": "digital-support-team",
+        "created_date": "2026-01-12T09:20:00+00:00",
+        "feed_item_type": "TextPost"
+      },
+      {
+        "feed_item_id": "0D5779C9E3FFE068A3",
+        "parent_id": "500736807CF02A65A4",
+        "body": "Resolved: Fixed",
+        "created_by": "digital-support-team",
+        "created_date": "2026-01-12T10:30:00+00:00",
+        "feed_item_type": "TextPost"
+      },
+      {
+        "feed_item_id": "0D55BDDA841A7B67A6",
+        "parent_id": "500736807CF02A65A4",
+        "body": "Case closed",
+        "created_by": "digital-support-team",
+        "created_date": "2026-01-12T10:40:00+00:00",
+        "feed_item_type": "TextPost"
+      }
+    ]
+  },
+  {
+    "envelope": {
+      "source_system": "salesforce",
+      "source_record_id": "500BC5D1EE5CC87D25",
+      "canonical_case_id": "SR-CE-1002",
+      "correlation_id": "de850f24-f9cd-531b-a85b-91470731d722",
+      "schema_version": "1.0",
+      "timestamp": "2026-01-12T15:00:00+00:00",
+      "operation": "upsert"
+    },
+    "case": {
+      "id": "500BC5D1EE5CC87D25",
+      "case_number": "60219365",
+      "canonical_case_id": "SR-CE-1002",
+      "subject": "Infusion pump fleet firmware advisory",
+      "description": "Manufacturer advisory received for an infusion pump model deployed across the trust; fleet firmware status needs review. No patient or usage data is involved.",
+      "priority": "Critical",
+      "status": "Escalated",
+      "is_closed": false,
+      "owner_id": "00G666CAD4B1ECBB47",
+      "queue_name": "Clinical_Technology_Queue",
+      "created_date": "2026-01-12T09:00:00+00:00",
+      "last_modified_date": "2026-01-12T14:00:00+00:00",
+      "entitlement_name": "Clinical Equipment Critical Entitlement",
+      "milestones": [
+        {
+          "milestone_type": "First Response",
+          "target_date": "2026-01-12T09:15:00+00:00",
+          "is_violated": false,
+          "completion_date": null
+        },
+        {
+          "milestone_type": "Resolution",
+          "target_date": "2026-01-12T11:00:00+00:00",
+          "is_violated": true,
+          "completion_date": null
+        }
+      ],
+      "resolution_code": null,
+      "resolution_notes": null,
+      "closed_date": null
+    },
+    "feed": [
+      {
+        "feed_item_id": "0D581E4A1909076367",
+        "parent_id": "500BC5D1EE5CC87D25",
+        "body": "Case submitted in category 'Clinical Equipment' with priority 'Critical'",
+        "created_by": "requestor",
+        "created_date": "2026-01-12T09:00:00+00:00",
+        "feed_item_type": "TextPost"
+      },
+      {
+        "feed_item_id": "0D546A613BF7690227",
+        "parent_id": "500BC5D1EE5CC87D25",
+        "body": "Classified into 'Clinical Equipment'",
+        "created_by": "intake-system",
+        "created_date": "2026-01-12T09:05:00+00:00",
+        "feed_item_type": "TextPost"
+      },
+      {
+        "feed_item_id": "0D5B8896394119A598",
+        "parent_id": "500BC5D1EE5CC87D25",
+        "body": "Routed to 'Clinical Technology' queue, owner 'clinical-technology-team'",
+        "created_by": "intake-system",
+        "created_date": "2026-01-12T09:05:00+00:00",
+        "feed_item_type": "TextPost"
+      },
+      {
+        "feed_item_id": "0D576471D9AB711CB3",
+        "parent_id": "500BC5D1EE5CC87D25",
+        "body": "Work started",
+        "created_by": "clinical-technology-team",
+        "created_date": "2026-01-12T09:15:00+00:00",
+        "feed_item_type": "TextPost"
+      },
+      {
+        "feed_item_id": "0D52F869D87390DBFD",
+        "parent_id": "500BC5D1EE5CC87D25",
+        "body": "Escalated: SLA resolution target breached",
+        "created_by": "clinical-technology-team",
+        "created_date": "2026-01-12T14:00:00+00:00",
+        "feed_item_type": "TextPost"
+      }
+    ]
+  },
+  {
+    "envelope": {
+      "source_system": "salesforce",
+      "source_record_id": "500C27A04AC07B66B6",
+      "canonical_case_id": "SR-FA-1003",
+      "correlation_id": "d58a10dc-7cb0-524b-8dde-ac88b497219d",
+      "schema_version": "1.0",
+      "timestamp": "2026-01-12T15:00:00+00:00",
+      "operation": "upsert"
+    },
+    "case": {
+      "id": "500C27A04AC07B66B6",
+      "case_number": "62776492",
+      "canonical_case_id": "SR-FA-1003",
+      "subject": "Meeting room air conditioning fault",
+      "description": "Air conditioning unit in a ground-floor meeting room is not cooling; an external contractor call-out is required.",
+      "priority": "Low",
+      "status": "On Hold",
+      "is_closed": false,
+      "owner_id": "00G6043F8BE8D09C49",
+      "queue_name": "Facilities_Operations_Queue",
+      "created_date": "2026-01-12T09:00:00+00:00",
+      "last_modified_date": "2026-01-12T11:00:00+00:00",
+      "entitlement_name": "Facilities Low Entitlement",
+      "milestones": [
+        {
+          "milestone_type": "First Response",
+          "target_date": "2026-01-12T17:00:00+00:00",
+          "is_violated": false,
+          "completion_date": null
+        },
+        {
+          "milestone_type": "Resolution",
+          "target_date": "2026-01-16T03:00:00+00:00",
+          "is_violated": false,
+          "completion_date": null
+        }
+      ],
+      "resolution_code": null,
+      "resolution_notes": null,
+      "closed_date": null
+    },
+    "feed": [
+      {
+        "feed_item_id": "0D5D9A210970B3B556",
+        "parent_id": "500C27A04AC07B66B6",
+        "body": "Case submitted in category 'Facilities' with priority 'Low'",
+        "created_by": "requestor",
+        "created_date": "2026-01-12T09:00:00+00:00",
+        "feed_item_type": "TextPost"
+      },
+      {
+        "feed_item_id": "0D595F70AC4D5BAAFA",
+        "parent_id": "500C27A04AC07B66B6",
+        "body": "Classified into 'Facilities'",
+        "created_by": "intake-system",
+        "created_date": "2026-01-12T09:10:00+00:00",
+        "feed_item_type": "TextPost"
+      },
+      {
+        "feed_item_id": "0D5535EA5EF65121BF",
+        "parent_id": "500C27A04AC07B66B6",
+        "body": "Routed to 'Facilities Operations' queue, owner 'facilities-operations-team'",
+        "created_by": "intake-system",
+        "created_date": "2026-01-12T09:10:00+00:00",
+        "feed_item_type": "TextPost"
+      },
+      {
+        "feed_item_id": "0D5CCDCB2E98FE8D7A",
+        "parent_id": "500C27A04AC07B66B6",
+        "body": "Work started",
+        "created_by": "facilities-operations-team",
+        "created_date": "2026-01-12T10:00:00+00:00",
+        "feed_item_type": "TextPost"
+      },
+      {
+        "feed_item_id": "0D5E7DAEF4D191DF65",
+        "parent_id": "500C27A04AC07B66B6",
+        "body": "Awaiting external contractor call-out slot.",
+        "created_by": "facilities-operations-team",
+        "created_date": "2026-01-12T11:00:00+00:00",
+        "feed_item_type": "TextPost"
+      }
+    ]
+  },
+  {
+    "envelope": {
+      "source_system": "salesforce",
+      "source_record_id": "50035F10F0F94768B2",
+      "canonical_case_id": "SR-AI-1004",
+      "correlation_id": "180c55e6-5dd6-52a2-8305-8f6399e46def",
+      "schema_version": "1.0",
+      "timestamp": "2026-01-12T15:00:00+00:00",
+      "operation": "upsert"
+    },
+    "case": {
+      "id": "50035F10F0F94768B2",
+      "case_number": "04990479",
+      "canonical_case_id": "SR-AI-1004",
+      "subject": "New starter access provisioning request",
+      "description": "Standard system access request for a new starter joining a clinical administration team, per the standard joiner checklist.",
+      "priority": "High",
+      "status": "Closed",
+      "is_closed": true,
+      "owner_id": "00G153E2EB9FB321D9",
+      "queue_name": "Identity_and_Access_Queue",
+      "created_date": "2026-01-12T09:00:00+00:00",
+      "last_modified_date": "2026-01-12T09:50:00+00:00",
+      "entitlement_name": "Access and Identity High Entitlement",
+      "milestones": [
+        {
+          "milestone_type": "First Response",
+          "target_date": "2026-01-12T09:30:00+00:00",
+          "is_violated": false,
+          "completion_date": null
+        },
+        {
+          "milestone_type": "Resolution",
+          "target_date": "2026-01-12T15:00:00+00:00",
+          "is_violated": false,
+          "completion_date": null
+        }
+      ],
+      "resolution_code": "Fixed",
+      "resolution_notes": "Standard access profile provisioned per joiner checklist.",
+      "closed_date": "2026-01-12T09:50:00+00:00"
+    },
+    "feed": [
+      {
+        "feed_item_id": "0D53741D50C4DBA655",
+        "parent_id": "50035F10F0F94768B2",
+        "body": "Case submitted in category 'Access and Identity' with priority 'High'",
+        "created_by": "requestor",
+        "created_date": "2026-01-12T09:00:00+00:00",
+        "feed_item_type": "TextPost"
+      },
+      {
+        "feed_item_id": "0D576CC2E524337E29",
+        "parent_id": "50035F10F0F94768B2",
+        "body": "Classified into 'Access and Identity'",
+        "created_by": "intake-system",
+        "created_date": "2026-01-12T09:05:00+00:00",
+        "feed_item_type": "TextPost"
+      },
+      {
+        "feed_item_id": "0D5B1B4E230A542E6E",
+        "parent_id": "50035F10F0F94768B2",
+        "body": "Routed to 'Identity and Access' queue, owner 'identity-access-team'",
+        "created_by": "intake-system",
+        "created_date": "2026-01-12T09:05:00+00:00",
+        "feed_item_type": "TextPost"
+      },
+      {
+        "feed_item_id": "0D5DF80045D57C04A0",
+        "parent_id": "50035F10F0F94768B2",
+        "body": "Work started",
+        "created_by": "identity-access-team",
+        "created_date": "2026-01-12T09:30:00+00:00",
+        "feed_item_type": "TextPost"
+      },
+      {
+        "feed_item_id": "0D51F5272EA010BB2B",
+        "parent_id": "50035F10F0F94768B2",
+        "body": "Resolved: Fixed",
+        "created_by": "identity-access-team",
+        "created_date": "2026-01-12T09:45:00+00:00",
+        "feed_item_type": "TextPost"
+      },
+      {
+        "feed_item_id": "0D5C4AE5604CBD69F8",
+        "parent_id": "50035F10F0F94768B2",
+        "body": "Case closed",
+        "created_by": "identity-access-team",
+        "created_date": "2026-01-12T09:50:00+00:00",
+        "feed_item_type": "TextPost"
+      }
+    ]
+  },
+  {
+    "envelope": {
+      "source_system": "salesforce",
+      "source_record_id": "5001DA83BF2C12AA85",
+      "canonical_case_id": "SR-AS-1005",
+      "correlation_id": "d4b514cd-fba9-5a82-af3a-cd44e495cb1c",
+      "schema_version": "1.0",
+      "timestamp": "2026-01-12T15:00:00+00:00",
+      "operation": "upsert"
+    },
+    "case": {
+      "id": "5001DA83BF2C12AA85",
+      "case_number": "97564658",
+      "canonical_case_id": "SR-AS-1005",
+      "subject": "Rostering application intermittent timeout",
+      "description": "Line-of-business rostering application intermittently times out when generating weekly rota exports.",
+      "priority": "Medium",
+      "status": "Routed",
+      "is_closed": false,
+      "owner_id": "00G4FD331C912566B9",
+      "queue_name": "Applications_Queue",
+      "created_date": "2026-01-12T09:00:00+00:00",
+      "last_modified_date": "2026-01-12T09:08:00+00:00",
+      "entitlement_name": "Application Support Medium Entitlement",
+      "milestones": [
+        {
+          "milestone_type": "First Response",
+          "target_date": "2026-01-12T11:00:00+00:00",
+          "is_violated": true,
+          "completion_date": null
+        },
+        {
+          "milestone_type": "Resolution",
+          "target_date": "2026-01-13T09:00:00+00:00",
+          "is_violated": false,
+          "completion_date": null
+        }
+      ],
+      "resolution_code": null,
+      "resolution_notes": null,
+      "closed_date": null
+    },
+    "feed": [
+      {
+        "feed_item_id": "0D5E8B93D667B4BFB7",
+        "parent_id": "5001DA83BF2C12AA85",
+        "body": "Case submitted in category 'Application Support' with priority 'Medium'",
+        "created_by": "requestor",
+        "created_date": "2026-01-12T09:00:00+00:00",
+        "feed_item_type": "TextPost"
+      },
+      {
+        "feed_item_id": "0D58D70A58C6D2992D",
+        "parent_id": "5001DA83BF2C12AA85",
+        "body": "Classified into 'Application Support'",
+        "created_by": "intake-system",
+        "created_date": "2026-01-12T09:08:00+00:00",
+        "feed_item_type": "TextPost"
+      },
+      {
+        "feed_item_id": "0D56B77F814885E64F",
+        "parent_id": "5001DA83BF2C12AA85",
+        "body": "Routed to 'Applications' queue, owner 'applications-team'",
+        "created_by": "intake-system",
+        "created_date": "2026-01-12T09:08:00+00:00",
+        "feed_item_type": "TextPost"
+      }
+    ]
+  },
+  {
+    "envelope": {
+      "source_system": "salesforce",
+      "source_record_id": "500077F62273F7BD62",
+      "canonical_case_id": "SR-DR-1006",
+      "correlation_id": "35c15049-44e4-5ac1-acdf-4a98a7a813dc",
+      "schema_version": "1.0",
+      "timestamp": "2026-01-12T15:00:00+00:00",
+      "operation": "upsert"
+    },
+    "case": {
+      "id": "500077F62273F7BD62",
+      "case_number": "25788711",
+      "canonical_case_id": "SR-DR-1006",
+      "subject": "Monthly synthetic activity report export request",
+      "description": "Request for a scheduled export of aggregate, non-identifiable monthly service activity figures for internal review.",
+      "priority": "Low",
+      "status": "Closed",
+      "is_closed": true,
+      "owner_id": "00GC2C55FE3825F285",
+      "queue_name": "Data_Services_Queue",
+      "created_date": "2026-01-12T09:00:00+00:00",
+      "last_modified_date": "2026-01-12T14:10:00+00:00",
+      "entitlement_name": "Data and Reporting Low Entitlement",
+      "milestones": [
+        {
+          "milestone_type": "First Response",
+          "target_date": "2026-01-12T17:00:00+00:00",
+          "is_violated": false,
+          "completion_date": null
+        },
+        {
+          "milestone_type": "Resolution",
+          "target_date": "2026-01-16T21:00:00+00:00",
+          "is_violated": false,
+          "completion_date": null
+        }
+      ],
+      "resolution_code": "No Action Required",
+      "resolution_notes": "Report already covered by an existing scheduled export; requestor notified.",
+      "closed_date": "2026-01-12T14:10:00+00:00"
+    },
+    "feed": [
+      {
+        "feed_item_id": "0D5FF3F162B1DCC1DD",
+        "parent_id": "500077F62273F7BD62",
+        "body": "Case submitted in category 'Data and Reporting' with priority 'Low'",
+        "created_by": "requestor",
+        "created_date": "2026-01-12T09:00:00+00:00",
+        "feed_item_type": "TextPost"
+      },
+      {
+        "feed_item_id": "0D52E3853D9AE00595",
+        "parent_id": "500077F62273F7BD62",
+        "body": "Classified into 'Data and Reporting'",
+        "created_by": "intake-system",
+        "created_date": "2026-01-12T09:15:00+00:00",
+        "feed_item_type": "TextPost"
+      },
+      {
+        "feed_item_id": "0D5CDA6812FE7C8BDC",
+        "parent_id": "500077F62273F7BD62",
+        "body": "Routed to 'Data Services' queue, owner 'data-services-team'",
+        "created_by": "intake-system",
+        "created_date": "2026-01-12T09:15:00+00:00",
+        "feed_item_type": "TextPost"
+      },
+      {
+        "feed_item_id": "0D5D74D70C36D73525",
+        "parent_id": "500077F62273F7BD62",
+        "body": "Work started",
+        "created_by": "data-services-team",
+        "created_date": "2026-01-12T13:00:00+00:00",
+        "feed_item_type": "TextPost"
+      },
+      {
+        "feed_item_id": "0D5A8B68A4F6335F92",
+        "parent_id": "500077F62273F7BD62",
+        "body": "Resolved: No Action Required",
+        "created_by": "data-services-team",
+        "created_date": "2026-01-12T14:00:00+00:00",
+        "feed_item_type": "TextPost"
+      },
+      {
+        "feed_item_id": "0D5AE578F43D23BA18",
+        "parent_id": "500077F62273F7BD62",
+        "body": "Case closed",
+        "created_by": "data-services-team",
+        "created_date": "2026-01-12T14:10:00+00:00",
+        "feed_item_type": "TextPost"
+      }
+    ]
+  }
+]

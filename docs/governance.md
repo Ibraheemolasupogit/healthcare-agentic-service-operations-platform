@@ -42,6 +42,13 @@ and escalation. This is the audit data shape only — durable storage,
 tamper-evidence, and cross-case audit review/reporting remain
 [`governance/`](../governance/) responsibilities for a later milestone.
 
+As of Milestone 3, "least privilege" is also concretely demonstrated at the
+integration boundary: [`dynamics365/`](../dynamics365/) and
+[`salesforce/`](../salesforce/) hold no credentials, no SDK client, and no
+network access at all — they are pure functions over data already in
+memory. Least privilege for a *live* connector (what it may read/write, and
+under what identity) is a Milestone 6 concern once real transport exists.
+
 ## Data governance
 
 All data anywhere in this repository — code fixtures, docs examples, anything

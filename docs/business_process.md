@@ -152,17 +152,23 @@ Everything in `business_process/` — `ServiceCategory`, `CaseStage`,
 the single source of truth for what a case *is* and how it behaves. It has
 no dependency on, or knowledge of, Dynamics 365 or Salesforce.
 
-When Milestone 3 introduces Dynamics 365 and Salesforce bounded contexts,
-the expected shape is an **adapter**, in each platform's own directory, that:
+**As of Milestone 3**, [`dynamics365/`](../dynamics365/) and
+[`salesforce/`](../salesforce/) implement exactly this: an **adapter**, in
+each platform's own directory, that:
 
 - maps `Case`/`CaseEvent` onto that platform's entities (Dataverse
-  tables for Dynamics 365, standard/custom objects for Salesforce Service
-  Cloud);
-- translates the platform's native events into calls against
-  `business_process.service` functions (or a thin API in front of them),
-  never re-implementing lifecycle, routing, or SLA rules independently;
+  `incident`/timeline for Dynamics 365, `Case`/Chatter feed for Salesforce
+  Service Cloud) via pure, typed translation functions (`to_dynamics_incident`,
+  `to_salesforce_case`, ...);
+- accepts already-decided canonical values (stage, priority, queue, SLA due
+  dates/breach flags) as plain arguments — it never imports or calls a
+  `business_process` decision function (`validate_transition`,
+  `should_escalate`, `evaluate_sla`, `route_category`, ...) to derive them
+  itself. `tests/test_adapter_boundary.py` enforces this at the source-code
+  level, not just by convention;
 - can be replaced by the *other* platform's adapter without changing
-  anything in `business_process/`.
+  anything in `business_process/` — see [`docs/crm_schema_mapping.md`](crm_schema_mapping.md)
+  for the full field-by-field mapping and every documented non-1:1 caveat.
 
 Concretely, this means:
 
@@ -175,7 +181,11 @@ Concretely, this means:
   authentication, platform-native automation) stay entirely inside their own
   bounded context.
 
-This boundary is what allows Milestone 3 to build *both* a Dynamics 365 and
-a Salesforce reference mapping onto the *same* underlying model, demonstrating
+This boundary is what let Milestone 3 build *both* a Dynamics 365 and a
+Salesforce reference mapping onto the *same* underlying model, demonstrating
 platform-neutral architecture rather than a Dynamics-shaped or
-Salesforce-shaped domain model in disguise.
+Salesforce-shaped domain model in disguise. [`integrations/`](../integrations/)
+shows where a future live connector would sit around both adapters, wrapping
+their output in an `IntegrationEnvelope` — see
+[`docs/crm_schema_mapping.md`](crm_schema_mapping.md) "How a future API
+connector would sit around these adapters".

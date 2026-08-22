@@ -6,8 +6,8 @@
 > run against a live Dynamics 365 or Salesforce tenant. See the
 > [Portfolio & Simulation Disclaimer](#10-portfolio--simulation-disclaimer) below.
 
-**Status:** Milestone 2 — Business Process Modelling & Platform-Neutral Service
-Operations Model (see [§9](#9-current-implementation-status)).
+**Status:** Milestone 3 — Dynamics 365 and Salesforce CRM Adapter Architecture
+(see [§9](#9-current-implementation-status)).
 
 ---
 
@@ -85,7 +85,9 @@ future channel implement the *same* business process rather than inventing their
 Each case also carries a priority, a configurable SLA target, deterministic
 queue/owner routing, an audit trail, and a resolution outcome — see
 [`docs/business_process.md`](docs/business_process.md) for the full model,
-including the case lifecycle and routing diagrams.
+including the case lifecycle and routing diagrams. [`dynamics365/`](dynamics365/)
+and [`salesforce/`](salesforce/) now translate this same canonical case into
+each CRM's own concepts — see [`docs/crm_schema_mapping.md`](docs/crm_schema_mapping.md).
 
 ## 3. Target Capabilities
 
@@ -177,12 +179,12 @@ principles and their rationale.
 
 ## 5. Technology Landscape
 
-| Layer                     | Representative Technology                          | Role in this repository (Milestone 1) |
+| Layer                     | Representative Technology                          | Role in this repository |
 |---------------------------|------------------------------------------------------|----------------------------------------|
-| CRM / Case Management     | Dynamics 365 Customer Service, Salesforce Service Cloud | Bounded contexts with placeholder docs; no live tenants |
+| CRM / Case Management     | Dynamics 365 Customer Service, Salesforce Service Cloud | **Implemented as reference adapters** — deterministic translation only; no SDK, no live tenant |
 | Low-code Automation       | Power Platform (Power Apps, Power Automate, Dataverse) | Bounded context with placeholder docs |
 | Conversational / Agentic AI | Copilot Studio, agentic AI patterns                 | Bounded context with placeholder docs |
-| Integration                | API-first services, event/message patterns          | Bounded context with placeholder docs |
+| Integration                | API-first services, event/message patterns          | **Partially implemented** — `IntegrationEnvelope` contract + deterministic example generator; no transport/broker yet |
 | Analytics                  | Microsoft Fabric, Power BI                           | Bounded context with placeholder docs |
 | Business Process           | Platform-neutral Python domain model                | **Implemented** — taxonomy, lifecycle rules, priority, queues/routing, SLA, escalation, audit trail, synthetic fixtures |
 | Governance                 | Audit/access design patterns                         | Bounded context with placeholder docs |
@@ -199,18 +201,18 @@ exist yet.
 ```
 healthcare-agentic-service-operations-platform/
 ├── business_process/     # Canonical service operations model (case, lifecycle, SLA, routing) — implemented
-├── dynamics365/           # Dynamics 365 Customer Service bounded context — placeholder
-├── salesforce/            # Salesforce Service Cloud bounded context — placeholder
+├── dynamics365/           # Dynamics 365 / Dataverse reference adapter — implemented (deterministic, no SDK)
+├── salesforce/            # Salesforce Service Cloud reference adapter — implemented (deterministic, no SDK)
 ├── power_platform/        # Power Platform (Power Apps/Automate/Dataverse) — placeholder
 ├── copilot/                # Copilot Studio conversational AI — placeholder
 ├── ai/                      # Agentic AI patterns and guardrails — placeholder
 ├── analytics/              # Fabric / Power BI analytics — placeholder
-├── integrations/           # API-first integration layer — placeholder
+├── integrations/           # IntegrationEnvelope contract + example generator — partially implemented
 ├── governance/             # Audit, access, and responsible-AI controls — placeholder
 ├── data/                    # Synthetic data only — generated fixtures/config (data/synthetic/)
 ├── outputs/                 # Generated artefacts (git-ignored contents)
-├── reports/                 # Generated reports (git-ignored contents)
-├── docs/                    # Extended architecture, business process, governance, and roadmap docs
+├── reports/                 # Generated reports (case_summary.json tracked; rest git-ignored)
+├── docs/                    # Extended architecture, business process, CRM schema mapping, governance, and roadmap docs
 ├── tests/                   # Automated tests
 ├── .github/workflows/       # CI pipeline
 ├── Dockerfile
@@ -219,20 +221,21 @@ healthcare-agentic-service-operations-platform/
 └── README.md
 ```
 
-Each placeholder domain contains a short `README.md` explaining its intended scope
-and current (unimplemented) status — no fabricated connectors, credentials, or SaaS
-assets are included.
+Each still-placeholder domain contains a short `README.md` explaining its
+intended scope and current (unimplemented) status — no fabricated
+connectors, credentials, or SaaS assets are included anywhere in the
+repository, implemented or not.
 
 ## 7. Delivery Roadmap
 
 | Milestone | Scope | Status |
 |-----------|-------|--------|
 | 1 | Repository foundation: architecture, structure, engineering baseline, CI | Done |
-| 2 | Platform-neutral business process implementation (case model, lifecycle rules, priority, queues/routing, SLA, escalation, audit trail, synthetic fixtures) | **This milestone** |
-| 3 | Dynamics 365 and Salesforce bounded-context reference implementations (design artefacts / metadata, not live tenants) | Planned |
+| 2 | Platform-neutral business process implementation (case model, lifecycle rules, priority, queues/routing, SLA, escalation, audit trail, synthetic fixtures) | Done |
+| 3 | Dynamics 365 and Salesforce CRM adapter architecture (deterministic reference mappings, schema documentation, integration envelope) | **This milestone** |
 | 4 | Power Platform automation patterns (Power Automate flow designs, Dataverse schema) | Planned |
 | 5 | Copilot Studio & agentic AI patterns with human-in-the-loop controls | Planned |
-| 6 | Integration layer (API-first service contracts) | Planned |
+| 6 | Live integration transport (API client/message mechanism around the Milestone 3 `IntegrationEnvelope` contract) | Planned |
 | 7 | Fabric / Power BI analytics over synthetic case data | Planned |
 | 8 | Governance, audit trail, and responsible-AI controls hardening | Planned |
 
@@ -278,10 +281,10 @@ See [`docs/governance.md`](docs/governance.md) for extended rationale.
 - ✅ Engineering baseline: `pyproject.toml`, `requirements.txt`, `.gitignore`,
   `Dockerfile`, GitHub Actions CI (lint, type-check, test)
 
-**Implemented (Milestone 2 — this milestone — Business Process Modelling &
-Platform-Neutral Service Operations Model):**
+**Implemented (Milestone 2 — Business Process Modelling & Platform-Neutral
+Service Operations Model):**
 
-- ✅ Platform-neutral service taxonomy and case lifecycle, now with **explicit,
+- ✅ Platform-neutral service taxonomy and case lifecycle, with **explicit,
   enforced transition rules** (`business_process/lifecycle.py`) — invalid
   moves are rejected deterministically, not silently accepted
 - ✅ Case priority (`Priority`), deterministic queue/routing model
@@ -296,22 +299,66 @@ Platform-Neutral Service Operations Model):**
   spanning every service category (`fixtures.py`), generated into
   [`data/synthetic/`](data/synthetic/) and [`reports/`](reports/) by
   [`business_process/evidence.py`](business_process/evidence.py)
-- ✅ Expanded documentation: [`docs/business_process.md`](docs/business_process.md)
-  (service operating model, lifecycle diagram, routing diagram, SLA model,
-  escalation model, roles/responsibilities, and the canonical-domain-vs-
-  platform-adapter boundary)
-- ✅ Comprehensive automated tests (case creation, transitions, rejected
-  invalid transitions, SLA/priority behaviour, routing, escalation,
-  deterministic fixtures, serialization)
+- ✅ [`docs/business_process.md`](docs/business_process.md) (service
+  operating model, lifecycle diagram, routing diagram, SLA model, escalation
+  model, roles/responsibilities, and the canonical-domain-vs-platform-adapter
+  boundary)
+
+**Implemented (Milestone 3 — this milestone — Dynamics 365 and Salesforce
+CRM Adapter Architecture):**
+
+- ✅ Canonical service operations model — unchanged, still the single
+  source of truth (see above)
+- ✅ Deterministic Dynamics 365 / Dataverse reference adapter
+  ([`dynamics365/`](dynamics365/)) — typed models, explicit mapping
+  tables, pure `to_dynamics_incident()`/`to_dynamics_timeline()`
+  translation, and safe reverse mappings (priority, stage, queue) with
+  `UnsupportedDynamicsValueError` for unmapped values. No SDK, no live
+  tenant, no credentials.
+- ✅ Deterministic Salesforce Service Cloud reference adapter
+  ([`salesforce/`](salesforce/)) — the same pattern: typed models, explicit
+  mapping tables, pure `to_salesforce_case()`/`to_salesforce_feed()`
+  translation, safe reverse mappings, `UnsupportedSalesforceValueError`.
+  No SDK/API client, no live org, no credentials.
+- ✅ Every non-1:1 mapping documented, not glossed over — see
+  [`docs/crm_schema_mapping.md`](docs/crm_schema_mapping.md) (e.g. Dynamics
+  collapsing `RESOLVED`/`CLOSED` onto one native state; both platforms'
+  out-of-the-box 3-value priority picklists needing a documented 4-value
+  extension to avoid lossy collapse).
+- ✅ Lightweight `IntegrationEnvelope` contract and a deterministic
+  cross-CRM example generator ([`integrations/`](integrations/)) — source
+  system, source record id, canonical case id, correlation id, schema
+  version, timestamp, operation. No message broker or transport.
+- ✅ **Enforced architecture boundary**: neither adapter imports a
+  `business_process` decision function (`validate_transition`,
+  `should_escalate`, `evaluate_sla`, `route_category`, ...) —
+  `tests/test_adapter_boundary.py` checks this via source-code inspection,
+  not just convention.
+- ✅ Deterministic synthetic examples for all 6 fixture cases in both CRM
+  representations, tracked at
+  [`data/synthetic/dynamics365_examples.json`](data/synthetic/dynamics365_examples.json)
+  and [`data/synthetic/salesforce_examples.json`](data/synthetic/salesforce_examples.json)
+- ✅ Fixed a Milestone 2 evidence-tracking gap: `reports/case_summary.json`
+  is now explicitly un-ignored (narrow `.gitignore` exception) rather than
+  silently excluded — see [`reports/README.md`](reports/README.md)
+- ✅ Comprehensive automated tests (canonical↔Dynamics mapping,
+  canonical↔Salesforce mapping, enum/status/priority conversion,
+  unsupported values, deterministic identifiers, canonical case identity
+  preservation, and the no-reimplementation boundary)
 
 **Not yet implemented (later milestones):**
 
-- ❌ No Dynamics 365, Salesforce, Power Platform, or Copilot Studio integration code
+- ❌ No live Dataverse integration (SDK, authentication, or a connected app)
+- ❌ No live Salesforce integration (SDK/API client, authentication, or a connected app)
+- ❌ No webhooks, in either direction
+- ❌ No Power Platform automation (Power Automate, Power Apps)
+- ❌ No Copilot Studio implementation
 - ❌ No agentic AI or LLM-based triage implementation
+- ❌ No message broker, event platform, or live transport for `IntegrationEnvelope`
 - ❌ No Fabric/Power BI analytics implementation
 - ❌ No persistence layer, workflow engine, or scheduler — `business_process/`
   models the business rules only, not a running system
-- ❌ No deployment of any kind
+- ❌ No deployment of any kind, and no production readiness claimed anywhere
 
 ## 10. Portfolio & Simulation Disclaimer
 
