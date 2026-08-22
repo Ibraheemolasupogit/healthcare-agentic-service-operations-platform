@@ -51,7 +51,7 @@ checks the reference integration schema version, expected audience, and
 `integration:deliver` scope. [`governance/attestations.py`](../governance/attestations.py)
 adds a synthetic access attestation for integration service identities.
 
-## What's still not implemented
+## Future Live Extensions Outside This Reference Scope
 
 No public production API, live webhook endpoint, HTTP client, message queue,
 event bus, production OAuth/token exchange, Azure Service Bus/Event Grid,
@@ -59,7 +59,7 @@ live monitoring backend, production custom connector implementation, or
 connection to a live Dynamics 365, Salesforce, Power Platform, or Dataverse
 environment. See
 [`docs/roadmap.md`](../docs/roadmap.md) and the root
-[README's current implementation status](../README.md#9-current-implementation-status).
+[`README.md`](../README.md).
 
 ## How idempotency and external IDs fit in
 

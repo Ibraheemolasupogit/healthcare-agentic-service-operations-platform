@@ -29,5 +29,5 @@ narrow `!reports/<file>` exception in [`.gitignore`](../.gitignore) — do not
 broadly unignore this directory.
 
 Nothing in this directory should ever be presented as evidence of a
-live/production system; see the
-[Portfolio & Simulation Disclaimer](../README.md#10-portfolio--simulation-disclaimer).
+live/production system; see the portfolio scope statement in the
+[root README](../README.md#portfolio-scope).

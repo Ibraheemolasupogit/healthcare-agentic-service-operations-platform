@@ -46,4 +46,4 @@ full field-by-field table. Two points worth noting:
 Live Salesforce connectivity, authentication (OAuth/Connected App), Apex,
 platform events/webhooks, or any write-back to a real org. See
 [`docs/roadmap.md`](../docs/roadmap.md) and the root
-[README's current implementation status](../README.md#9-current-implementation-status).
+[`README.md`](../README.md).

@@ -2,9 +2,9 @@
 
 This document expands on the roadmap summary in the
 [root README](../README.md#7-delivery-roadmap). Scope and sequencing below are
-indicative and may evolve as the portfolio project progresses. Milestones 1-8
-are implemented in this repository; no live deployment milestone is committed
-or scheduled against dates.
+indicative and may evolve as the portfolio project progresses. Milestones 1-9
+are complete for the portfolio reference implementation; no live deployment
+milestone is committed or scheduled against dates.
 
 ## Milestone 1 — Repository Foundation *(done)*
 
@@ -97,3 +97,18 @@ operational-readiness checklist, and final assurance reporting. This milestone
 does not deploy live infrastructure or claim production readiness,
 regulatory compliance, real access reviews, immutable enterprise audit, or
 production monitoring.
+
+## Milestone 9 — Final Portfolio Polish and Reviewer Experience *(done)*
+
+External-reviewer polish: concise root README, evidence index, architecture
+decision index, clearer capability matrix, reviewer journey, and cleanup of
+stale milestone wording. This milestone adds no major subsystem and does not
+change the reference implementation architecture.
+
+## Future Live Deployment Extensions *(outside reference scope)*
+
+Potential future work would require actual licensed environments and
+organisation-specific controls: live Dataverse and Salesforce integrations,
+Power Platform deployment, live Copilot Studio deployment, Azure OpenAI or
+Foundry runtime, Fabric deployment, production IAM/secrets/SIEM, production
+observability, formal approvals, and operational support.

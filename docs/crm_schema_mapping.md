@@ -9,7 +9,7 @@ expands on the boundary described in
 **Scope reminder:** every mapping below is a reference/illustrative
 representation implemented as plain Python — no SDK, no live tenant, no
 credentials, no fabricated API responses. See the
-[Portfolio & Simulation Disclaimer](../README.md#10-portfolio--simulation-disclaimer).
+[portfolio scope statement](../README.md#portfolio-scope).
 
 ## Why a common canonical model is useful
 
@@ -81,7 +81,8 @@ adapters means:
 
 **No adapter computes SLA due dates or breach state.** `to_dynamics_incident()`
 and `to_salesforce_case()` accept them as plain optional keyword arguments;
-the caller (in this milestone, [`integrations/examples.py`](../integrations/examples.py))
+the caller (in the Milestone 3 evidence generator,
+[`integrations/examples.py`](../integrations/examples.py))
 gets them from `business_process.sla.evaluate_sla()` first. See "Critical
 architecture rule" in the root README and `tests/test_adapter_boundary.py`.
 
@@ -89,7 +90,7 @@ architecture rule" in the root README and `tests/test_adapter_boundary.py`.
 
 | Canonical field | Dynamics 365 / Dataverse | Salesforce | Required? | Conversion rule | Lossy? | Caveats |
 |---|---|---|---|---|---|---|
-| `CaseEvent` (one per audit entry) | `DynamicsTimelineEntry` — a generic `annotation`-style record | `SalesforceFeedItem` — a generic Chatter `FeedItem` (`Type="TextPost"`) | N/A (list, can be empty) | One adapter record per `CaseEvent`, in order | Yes (representation, not content) | **Neither platform has one native "generic audit event" entity.** Dataverse's real Case Timeline aggregates `annotation` notes plus `task`/`phonecall`/`email` activities; Salesforce's real case timeline aggregates `CaseComment`, `FeedItem`/`FeedComment`, and activities. Both adapters collapse every `CaseEvent` onto a single representative shape for simplicity — a real integration would likely need to choose a more specific native type per event, which this milestone does not attempt. |
+| `CaseEvent` (one per audit entry) | `DynamicsTimelineEntry` — a generic `annotation`-style record | `SalesforceFeedItem` — a generic Chatter `FeedItem` (`Type="TextPost"`) | N/A (list, can be empty) | One adapter record per `CaseEvent`, in order | Yes (representation, not content) | **Neither platform has one native "generic audit event" entity.** Dataverse's real Case Timeline aggregates `annotation` notes plus `task`/`phonecall`/`email` activities; Salesforce's real case timeline aggregates `CaseComment`, `FeedItem`/`FeedComment`, and activities. Both adapters collapse every `CaseEvent` onto a single representative shape for simplicity — a real integration would likely need to choose a more specific native type per event, which this reference adapter does not attempt. |
 | `CaseEvent.detail` | `notetext` | `body` | Required | Copied verbatim | No | — |
 | `CaseEvent.actor` | `createdby` (adapter field; real Dataverse `createdby` is a `systemuser` lookup) | `created_by` (adapter field; real Salesforce `CreatedById` is a `User` lookup) | Required | Copied verbatim | No | Canonical actors are role/team strings, never named individuals — see [`docs/business_process.md`](business_process.md) §6. |
 
@@ -121,7 +122,7 @@ Salesforce custom field with no canonical equivalent — belong:
 ## Idempotency and external IDs
 
 `Case.case_id` (e.g. `"SR-DS-1001"`) is the one identity that must stay
-stable across every system. The pattern this milestone's reference adapters
+stable across every system. The pattern Milestone 3 reference adapters
 are built for:
 
 - **Dynamics 365**: use `ticketnumber` (not `incidentid`) as the external

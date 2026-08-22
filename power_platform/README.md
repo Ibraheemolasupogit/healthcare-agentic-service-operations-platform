@@ -7,7 +7,7 @@ model.
 reference specifications only.** No live Power Platform environment,
 deployed flow, Dataverse connection, or credential. See
 [`docs/architecture.md`](../docs/architecture.md) for the end-to-end diagram
-and the [root README](../README.md#9-current-implementation-status) for what
+and the [root README](../README.md) for what
 is/isn't implemented.
 
 ## Module map
@@ -50,7 +50,8 @@ Power Platform artefacts **orchestrate** these — they never redefine them:
   branch on state a prior canonical/adapter/connector step already produced.
 - SLA due dates and breach flags are never computed inside `power_platform`
   — they are supplied as plain values by whatever calls the connector
-  operations (in this milestone, [`integrations/examples.py`](../integrations/examples.py)-style
+  operations (in the Milestone 4 reference examples,
+  [`integrations/examples.py`](../integrations/examples.py)-style
   orchestration inside `power_platform/connectors.py`'s own example builders,
   which call `business_process.sla` only to build **documentation examples**,
   never to make a workflow-time decision).

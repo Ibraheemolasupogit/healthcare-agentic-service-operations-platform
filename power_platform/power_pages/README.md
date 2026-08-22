@@ -40,7 +40,7 @@ configuration is built** — this is a documented architecture only.
   [`docs/crm_schema_mapping.md`](../../docs/crm_schema_mapping.md)).
 - **No unrestricted case data is ever publicly exposed** — this is an
   explicit non-goal of this architecture, consistent with the
-  [Portfolio & Simulation Disclaimer](../../README.md#10-portfolio--simulation-disclaimer)
+  [portfolio scope statement](../../README.md#portfolio-scope)
   and the synthetic-data-only principle in
   [`docs/governance.md`](../../docs/governance.md).
 

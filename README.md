@@ -1,588 +1,216 @@
 # Healthcare Agentic Service Operations Platform
 
-> **Portfolio project.** A synthetic, architecture-first demonstration of enterprise
-> business solution design for healthcare-style service operations. It is **not**
-> connected to any real NHS system, does not process real patient data, and does not
-> run against a live Dynamics 365, Salesforce, Power Platform, Copilot Studio,
-> Fabric, or Power BI tenant/workspace. See the
-> [Portfolio & Simulation Disclaimer](#10-portfolio--simulation-disclaimer) below.
+Synthetic enterprise healthcare service-operations reference platform showing how
+canonical service management, CRM adapters, Power Platform automation, Copilot
+Studio-style experiences, bounded agentic AI, integration reliability, Fabric-style
+analytics, governance, and release assurance can fit together without burying
+business rules inside SaaS tools or generated text.
 
-**Status:** Milestone 6 — Fabric Analytics and Operational Intelligence
-(see [§9](#9-current-implementation-status)).
+This is a portfolio/reference implementation. It uses fictional healthcare
+service-operation data only. It is not connected to the NHS or any real healthcare
+provider, and it does not run against live Dynamics 365, Salesforce, Power Platform,
+Copilot Studio, Azure OpenAI, Microsoft Fabric, or Power BI environments.
 
----
+## What It Demonstrates
 
-## Table of Contents
+The repository models a fictional healthcare provider service desk handling:
 
-1. [Business Problem](#1-business-problem)
-2. [Synthetic Healthcare Scenario](#2-synthetic-healthcare-scenario)
-3. [Target Capabilities](#3-target-capabilities)
-4. [High-Level Solution Architecture](#4-high-level-solution-architecture)
-5. [Technology Landscape](#5-technology-landscape)
-6. [Repository Structure](#6-repository-structure)
-7. [Delivery Roadmap](#7-delivery-roadmap)
-8. [Governance & Responsible AI Principles](#8-governance--responsible-ai-principles)
-9. [Current Implementation Status](#9-current-implementation-status)
-10. [Portfolio & Simulation Disclaimer](#10-portfolio--simulation-disclaimer)
+- digital support
+- facilities requests
+- clinical-equipment servicing
+- identity and access requests
+- application support
+- data and reporting requests
 
----
+It addresses common service-operation problems: fragmented CRM processes, manual
+routing, inconsistent SLA handling, weak escalation evidence, unclear AI
+accountability, integration retries/duplicates, analytics lineage, and release
+governance.
 
-## 1. Business Problem
+## Reference Implementation Includes
 
-Large healthcare provider organisations run internal service operations — digital
-support, clinical equipment logistics, facilities requests, access and identity
-management, application support, and data/reporting requests — across a mix of
-case-management platforms (e.g. Dynamics 365 Customer Service, Salesforce Service
-Cloud), low-code automation (Power Platform), and, increasingly, conversational and
-agentic AI (Copilot Studio, autonomous agents).
+- canonical healthcare service operations in [`business_process/`](business_process/)
+- Dynamics 365 Customer Service reference adapter in [`dynamics365/`](dynamics365/)
+- Salesforce Service Cloud reference adapter in [`salesforce/`](salesforce/)
+- Power Automate workflow specs, Power Apps/Power Pages architecture, and connector
+  contracts in [`power_platform/`](power_platform/)
+- Copilot Studio reference topics in [`copilot/`](copilot/)
+- bounded agentic AI, deterministic knowledge retrieval, prompt metadata, safety
+  checks, and evaluation in [`ai/`](ai/)
+- integration envelope, webhook processing, idempotency, retry, reconciliation, and
+  observability in [`integrations/`](integrations/)
+- Fabric-style Bronze/Silver/Gold analytics, semantic model metadata, and Power BI
+  report specification in [`analytics/`](analytics/)
+- governance controls, policy checks, audit evidence, attestations, release
+  assurance, and CI evidence checks in [`governance/`](governance/)
+- deterministic synthetic evidence under [`data/synthetic/`](data/synthetic/) and
+  selected tracked reports under [`reports/`](reports/)
 
-This creates recurring architectural challenges:
+## Reference-Only Boundaries
 
-- **Platform fragmentation** — service teams and case data are split across CRM
-  platforms with inconsistent process models.
-- **Inconsistent case handling** — classification, routing, and escalation logic is
-  often duplicated or platform-specific rather than defined once as a business
-  process.
-- **Unclear AI accountability** — as agentic AI is introduced into service
-  operations, organisations need a clear model of what is deterministic automation
-  versus autonomous agent behaviour, and where a human must stay in the loop.
-- **Weak evidence trails** — audit, governance, and reporting are frequently
-  bolted on rather than designed in from the start.
-- **Vendor lock-in risk** — business logic embedded directly in a single SaaS
-  platform is expensive to port or replace.
+The repository intentionally does **not** include:
 
-This repository demonstrates how these problems can be addressed through
-platform-neutral business process design, API-first integration, and governed
-agentic AI — using a synthetic healthcare scenario as the worked example.
+- live CRM, Power Platform, Copilot Studio, Fabric, or Power BI tenant connections
+- production OAuth/token exchange, secrets, certificates, tenant IDs, or endpoints
+- deployed Power Automate solutions, `.msapp` files, portal assets, `.pbix` files, or
+  screenshots
+- live LLM calls, autonomous case mutation, or clinical diagnosis/treatment content
+- production IAM, SIEM, secrets manager, immutable enterprise audit store, live
+  monitoring, or support commitments
+- regulatory certification, security certification, or real NHS delivery claims
 
-## 2. Synthetic Healthcare Scenario
+Real-world deployment would additionally require licensed SaaS/cloud environments,
+identity and secrets management, live connectors/endpoints, environment-specific
+security configuration, monitoring, organisational approvals, operational support,
+and deployment validation.
 
-All scenario content in this repository is **fictional and synthetic**, styled on
-an NHS-like service operations context for realism, but containing no real
-organisational, patient, or operational data.
-
-The scenario: a fictional healthcare provider trust runs an internal service desk
-that handles requests from clinical and non-clinical staff across six synthetic
-service categories:
-
-- **Digital Support** — laptops, accounts, collaboration tools
-- **Clinical Equipment** — requests, faults, and logistics for non-patient-identifying
-  clinical equipment
-- **Facilities** — estates, environment, and physical workplace requests
-- **Access and Identity** — role-based access requests, joiners/movers/leavers
-- **Application Support** — line-of-business application incidents and requests
-- **Data and Reporting** — internal reporting and analytics requests
-
-Every request (a "case") conceptually moves through the same lifecycle regardless of
-which platform originates or handles it:
-
-```
-Submitted → Classified → Routed → In Progress → Pending → Escalated → Resolved → Closed
-```
-
-This lifecycle and taxonomy are defined once, platform-neutrally, in
-[`business_process/`](business_process/), so that Dynamics 365, Salesforce, and any
-future channel implement the *same* business process rather than inventing their own.
-Each case also carries a priority, a configurable SLA target, deterministic
-queue/owner routing, an audit trail, and a resolution outcome — see
-[`docs/business_process.md`](docs/business_process.md) for the full model,
-including the case lifecycle and routing diagrams. [`dynamics365/`](dynamics365/)
-and [`salesforce/`](salesforce/) now translate this same canonical case into
-each CRM's own concepts — see [`docs/crm_schema_mapping.md`](docs/crm_schema_mapping.md).
-
-## 3. Target Capabilities
-
-The platform is designed (across all milestones, not all built yet — see
-[§7](#7-delivery-roadmap)) to demonstrate:
-
-- A platform-neutral case/service-request process model and taxonomy
-- Reference case-management patterns on **Dynamics 365 Customer Service** and
-  **Salesforce Service Cloud** as interchangeable, bounded application contexts
-- **Power Platform** automation patterns (Power Automate flow design, Dataverse
-  modelling) for deterministic workflow steps
-- **Copilot Studio** and agentic AI patterns for triage, knowledge assistance, and
-  bounded autonomous actions, with explicit human-in-the-loop checkpoints
-- **API-first integration** between case-management systems, automation, and AI
-  agents, avoiding direct point-to-point coupling
-- **Fabric / Power BI** analytics over synthetic case data for operational
-  reporting and evidence
-- **Governance tooling** — audit logging patterns, least-privilege access design,
-  and responsible-AI guardrails
-- **CI/CD and engineering baseline** — linting, static analysis, and automated
-  tests supporting the above as real, runnable code (not just diagrams)
-
-## 4. High-Level Solution Architecture
+## Architecture
 
 ```mermaid
-flowchart LR
-    Users["Healthcare Users /\nService Teams"]
+flowchart TD
+    USERS["Healthcare Users / Service Teams"]
+    CHANNELS["Power Apps / Power Pages / CRM Channels"]
+    FLOWS["Power Automate / Service Workflows"]
+    AI["Copilot Studio / Bounded Agentic AI"]
+    DOMAIN["Canonical Service Operations Domain"]
+    ADAPTERS["Dynamics 365 / Salesforce Adapters"]
+    INTEGRATION["Integration Reliability Layer"]
+    ANALYTICS["Fabric-style Analytics / Semantic Model / Power BI"]
+    GOV["Governance / Audit / Release Assurance"]
 
-    subgraph CRM["Case Origination & Application Layer"]
-        D365["Dynamics 365\nCustomer Service"]
-        SFDC["Salesforce\nService Cloud"]
-        PP["Power Platform\n(Power Apps / Dataverse)"]
-    end
-
-    subgraph WF["Workflow & Case Management Layer"]
-        CaseMgmt["Case Lifecycle Engine\nSubmitted -> Classified -> Routed ->\nIn Progress -> Pending -> Escalated ->\nResolved -> Closed"]
-    end
-
-    subgraph AI["Copilot Studio / Agentic AI Layer"]
-        Copilot["Copilot Studio\n(conversational triage)"]
-        Agents["Agentic AI\n(bounded autonomous actions,\nhuman-in-the-loop)"]
-    end
-
-    subgraph INT["Knowledge, Integration & API Layer"]
-        API["API Gateway /\nIntegration Services"]
-        KB["Knowledge Base"]
-        GOV["Governance & Audit\n(least privilege, activity logging)"]
-    end
-
-    subgraph BI["Analytics Layer"]
-        Fabric["Microsoft Fabric"]
-        PBI["Power BI"]
-    end
-
-    Users --> D365
-    Users --> SFDC
-    Users --> PP
-
-    D365 --> CaseMgmt
-    SFDC --> CaseMgmt
-    PP --> CaseMgmt
-
-    CaseMgmt --> Copilot
-    CaseMgmt --> Agents
-
-    Copilot --> API
-    Agents --> API
-    API --> KB
-    API --> GOV
-
-    API --> Fabric
-    CaseMgmt --> Fabric
-    Fabric --> PBI
-
-    GOV -. audits .-> Agents
-    GOV -. audits .-> CaseMgmt
+    USERS --> CHANNELS
+    CHANNELS --> FLOWS
+    FLOWS --> DOMAIN
+    AI --> DOMAIN
+    DOMAIN --> ADAPTERS
+    ADAPTERS --> INTEGRATION
+    INTEGRATION --> ANALYTICS
+    GOV -.-> FLOWS
+    GOV -.-> AI
+    GOV -.-> DOMAIN
+    GOV -.-> INTEGRATION
+    GOV -.-> ANALYTICS
 ```
 
-**Reading the diagram:** healthcare users interact with case-management platforms
-(Dynamics 365, Salesforce, Power Platform), which all feed a single, platform-neutral
-case lifecycle. Copilot Studio and agentic AI sit alongside that lifecycle — never
-replacing it — and reach the rest of the estate only through an API/integration
-layer, which is also where governance and audit controls are enforced. Analytics
-(Fabric / Power BI) consumes case and integration data for reporting, independent of
-which front-end CRM originated the case.
+Core architecture rule: deterministic business decisions live in
+[`business_process/`](business_process/). CRM adapters translate. Power Platform
+orchestrates. AI recommends or summarizes within guardrails. Integrations move,
+retry, correlate, and observe messages. Analytics is downstream. Governance reviews
+and assures the reference implementation.
 
-See [`docs/architecture.md`](docs/architecture.md) for the full set of architecture
-principles and their rationale.
+## How To Review This Repository
 
-## 5. Technology Landscape
+1. Architecture: [`docs/architecture.md`](docs/architecture.md)
+2. Canonical service model: [`business_process/`](business_process/),
+   [`docs/business_process.md`](docs/business_process.md)
+3. CRM mappings: [`dynamics365/`](dynamics365/), [`salesforce/`](salesforce/),
+   [`docs/crm_schema_mapping.md`](docs/crm_schema_mapping.md)
+4. Power Platform automation: [`power_platform/`](power_platform/)
+5. Copilot and bounded agents: [`copilot/`](copilot/), [`ai/`](ai/)
+6. Analytics and Power BI design: [`analytics/`](analytics/)
+7. Integration reliability: [`integrations/`](integrations/)
+8. Governance and assurance: [`governance/`](governance/),
+   [`docs/governance.md`](docs/governance.md)
+9. Evidence index: [`docs/evidence-index.md`](docs/evidence-index.md)
+10. Architecture decisions: [`docs/architecture-decisions.md`](docs/architecture-decisions.md)
 
-| Layer                     | Representative Technology                          | Role in this repository |
-|---------------------------|------------------------------------------------------|----------------------------------------|
-| CRM / Case Management     | Dynamics 365 Customer Service, Salesforce Service Cloud | **Implemented as reference adapters** — deterministic translation only; no SDK, no live tenant |
-| Low-code Automation       | Power Platform (Power Apps, Power Automate, Dataverse) | **Implemented as reference architecture/specifications** — no live tenant, deployed flows, or connector |
-| Conversational / Agentic AI | Copilot Studio, agentic AI patterns                 | **Implemented as reference architecture/specifications** — deterministic local simulation only; no live LLM or tenant |
-| Integration                | API-first services, event/message patterns          | **Implemented as local/reference transport** — envelope, webhook processing, idempotency, retry, reconciliation, observability; no live API/broker |
-| Analytics                  | Microsoft Fabric, Power BI                           | **Implemented as reference analytics** — local deterministic transforms, semantic/report specs; no live Fabric or Power BI deployment |
-| Business Process           | Platform-neutral Python domain model                | **Implemented** — taxonomy, lifecycle rules, priority, queues/routing, SLA, escalation, audit trail, synthetic fixtures |
-| Governance                 | Audit/access/release assurance patterns              | **Implemented as reference controls** — policy checks, attestations, audit digests, release assurance; no live GRC/IAM/SIEM |
-| Engineering Baseline       | Python 3.11+, pytest, ruff, mypy, Docker, GitHub Actions | **Implemented** |
+## Capability Matrix
 
-Dependencies are kept deliberately minimal for the implemented milestones — see
-[`requirements.txt`](requirements.txt) and [`pyproject.toml`](pyproject.toml).
-Platform-specific SDKs are intentionally **not** installed until a milestone
-actually implements against them, to avoid implying integrations that do not
-exist yet.
+| Capability | Status | Key Location | Evidence |
+|---|---|---|---|
+| Service operations domain | Implemented | [`business_process/`](business_process/) | [`reports/case_summary.json`](reports/case_summary.json) |
+| Dynamics 365 mapping | Implemented reference adapter | [`dynamics365/`](dynamics365/) | [`data/synthetic/dynamics365_examples.json`](data/synthetic/dynamics365_examples.json) |
+| Salesforce mapping | Implemented reference adapter | [`salesforce/`](salesforce/) | [`data/synthetic/salesforce_examples.json`](data/synthetic/salesforce_examples.json) |
+| Power Platform workflows | Implemented specs | [`power_platform/power_automate/`](power_platform/power_automate/) | [`reports/automation_summary.json`](reports/automation_summary.json) |
+| Power Apps / Power Pages | Reference architecture | [`power_platform/power_apps/`](power_platform/power_apps/), [`power_platform/power_pages/`](power_platform/power_pages/) | [`power_platform/README.md`](power_platform/README.md) |
+| Copilot Studio | Reference topics | [`copilot/copilot_studio/`](copilot/copilot_studio/) | [`data/synthetic/copilot_conversations.json`](data/synthetic/copilot_conversations.json) |
+| Bounded agents | Implemented deterministic layer | [`ai/`](ai/) | [`data/synthetic/agent_tool_traces.json`](data/synthetic/agent_tool_traces.json) |
+| Knowledge retrieval and AI evaluation | Implemented deterministic layer | [`ai/knowledge.py`](ai/knowledge.py), [`ai/evaluation.py`](ai/evaluation.py) | [`reports/agentic_ai_evaluation_summary.json`](reports/agentic_ai_evaluation_summary.json) |
+| Integration transport / retry | Implemented local reference layer | [`integrations/`](integrations/) | [`reports/integration_operations_summary.json`](reports/integration_operations_summary.json) |
+| Reconciliation | Implemented deterministic checks | [`integrations/reconciliation.py`](integrations/reconciliation.py) | [`reports/reconciliation_report.md`](reports/reconciliation_report.md) |
+| Analytics | Implemented Fabric-style transforms | [`analytics/fabric/`](analytics/fabric/) | [`reports/analytics_summary.json`](reports/analytics_summary.json) |
+| Semantic model / Power BI | Reference metadata/spec | [`analytics/semantic_model/`](analytics/semantic_model/), [`analytics/powerbi/`](analytics/powerbi/) | [`reports/service_operations_report.md`](reports/service_operations_report.md) |
+| Governance controls | Implemented reference controls | [`governance/`](governance/) | [`reports/governance_summary.json`](reports/governance_summary.json) |
+| Release assurance | Implemented reference checks | [`governance/release.py`](governance/release.py) | [`reports/release_assurance.json`](reports/release_assurance.json) |
 
-## 6. Repository Structure
+## What This Supports In An Interview
 
+The project is designed to support technical discussion of:
+
+- business-process modelling and canonical domain boundaries
+- Dynamics 365 and Salesforce CRM architecture tradeoffs
+- Power Platform orchestration without duplicating business rules
+- Copilot Studio and bounded agentic AI with human-in-the-loop controls
+- deterministic AI evaluation, knowledge grounding, and tool allow-listing
+- integration reliability: envelopes, idempotency, retry, dead-letter, reconciliation
+- Fabric/Power BI-style analytics, semantic modelling, and metric lineage
+- governance, audit evidence, policy evaluation, and release assurance
+- CI/CD quality gates and evidence reproducibility
+
+## Repository Structure
+
+```text
+business_process/     Canonical service operations model
+dynamics365/          Dynamics 365 / Dataverse reference adapter
+salesforce/           Salesforce Service Cloud reference adapter
+power_platform/       Power Automate, Power Apps, Power Pages, connector specs
+copilot/              Copilot Studio topic and prompt reference design
+ai/                   Bounded agents, tools, knowledge, safety, evaluation
+integrations/         Envelope, webhook processing, retry, reconciliation, evidence
+analytics/            Fabric-style transformations, semantic model, Power BI spec
+governance/           Controls, policies, audit evidence, attestations, assurance
+data/synthetic/       Deterministic synthetic data and trace evidence
+reports/              Selected generated portfolio evidence
+docs/                 Architecture, governance, roadmap, evidence index
+tests/                Automated quality and boundary tests
 ```
-healthcare-agentic-service-operations-platform/
-├── business_process/     # Canonical service operations model (case, lifecycle, SLA, routing) — implemented
-├── dynamics365/           # Dynamics 365 / Dataverse reference adapter — implemented (deterministic, no SDK)
-├── salesforce/            # Salesforce Service Cloud reference adapter — implemented (deterministic, no SDK)
-├── power_platform/        # Power Platform automation/app/portal/connector reference architecture — implemented (specifications only)
-├── copilot/                # Copilot Studio topic/prompt reference architecture — implemented (specifications only)
-├── ai/                      # Bounded agentic-AI layer, tool registry, knowledge, triage, evaluation — implemented (deterministic)
-├── analytics/              # Fabric-style analytics, semantic model, Power BI report specs — implemented (deterministic)
-├── integrations/           # Integration envelope, reference transport, evidence, and CRM example generation — implemented locally
-├── governance/             # Governance controls, policy checks, audit evidence, attestations, release assurance — implemented locally
-├── data/                    # Synthetic data only — generated fixtures/config (data/synthetic/)
-├── outputs/                 # Generated artefacts (git-ignored contents)
-├── reports/                 # Generated reports (selected evidence tracked; rest git-ignored)
-├── docs/                    # Extended architecture, business process, CRM schema mapping, governance, and roadmap docs
-├── tests/                   # Automated tests
-├── .github/workflows/       # CI pipeline
-├── Dockerfile
-├── pyproject.toml
-├── requirements.txt
-└── README.md
+
+## Quality Gates
+
+The repository is configured for:
+
+```text
+python3 -m ruff check .
+python3 -m ruff format --check .
+python3 -m mypy business_process dynamics365 salesforce integrations power_platform ai copilot analytics governance
+python3 -m pytest --cov
+python3 -m governance.policies
 ```
 
-Each still-placeholder domain contains a short `README.md` explaining its
-intended scope and current (unimplemented) status — no fabricated
-connectors, credentials, or SaaS assets are included anywhere in the
-repository, implemented or not.
+GitHub Actions runs linting, formatting, type checking, tests with coverage,
+governance policy checks, and deterministic assurance-evidence verification.
 
-## 7. Delivery Roadmap
+## Delivery Roadmap
+
+Milestones 1-8 are complete as a reference implementation. Milestone 9 is final
+portfolio polish and reviewer experience.
 
 | Milestone | Scope | Status |
-|-----------|-------|--------|
-| 1 | Repository foundation: architecture, structure, engineering baseline, CI | Done |
-| 2 | Platform-neutral business process implementation (case model, lifecycle rules, priority, queues/routing, SLA, escalation, audit trail, synthetic fixtures) | Done |
-| 3 | Dynamics 365 and Salesforce CRM adapter architecture (deterministic reference mappings, schema documentation, integration envelope) | Done |
-| 4 | Power Platform automation architecture (Power Automate specs, Power Apps/Power Pages architecture, connector contracts, approval/evidence patterns) | Done |
-| 5 | Copilot Studio & bounded agentic AI patterns with human-in-the-loop controls | Done |
-| 6 | Fabric analytics and operational intelligence over generated synthetic evidence | Done |
-| 7 | Integration transport, reliability, reconciliation, and observability around `IntegrationEnvelope` | Done |
-| 8 | Production readiness, governance, and release assurance | **This milestone** |
+|---|---|---|
+| 1 | Foundation | Done |
+| 2 | Canonical service operations | Done |
+| 3 | Dynamics 365 and Salesforce CRM adapter architecture | Done |
+| 4 | Power Platform automation architecture | Done |
+| 5 | Copilot Studio and bounded agentic AI | Done |
+| 6 | Fabric-style analytics and operational intelligence | Done |
+| 7 | Integration transport, reliability, and observability | Done |
+| 8 | Governance and release assurance | Done |
+| 9 | Final portfolio polish and reviewer experience | This pass |
 
-Milestone scope, sequencing, and detail may evolve as the portfolio project
-progresses. See [`docs/roadmap.md`](docs/roadmap.md) for more detail.
+Future live-deployment extensions are deliberately outside this reference scope:
+live Dataverse/Salesforce/Power Platform/Copilot/Fabric environments, production
+identity and secrets management, real endpoints, live monitoring, operational
+support, and organisation-specific security approvals.
 
-## 8. Governance & Responsible AI Principles
+## Evidence
 
-These principles apply across every milestone of this repository:
+Start with [`docs/evidence-index.md`](docs/evidence-index.md). It points to the
+strongest generated artefacts and explains what each demonstrates without
+duplicating the artefacts themselves.
 
-- **Platform-neutral business-process design** — the case lifecycle and taxonomy are
-  defined independently of any single CRM/SaaS platform.
-- **Dynamics 365 and Salesforce as bounded application contexts** — each platform is
-  treated as a replaceable implementation detail, not the source of truth for
-  business process.
-- **API-first integration** — systems integrate through defined APIs/contracts, not
-  direct database or UI-layer coupling.
-- **Loose coupling** — components are designed to be replaced independently.
-- **Human-in-the-loop controls** — any agentic AI action with real-world effect has
-  a defined human checkpoint.
-- **Deterministic automation vs. autonomous agent behaviour** — Power Automate-style
-  deterministic workflow steps are explicitly distinguished from agentic AI
-  decisions in design and documentation.
-- **Least privilege** — every integration and agent is designed against the minimum
-  access it needs, not broad/admin access.
-- **Auditable agent activity** — agentic AI actions are designed to be logged and
-  reviewable, not opaque.
-- **Synthetic data only** — no real patient, staff, or organisational data is used
-  anywhere in this repository.
-- **Portable analytics/evidence** — analytics and reporting artefacts are designed to
-  be exportable and platform-independent, not locked to one BI tool.
-- **Modular, replaceable SaaS components** — every platform-specific area is
-  designed so it could be swapped for an equivalent product without changing the
-  core business process.
+## Portfolio Scope
 
-See [`docs/governance.md`](docs/governance.md) for extended rationale.
-
-## 9. Current Implementation Status
-
-**Implemented (Milestone 1 — Repository Foundation):**
-
-- ✅ Repository structure and bounded-context placeholders for every target domain
-- ✅ Engineering baseline: `pyproject.toml`, `requirements.txt`, `.gitignore`,
-  `Dockerfile`, GitHub Actions CI (lint, type-check, test)
-
-**Implemented (Milestone 2 — Business Process Modelling & Platform-Neutral
-Service Operations Model):**
-
-- ✅ Platform-neutral service taxonomy and case lifecycle, with **explicit,
-  enforced transition rules** (`business_process/lifecycle.py`) — invalid
-  moves are rejected deterministically, not silently accepted
-- ✅ Case priority (`Priority`), deterministic queue/routing model
-  (`queues.py`), and case ownership by team
-- ✅ A simple, configurable SLA model (`sla.py`) — response/resolution
-  targets by priority and category, with breach evaluation
-- ✅ Deterministic escalation triggers (`escalation.py`) — SLA breach or
-  critical-priority-pending, not an AI/agent decision
-- ✅ The canonical `Case`/`CaseEvent` aggregate (`models.py`) with a full
-  audit trail and resolution outcomes
-- ✅ JSON-safe serialization and six deterministic synthetic case fixtures
-  spanning every service category (`fixtures.py`), generated into
-  [`data/synthetic/`](data/synthetic/) and [`reports/`](reports/) by
-  [`business_process/evidence.py`](business_process/evidence.py)
-- ✅ [`docs/business_process.md`](docs/business_process.md) (service
-  operating model, lifecycle diagram, routing diagram, SLA model, escalation
-  model, roles/responsibilities, and the canonical-domain-vs-platform-adapter
-  boundary)
-
-**Implemented (Milestone 3 — Dynamics 365 and Salesforce
-CRM Adapter Architecture):**
-
-- ✅ Canonical service operations model — unchanged, still the single
-  source of truth (see above)
-- ✅ Deterministic Dynamics 365 / Dataverse reference adapter
-  ([`dynamics365/`](dynamics365/)) — typed models, explicit mapping
-  tables, pure `to_dynamics_incident()`/`to_dynamics_timeline()`
-  translation, and safe reverse mappings (priority, stage, queue) with
-  `UnsupportedDynamicsValueError` for unmapped values. No SDK, no live
-  tenant, no credentials.
-- ✅ Deterministic Salesforce Service Cloud reference adapter
-  ([`salesforce/`](salesforce/)) — the same pattern: typed models, explicit
-  mapping tables, pure `to_salesforce_case()`/`to_salesforce_feed()`
-  translation, safe reverse mappings, `UnsupportedSalesforceValueError`.
-  No SDK/API client, no live org, no credentials.
-- ✅ Every non-1:1 mapping documented, not glossed over — see
-  [`docs/crm_schema_mapping.md`](docs/crm_schema_mapping.md) (e.g. Dynamics
-  collapsing `RESOLVED`/`CLOSED` onto one native state; both platforms'
-  out-of-the-box 3-value priority picklists needing a documented 4-value
-  extension to avoid lossy collapse).
-- ✅ Lightweight `IntegrationEnvelope` contract and a deterministic
-  cross-CRM example generator ([`integrations/`](integrations/)) — source
-  system, source record id, canonical case id, correlation id, schema
-  version, timestamp, operation, with optional envelope/idempotency/trace
-  metadata. Milestone 7 adds local/reference transport around this contract.
-- ✅ **Enforced architecture boundary**: neither adapter imports a
-  `business_process` decision function (`validate_transition`,
-  `should_escalate`, `evaluate_sla`, `route_category`, ...) —
-  `tests/test_adapter_boundary.py` checks this via source-code inspection,
-  not just convention.
-- ✅ Deterministic synthetic examples for all 6 fixture cases in both CRM
-  representations, tracked at
-  [`data/synthetic/dynamics365_examples.json`](data/synthetic/dynamics365_examples.json)
-  and [`data/synthetic/salesforce_examples.json`](data/synthetic/salesforce_examples.json)
-- ✅ Fixed a Milestone 2 evidence-tracking gap: `reports/case_summary.json`
-  is now explicitly un-ignored (narrow `.gitignore` exception) rather than
-  silently excluded — see [`reports/README.md`](reports/README.md)
-- ✅ Comprehensive automated tests (canonical↔Dynamics mapping,
-  canonical↔Salesforce mapping, enum/status/priority conversion,
-  unsupported values, deterministic identifiers, canonical case identity
-  preservation, and the no-reimplementation boundary)
-
-**Implemented (Milestone 4 — Power Platform Automation
-Architecture):**
-
-- ✅ Version-controlled Power Automate reference workflow specifications
-  under [`power_platform/power_automate/`](power_platform/power_automate/):
-  new service request intake, SLA monitoring/escalation, human approval for
-  a consequential non-clinical action, and resolution/closure notification.
-  These are deterministic JSON specifications generated from
-  [`power_platform/flows.py`](power_platform/flows.py), not exported
-  Power Automate solutions and not live tenant artefacts.
-- ✅ Power Apps reference service-operations application architecture in
-  [`power_platform/power_apps/`](power_platform/power_apps/): submission,
-  my requests, operations queue, case detail, SLA status, escalation/approval,
-  and resolution/feedback views with role and data-boundary constraints.
-- ✅ Power Pages self-service portal architecture in
-  [`power_platform/power_pages/`](power_platform/power_pages/): authenticated
-  request submission, own-request tracking, permitted status visibility,
-  knowledge/self-service entry point, and feedback, without unrestricted case
-  data exposure.
-- ✅ Connector/API boundary contract in
-  [`power_platform/connectors/`](power_platform/connectors/) for representative
-  operations including `create_case`, `get_case`, `transition_case`,
-  `evaluate_sla`, `evaluate_escalation`, `resolve_case`,
-  `list_service_categories`, `retrieve_queue_assignment`, and
-  `sync_dynamics_representation`. No real custom connector, endpoint, secret,
-  or Dataverse plugin is built.
-- ✅ Human-in-the-loop approval model
-  ([`power_platform/approvals.py`](power_platform/approvals.py)) carrying
-  requester, approver role, decision, reason, timestamps, correlation id,
-  audit result, and timeout outcome. It deliberately models elevated access,
-  not clinical treatment approval.
-- ✅ Deterministic synthetic automation evidence:
-  [`data/synthetic/power_platform_approval_examples.json`](data/synthetic/power_platform_approval_examples.json),
-  [`data/synthetic/power_platform_execution_trace.json`](data/synthetic/power_platform_execution_trace.json),
-  and [`reports/automation_summary.json`](reports/automation_summary.json).
-  The execution trace is explicitly labelled as simulated reference evidence,
-  not live Power Automate run history.
-- ✅ Architecture-boundary tests proving workflow specs and connector
-  contracts reference real canonical operations and do not redefine lifecycle
-  tables, routing rules, SLA formulae, or escalation logic. Existing Dynamics
-  365 and Salesforce adapter boundary tests remain intact.
-
-**Implemented (Milestone 5 — Copilot Studio and Bounded
-Agentic AI):**
-
-- ✅ Copilot Studio reference architecture under
-  [`copilot/copilot_studio/`](copilot/copilot_studio/) with structured topic
-  specs for digital, facilities, clinical-equipment service, access, status,
-  knowledge, SLA explanation, escalation request, and resolution feedback
-  conversations. These are not exported Copilot Studio solutions or deployed
-  topics.
-- ✅ Bounded agent definitions in [`ai/agents.py`](ai/agents.py): Intake Agent,
-  Knowledge Agent, Triage Agent, Case Summary Agent, and Service Operations
-  Coordinator, each with narrow tools, prohibited actions, handoff conditions,
-  uncertainty handling, and human-review triggers.
-- ✅ Explicit allow-listed tool registry in [`ai/tools.py`](ai/tools.py) mapping
-  approved AI tools to existing connector/canonical concepts, with risk classes
-  and approval gates for state-changing/consequential tools.
-- ✅ Deterministic knowledge retrieval in [`ai/knowledge.py`](ai/knowledge.py)
-  over a small synthetic operational-support corpus. No clinical
-  diagnosis/treatment content, no vector database, and no live enterprise
-  knowledge connector.
-- ✅ Deterministic AI-triage reference interface in [`ai/triage.py`](ai/triage.py)
-  producing suggested category, priority, queue, rationale, confidence, and
-  uncertainty indicators. It is explicitly a recommendation; canonical
-  validation and routing remain authoritative.
-- ✅ Prompt/version governance in [`ai/prompts.py`](ai/prompts.py) and
-  [`copilot/prompts/`](copilot/prompts/) for triage, summarisation, knowledge
-  answering, tool selection, and escalation explanation. Prompts do not hide
-  lifecycle, routing, SLA, escalation, or approval rules.
-- ✅ Safety controls in [`ai/safety.py`](ai/safety.py): grounded-response
-  posture, clinical-content refusal, secret/credential refusal, unsupported
-  action refusal, human-review escalation, and prompt/tool allow-listing.
-- ✅ Deterministic evaluation harness in [`ai/evaluation.py`](ai/evaluation.py)
-  covering intent recognition, category/priority recommendation, grounded
-  knowledge answer, case-summary completeness, unsafe/unsupported request
-  refusal, invalid tool prevention, approval requirement, and canonical-rule
-  enforcement.
-- ✅ Synthetic/reference evidence:
-  [`data/synthetic/copilot_conversations.json`](data/synthetic/copilot_conversations.json),
-  [`data/synthetic/agent_tool_traces.json`](data/synthetic/agent_tool_traces.json),
-  [`data/synthetic/ai_evaluation_cases.json`](data/synthetic/ai_evaluation_cases.json),
-  [`data/synthetic/service_knowledge_corpus.json`](data/synthetic/service_knowledge_corpus.json),
-  and [`reports/agentic_ai_evaluation_summary.json`](reports/agentic_ai_evaluation_summary.json).
-  These are not live Copilot Studio telemetry.
-
-**Implemented (Milestone 6 — Fabric Analytics and
-Operational Intelligence):**
-
-- ✅ Fabric-style analytical transformation layer under
-  [`analytics/fabric/`](analytics/fabric/) with Bronze ingestion over existing
-  generated evidence, Silver conformed operational entities, Gold KPI outputs,
-  and lightweight data-quality checks. No Spark, Fabric SDK, Lakehouse, or
-  Warehouse dependency is introduced.
-- ✅ Operational KPI generation covering case volume, category/priority/status
-  distribution, open/resolved cases, mean/median resolution time where evidence
-  supports it, SLA compliance and breach counts, escalation rate, queue
-  workload, resolution outcomes, automation execution counts, approval
-  workload, agent/tool invocation counts, and tool-risk mix.
-- ✅ Reference semantic model metadata under
-  [`analytics/semantic_model/`](analytics/semantic_model/) with dimensions,
-  facts, grains, relationships, measures, filter direction assumptions, and
-  slowly changing attribute handling notes.
-- ✅ Reference Power BI report design under
-  [`analytics/powerbi/`](analytics/powerbi/) covering Executive Service
-  Overview, Operational Queue Performance, SLA and Escalation, Automation
-  Performance, and Agentic AI Assurance pages. No `.pbix`, screenshots, or
-  deployed reports are fabricated.
-- ✅ Deterministic analytics evidence:
-  [`reports/analytics_summary.json`](reports/analytics_summary.json),
-  [`reports/service_operations_report.md`](reports/service_operations_report.md),
-  and reproducible CSV exports under `outputs/` (`case_metrics.csv`,
-  `sla_summary.csv`, `automation_metrics.csv`, `copilot_usage.csv`,
-  `integration_metrics.csv`).
-  These are synthetic/generated portfolio artefacts, not production telemetry.
-- ✅ Analytics boundary tests and data-quality tests proving the analytics layer
-  consumes canonical/CRM/automation/agent evidence downstream without becoming
-  a transactional source of truth or redefining operational rules.
-
-**Implemented (Milestone 7 — Integration Transport,
-Reliability and Observability):**
-
-- ✅ Extended `IntegrationEnvelope` metadata support while preserving the
-  existing Milestone 3 contract: envelope id, target system, causation id,
-  idempotency key, and trace metadata are optional additions.
-- ✅ Local/reference webhook/API processor in [`integrations/webhooks.py`](integrations/webhooks.py)
-  covering schema validation, conceptual authorization, idempotency,
-  duplicate suppression, allow-listed operation dispatch, retry, delivery
-  state, and correlation preservation.
-- ✅ Provider-neutral outbound transport abstraction in
-  [`integrations/transport.py`](integrations/transport.py) with deterministic
-  stub transport only. No HTTP calls, SaaS SDKs, credentials, or production
-  endpoints.
-- ✅ Retry/backoff and dead-letter/manual-review modelling in
-  [`integrations/retry.py`](integrations/retry.py) and
-  [`integrations/delivery.py`](integrations/delivery.py), including
-  `received`, `validated`, `processing`, `delivered`, `retry_pending`,
-  `failed`, `dead_lettered`, and `duplicate` delivery states. This is not
-  canonical case lifecycle.
-- ✅ Conceptual authentication/authorization model in
-  [`integrations/security.py`](integrations/security.py): service identity,
-  audience, environment, source binding, and least-privilege scope checks
-  without token issuance or secrets.
-- ✅ Reconciliation and observability support in
-  [`integrations/reconciliation.py`](integrations/reconciliation.py) and
-  [`integrations/observability.py`](integrations/observability.py), plus
-  analytics integration for delivery success/duplicate/retry/dead-letter
-  metrics.
-- ✅ Deterministic synthetic integration evidence:
-  [`data/synthetic/integration_envelopes.json`](data/synthetic/integration_envelopes.json),
-  [`data/synthetic/integration_delivery_traces.json`](data/synthetic/integration_delivery_traces.json),
-  [`data/synthetic/reconciliation_cases.json`](data/synthetic/reconciliation_cases.json),
-  [`reports/integration_operations_summary.json`](reports/integration_operations_summary.json),
-  and [`reports/reconciliation_report.md`](reports/reconciliation_report.md).
-  These are reference execution traces, not live webhook runs or monitoring
-  telemetry.
-- ✅ Boundary tests proving transport modules do not redefine canonical
-  lifecycle tables, SLA formulae, routing rules, escalation logic, or AI tool
-  permission rules.
-
-**Implemented (Milestone 8 — this milestone — Production Readiness,
-Governance and Release Assurance):**
-
-- ✅ Governance control catalogue in [`governance/controls.py`](governance/controls.py)
-  covering identity/access, AI/agent governance, data governance, integration
-  governance, change/release, observability, human approval,
-  secrets/configuration, auditability, resilience, and portfolio claim
-  discipline.
-- ✅ Deterministic policy evaluation in [`governance/policies.py`](governance/policies.py)
-  for secret hygiene, bounded agent tools, integration schema/auth metadata,
-  synthetic evidence labels, claim discipline, and release evidence source.
-- ✅ Audit evidence model in [`governance/audit.py`](governance/audit.py)
-  carrying stable evidence ids, actor/source/action/outcome/provenance,
-  correlation ids, optional approval references, and chained SHA-256 digests.
-  This is tamper-evidence only, not legal-grade immutability.
-- ✅ Access-review/attestation reference model in
-  [`governance/attestations.py`](governance/attestations.py) for privileged
-  service roles, agent tool permissions, integration service identities, and
-  approval roles.
-- ✅ Release-assurance calculation in [`governance/release.py`](governance/release.py)
-  combining quality gates, policies, controls, attestations, and unresolved
-  critical findings. The bounded decision text is:
-  `reference implementation release-assurance checks passed`.
-- ✅ CI/CD hardening in [`.github/workflows/ci.yml`](.github/workflows/ci.yml):
-  governance is included in mypy/coverage, policy checks run in CI, and
-  deterministic assurance evidence is regenerated and diff-checked.
-- ✅ Deterministic assurance evidence:
-  [`data/synthetic/audit_evidence.json`](data/synthetic/audit_evidence.json),
-  [`data/synthetic/access_attestations.json`](data/synthetic/access_attestations.json),
-  [`reports/governance_summary.json`](reports/governance_summary.json),
-  [`reports/release_assurance.json`](reports/release_assurance.json),
-  [`reports/operational_readiness.md`](reports/operational_readiness.md),
-  and [`reports/final_assurance_report.md`](reports/final_assurance_report.md).
-
-**Not yet implemented (later milestones):**
-
-- ❌ No live Dataverse integration (SDK, authentication, or a connected app)
-- ❌ No live Salesforce integration (SDK/API client, authentication, or a connected app)
-- ❌ No public production API or live webhooks, in either direction
-- ❌ No deployed Power Automate flows, `.zip` solution exports, `.msapp` files,
-  live Power Apps apps, live Power Pages site, production custom connector, or
-  live Dataverse API calls
-- ❌ No live Copilot Studio tenant, exported/deployed Copilot solution, or
-  production topic deployment
-- ❌ No Azure OpenAI, Azure AI Foundry, external LLM, production LLM deployment,
-  or live model inference
-- ❌ No autonomous case mutation — AI recommendations and tool plans cannot
-  bypass canonical validation or human approval gates
-- ❌ No live enterprise knowledge connectors
-- ❌ No production AI telemetry
-- ❌ No live GRC platform, production IAM, production SIEM, production secrets
-  manager, immutable enterprise audit store, or real access-review workflow
-- ❌ No message broker, event platform, Azure Service Bus/Event Grid, or live
-  transport for `IntegrationEnvelope`
-- ❌ No live Fabric workspace, Lakehouse/Warehouse deployment, Spark job,
-  deployed semantic model, deployed Power BI report, live CRM telemetry
-  ingestion, production monitoring, or production deployment
-- ❌ No persistence layer, workflow engine, or scheduler — `business_process/`
-  models the business rules only, not a running system
-- ❌ No deployment of any kind, and no regulatory compliance, certification,
-  or production support commitment claimed anywhere
-
-## 10. Portfolio & Simulation Disclaimer
-
-This repository is an **independent portfolio project** built to demonstrate
-enterprise business solution architecture skills. It is **not**:
-
-- affiliated with, endorsed by, or built for the NHS or any NHS organisation;
-- connected to any real Dynamics 365, Salesforce, Power Platform, Copilot Studio,
-  Fabric, or Power BI tenant/workspace;
-- processing, storing, or referencing real patient, clinical, or staff data;
-- evidence of a production deployment, live customer delivery, or client
-  engagement.
-
-All organisation names, scenarios, service categories, and data referenced in this
-repository are **fictional and synthetic**, created solely to illustrate
-architecture and engineering practice. Any resemblance to real systems, datasets, or
-deployments is coincidental.
+This repository is an independent portfolio project. It is not affiliated with,
+endorsed by, or built for the NHS or any healthcare organisation. It processes no
+real patient, clinical, staff, tenant, or operational data. All evidence is
+synthetic and deterministic.

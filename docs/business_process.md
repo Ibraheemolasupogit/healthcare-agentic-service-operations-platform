@@ -4,7 +4,7 @@ This document is the detailed reference for the canonical, platform-neutral
 service operations domain implemented in [`business_process/`](../business_process/)
 (Milestone 2). It expands on the summary in the
 [root README](../README.md#2-synthetic-healthcare-scenario). See the
-[Portfolio & Simulation Disclaimer](../README.md#10-portfolio--simulation-disclaimer) —
+[portfolio scope statement](../README.md#portfolio-scope) —
 everything below describes a synthetic scenario and a code-level domain
 model, not a live service desk.
 
@@ -27,7 +27,7 @@ The implementation is deliberately small: plain Python dataclasses and enums
 (`business_process/models.py`, `taxonomy.py`, `priority.py`, `queues.py`)
 plus a handful of pure functions (`lifecycle.py`, `sla.py`, `escalation.py`,
 `service.py`) that operate on them. There is no database, no scheduler, and
-no persistence layer — this milestone models the *business rules*, not a
+no persistence layer — Milestone 2 models the *business rules*, not a
 running system.
 
 ## 2. Case Lifecycle
@@ -62,7 +62,7 @@ stateDiagram-v2
     Closed --> [*]
 ```
 
-`Closed` is terminal — no transition leaves it in this milestone (no
+`Closed` is terminal — no transition leaves it in the canonical reference model (no
 reopen-after-close flow is modelled yet). Every transition, plus case
 creation, appends an immutable `CaseEvent` to the case's `history`, forming
 its audit trail (see [§6](#6-roles--responsibilities) and
@@ -134,7 +134,7 @@ governance question — see [`docs/governance.md`](governance.md).
 | Role | Responsibility in this model |
 |------|-------------------------------|
 | Requestor | Raises a case (`create_case`); recorded as the `actor` on the `created` event. Not a named individual — a role. |
-| Intake | Classifies and routes the case (`classify_and_route`); in this milestone this is a deterministic function, not a person or an AI agent. |
+| Intake | Classifies and routes the case (`classify_and_route`); in the canonical reference model this is a deterministic function, not a person or an AI agent. |
 | Queue owner (team) | The default owning team for a case's queue (`assign_owner`); performs `start_work`, `mark_pending`, `resolve_case`, `close_case`. Modelled as a team identifier, never a named person. |
 | (Future) Governance/audit reviewer | Reviews the `CaseEvent` history for a case. Not implemented — see [`governance/README.md`](../governance/README.md). |
 | (Future) Agentic AI | Would call `should_escalate()` / classification logic under human-in-the-loop review. Not implemented — see [`ai/README.md`](../ai/README.md). |

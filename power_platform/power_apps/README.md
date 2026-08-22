@@ -31,11 +31,11 @@ connector calls (see [`power_automate/README.md`](../power_automate/README.md)).
 | Service Agent | Member of a queue's owning team (e.g. `digital-support-team`) | Cases in their queue(s) only |
 | Approver | Holds an `approver_role` (e.g. `identity-access-team-lead`) | Approval requests addressed to their role, plus escalated cases in their queue for visibility |
 
-No role in this milestone's reference architecture is a named individual —
+No role in this reference architecture is a named individual —
 consistent with `business_process`'s team/role-based ownership model (see
 [`docs/business_process.md`](../../docs/business_process.md) §6). A
-governance/audit-reviewer role is deferred to a later milestone (see
-[`governance/README.md`](../../governance/README.md)).
+governance/audit-reviewer role is documented in
+[`governance/README.md`](../../governance/README.md).
 
 ## Screens
 

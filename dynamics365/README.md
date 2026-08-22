@@ -44,4 +44,4 @@ full field-by-field table. The two most important non-1:1 points:
 Live Dataverse/Dynamics 365 connectivity, authentication, webhooks, Power
 Automate, or any write-back to a real environment. See
 [`docs/roadmap.md`](../docs/roadmap.md) and the root
-[README's current implementation status](../README.md#9-current-implementation-status).
+[`README.md`](../README.md).

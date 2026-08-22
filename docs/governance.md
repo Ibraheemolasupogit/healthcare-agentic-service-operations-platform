@@ -8,9 +8,9 @@ This document expands on the governance summary in the
 A common failure mode in real service-operations platforms is treating audit,
 access control, and responsible-AI guardrails as something added after a
 system works. This repository instead reserves a first-class bounded context,
-[`governance/`](../governance/), from the very first milestone — even though
-it currently holds only a placeholder — so that every later milestone has a
-defined place to plug audit logging and access-policy design into.
+[`governance/`](../governance/), from the very first milestone and implements
+deterministic reference controls by Milestone 8, so that audit logging,
+access-policy design, and release assurance have a clear home.
 
 ## Human-in-the-loop vs. autonomous action
 
@@ -188,6 +188,5 @@ mistaken for a real NHS or healthcare-provider data export.
 
 This document describes governance *principles* that the repository's
 architecture is designed around. It does not claim that governance controls
-are implemented, certified, or operating — see
-[Current Implementation Status](../README.md#9-current-implementation-status)
-and the [disclaimer](../README.md#10-portfolio--simulation-disclaimer).
+are certified or operating in a live enterprise environment — see the
+[root README](../README.md).

@@ -1,9 +1,8 @@
 # Architecture
 
 This document expands on the architecture summary in the
-[root README](../README.md#4-high-level-solution-architecture). It is a
-portfolio/simulation artefact — see the
-[disclaimer](../README.md#10-portfolio--simulation-disclaimer).
+[root README](../README.md#architecture). It is a portfolio/reference artefact
+over synthetic data only.
 
 ## Architecture Principles
 
@@ -260,13 +259,8 @@ operational acceptance record.
 
 ## High-Level Diagram
 
-See the [architecture diagram](../README.md#4-high-level-solution-architecture)
+See the [architecture diagram](../README.md#architecture)
 in the root README for the current high-level view: healthcare users/service
-teams → Dynamics 365 / Salesforce / Power Platform → workflow and
-case-management layer → Copilot Studio / agentic AI → knowledge, integrations
-and APIs → Fabric / Power BI analytics, with governance/audit observing the
-agentic and case-management layers throughout.
-
-This diagram will gain detail (data flows, specific API contracts, deployment
-topology) as later milestones implement the bounded contexts it currently
-shows only conceptually.
+teams → service channels → Power Automate and bounded AI → canonical service
+operations → CRM adapters → integration reliability → analytics, with
+governance/audit/release assurance observing the major boundaries.
