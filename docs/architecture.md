@@ -117,6 +117,13 @@ Each platform-specific directory is a bounded context behind a stable
 conceptual interface (the case lifecycle) so it can, in principle, be swapped
 for an equivalent product.
 
+**Release assurance as a control plane**
+As of Milestone 8, [`governance/`](../governance/) implements deterministic
+reference controls for policy evaluation, audit evidence, access
+attestations, and release assurance. It wraps existing architecture with
+reviewability; it does not add new service-operation business functionality
+or claim live production governance.
+
 ## Power Platform Orchestration Diagram
 
 ```mermaid
@@ -227,6 +234,29 @@ flowchart TD
 The transport layer preserves correlation, handles duplicate and failed
 deliveries, and emits evidence. It does not decide valid case lifecycle
 transitions, SLA status, routing, escalation, or AI tool permissions.
+
+## Assurance Flow Diagram
+
+```mermaid
+flowchart TD
+    SRC["Code / Config / Evidence"]
+    QG["Quality Gates\nruff / format / mypy / pytest"]
+    POL["Policy Evaluation"]
+    GOV["Governance Evidence\ncontrols / audit / attestations"]
+    REL["Release Assurance"]
+    DEC["Reference Release Decision"]
+
+    SRC --> QG
+    QG --> POL
+    POL --> GOV
+    GOV --> REL
+    REL --> DEC
+```
+
+The release decision is bounded to this repository: `reference implementation
+release-assurance checks passed` means the local controls and evidence are
+consistent. It is not a production deployment, compliance certification, or
+operational acceptance record.
 
 ## High-Level Diagram
 

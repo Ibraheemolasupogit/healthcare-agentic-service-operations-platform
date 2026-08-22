@@ -46,6 +46,11 @@ observing messages. It does not own lifecycle rules, SLA calculations,
 routing rules, escalation decisions, AI/tool permissions, or CRM-specific
 business semantics.
 
+As of Milestone 8, [`governance/policies.py`](../governance/policies.py)
+checks the reference integration schema version, expected audience, and
+`integration:deliver` scope. [`governance/attestations.py`](../governance/attestations.py)
+adds a synthetic access attestation for integration service identities.
+
 ## What's still not implemented
 
 No public production API, live webhook endpoint, HTTP client, message queue,

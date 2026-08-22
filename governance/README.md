@@ -1,14 +1,38 @@
 # governance/
 
-Bounded context for **governance, audit, and responsible-AI controls**.
+Bounded context for **governance, audit, assurance, and release controls**.
 
-**Status: placeholder — not implemented.** This directory currently contains no
-audit logging implementation, access-control policy, or compliance tooling,
-because none has been built yet.
+**Status: implemented (Milestone 8) as deterministic reference assurance.**
+No live GRC platform, production IAM, SIEM, secrets manager, immutable audit
+store, access-review workflow, certification, or production deployment exists.
 
-**Intended scope (future milestone):** the audit and control layer referenced
-throughout the architecture — logging of agentic AI actions from
-[`ai/`](../ai/) and [`copilot/`](../copilot/), least-privilege access design
-for [`integrations/`](../integrations/), and the mechanisms that make case
-handling reviewable end to end. See [`docs/governance.md`](../docs/governance.md)
-for the full set of principles this domain implements.
+## Module Map
+
+| Module | Purpose |
+|--------|---------|
+| `controls.py` | Governance control catalogue with control id, objective, domain, evidence source, owner role, review frequency, attestation requirement, and exception handling. |
+| `policies.py` | Lightweight deterministic policy checks for secret hygiene, agent tool governance, integration metadata, synthetic evidence labels, claim discipline, and release evidence source. |
+| `audit.py` | Audit evidence model with stable ids, actor/source/correlation/provenance fields, and a simple chained SHA-256 digest. This is tamper-evidence, not legal-grade immutability. |
+| `attestations.py` | Reference access-review attestations for privileged service roles, agent tool permissions, integration identities, and approval roles. |
+| `release.py` | Release-assurance model combining quality gates, policy findings, controls, attestations, and unresolved critical findings. |
+| `evidence.py` | Deterministic evidence generator. Run via `python -m governance.evidence`. |
+
+## Evidence
+
+`python -m governance.evidence` regenerates:
+
+- `data/synthetic/audit_evidence.json`
+- `data/synthetic/access_attestations.json`
+- `reports/governance_summary.json`
+- `reports/release_assurance.json`
+- `reports/operational_readiness.md`
+- `reports/final_assurance_report.md`
+
+All are synthetic/reference artefacts. The intended release language is
+bounded: `reference implementation release-assurance checks passed`.
+
+## Boundary
+
+Governance evaluates and documents controls around the existing platform. It
+does not add service-operation business functionality, deploy infrastructure,
+issue credentials, certify compliance, or operate live monitoring.

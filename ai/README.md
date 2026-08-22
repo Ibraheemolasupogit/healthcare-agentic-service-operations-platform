@@ -32,6 +32,11 @@ approval through the explicit tool registry gate. The canonical
 `business_process` package still rejects invalid transitions even if an AI
 recommendation is wrong.
 
+As of Milestone 8, [`governance/policies.py`](../governance/policies.py)
+also checks that state-changing and consequential tools remain approval-gated,
+and [`governance/attestations.py`](../governance/attestations.py) produces a
+synthetic access attestation for the bounded agent tool registry.
+
 ## Evidence
 
 `python -m ai.evaluation` regenerates:

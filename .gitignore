@@ -39,7 +39,7 @@ Thumbs.db
 # reports/ is transient/reproducible by default (regenerate via
 # `python -m business_process.evidence` / `python -m power_platform.evidence` /
 # `python -m ai.evaluation` / `python -m integrations.evidence` /
-# `python -m analytics.fabric.evidence`); the
+# `python -m analytics.fabric.evidence` / `python -m governance.evidence`); the
 # explicitly unignored reports are intentionally tracked as portfolio evidence.
 outputs/*
 !outputs/.gitkeep
@@ -54,6 +54,10 @@ reports/*
 !reports/service_operations_report.md
 !reports/integration_operations_summary.json
 !reports/reconciliation_report.md
+!reports/governance_summary.json
+!reports/release_assurance.json
+!reports/operational_readiness.md
+!reports/final_assurance_report.md
 
 # --- Docker ---
 *.log

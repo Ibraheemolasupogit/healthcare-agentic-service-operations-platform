@@ -145,6 +145,37 @@ deterministic reference logic:
   live webhook runs, production telemetry, or evidence of deployed
   monitoring.
 
+As of Milestone 8, governance is implemented as deterministic reference
+assurance:
+
+- [`governance/controls.py`](../governance/controls.py) defines a compact
+  control catalogue across identity/access, AI/agent governance, data,
+  integration, change/release, observability, human approval,
+  secrets/configuration, auditability, resilience, and portfolio claim
+  discipline.
+- [`governance/policies.py`](../governance/policies.py) evaluates local
+  policy checks for secret hygiene, bounded agent tools, integration
+  schema/auth metadata, synthetic evidence labels, claim discipline, and
+  release evidence source.
+- [`governance/audit.py`](../governance/audit.py) models audit evidence with
+  actor, timestamp, correlation, source component, action, outcome,
+  provenance, optional approval reference, and chained SHA-256 digests. This
+  is tamper-evidence only, not legal-grade immutability.
+- [`governance/attestations.py`](../governance/attestations.py) models
+  synthetic access reviews for privileged service roles, agent tool
+  permissions, integration identities, and approval roles.
+- [`governance/release.py`](../governance/release.py) calculates bounded
+  release assurance from quality gates, policies, controls, attestations, and
+  unresolved critical findings.
+- [`governance/evidence.py`](../governance/evidence.py) generates tracked
+  assurance reports. The allowed conclusion is reference-scoped:
+  `reference implementation release-assurance checks passed`.
+
+There is no live GRC platform, production IAM, SIEM, secrets manager,
+immutable enterprise audit store, real access-review workflow, regulatory
+certification, live monitoring/alerting backend, or production support
+commitment in Milestone 8.
+
 ## Data governance
 
 All data anywhere in this repository — code fixtures, docs examples, anything

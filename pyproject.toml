@@ -28,15 +28,13 @@ dev = [
 
 [tool.setuptools.packages.find]
 # Only domains with real, implemented Python code are packaged.
-# governance/ is currently a documentation-only bounded-context placeholder —
-# see its README.md — and is added here as it gains real implementation in a
-# later milestone.
 include = [
     "ai*",
     "analytics*",
     "business_process*",
     "copilot*",
     "dynamics365*",
+    "governance*",
     "salesforce*",
     "integrations*",
     "power_platform*",
@@ -54,6 +52,7 @@ source = [
     "business_process",
     "copilot",
     "dynamics365",
+    "governance",
     "salesforce",
     "integrations",
     "power_platform",

@@ -2,9 +2,9 @@
 
 This document expands on the roadmap summary in the
 [root README](../README.md#7-delivery-roadmap). Scope and sequencing below are
-indicative and may evolve as the portfolio project progresses. Milestones 1-7
-are implemented in this repository; later milestones are not committed or
-scheduled against dates.
+indicative and may evolve as the portfolio project progresses. Milestones 1-8
+are implemented in this repository; no live deployment milestone is committed
+or scheduled against dates.
 
 ## Milestone 1 — Repository Foundation *(done)*
 
@@ -88,7 +88,12 @@ Platform webhooks, production OAuth/token exchange, broker deployment, Azure
 Service Bus/Event Grid, live monitoring backend, or production integration
 deployment.
 
-## Milestone 8 — Governance Hardening *(planned)*
+## Milestone 8 — Production Readiness, Governance and Release Assurance *(done)*
 
-Audit-trail implementation, access-policy design, and responsible-AI
-guardrails for the agentic behaviour introduced in Milestone 5.
+Reference governance and release assurance: control catalogue, deterministic
+policy evaluation, audit evidence with chained digests, access attestation
+models, agent/integration governance checks, CI evidence verification,
+operational-readiness checklist, and final assurance reporting. This milestone
+does not deploy live infrastructure or claim production readiness,
+regulatory compliance, real access reviews, immutable enterprise audit, or
+production monitoring.

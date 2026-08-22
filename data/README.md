@@ -64,6 +64,15 @@ As of Milestone 7, [`integrations/evidence.py`](../integrations/evidence.py)
 - `reconciliation_cases.json` — deterministic reconciliation findings over
   transport evidence
 
+As of Milestone 8, [`governance/evidence.py`](../governance/evidence.py)
+(run via `python -m governance.evidence`) additionally generates:
+
+- `audit_evidence.json` — synthetic/reference audit events with deterministic
+  chained SHA-256 digests
+- `access_attestations.json` — synthetic/reference access-review attestations
+  for privileged service roles, agent tool permissions, integration service
+  identities, and approval roles
+
 Every file is regenerated identically by re-running its generator — nothing
 here is hand-authored, and none of it is fetched from a live system.
 

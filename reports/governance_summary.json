@@ -1,0 +1,186 @@
+{
+  "generated_from": "governance.evidence (deterministic, synthetic/reference)",
+  "control_count": 11,
+  "controls": [
+    {
+      "control_id": "GOV-IA-001",
+      "objective": "Privileged service, agent, integration, and approval roles are reviewable.",
+      "domain": "identity_and_access",
+      "applicability": "Reference roles and permissions in AI, integration, and approval contexts.",
+      "evidence_source": "data/synthetic/access_attestations.json",
+      "status": "implemented_reference",
+      "owner_role": "Governance reviewer",
+      "review_frequency": "Quarterly in a live implementation; per release in this repository.",
+      "requires_attestation": true,
+      "exception_handling": "Unresolved access findings block reference release assurance."
+    },
+    {
+      "control_id": "GOV-AI-001",
+      "objective": "Bounded agents cannot acquire unrestricted or unapproved state-changing tools.",
+      "domain": "ai_agent_governance",
+      "applicability": "ai.tools and ai.agents",
+      "evidence_source": "governance.policies.evaluate_agent_tool_policy",
+      "status": "implemented_reference",
+      "owner_role": "AI governance owner",
+      "review_frequency": "Per release and whenever prompts/tools change.",
+      "requires_attestation": true,
+      "exception_handling": "Remove or gate the tool before release evidence can pass."
+    },
+    {
+      "control_id": "GOV-DATA-001",
+      "objective": "Repository evidence is synthetic and labelled as reference evidence.",
+      "domain": "data_governance",
+      "applicability": "data/synthetic and reports",
+      "evidence_source": "governance.policies.evaluate_synthetic_evidence_policy",
+      "status": "implemented_reference",
+      "owner_role": "Data governance owner",
+      "review_frequency": "Per release.",
+      "requires_attestation": false,
+      "exception_handling": "Relabel evidence or remove unverified data before release."
+    },
+    {
+      "control_id": "GOV-INT-001",
+      "objective": "Integration delivery uses schema, auth, idempotency, retry, dead-letter, and reconciliation controls.",
+      "domain": "integration_governance",
+      "applicability": "integrations package and Milestone 7 evidence",
+      "evidence_source": "reports/integration_operations_summary.json",
+      "status": "implemented_reference",
+      "owner_role": "Integration owner",
+      "review_frequency": "Per release and before any live connector work.",
+      "requires_attestation": true,
+      "exception_handling": "Block live transport design until the missing control is remediated."
+    },
+    {
+      "control_id": "GOV-REL-001",
+      "objective": "Release readiness requires passing quality gates, policy checks, and evidence checks.",
+      "domain": "change_release",
+      "applicability": "CI workflow, pyproject, tests, and governance evidence",
+      "evidence_source": "reports/release_assurance.json",
+      "status": "implemented_reference",
+      "owner_role": "Release owner",
+      "review_frequency": "Per release candidate.",
+      "requires_attestation": true,
+      "exception_handling": "Any critical finding blocks reference release assurance."
+    },
+    {
+      "control_id": "GOV-OBS-001",
+      "objective": "Automation, AI, analytics, and integration evidence preserve provenance and observability.",
+      "domain": "observability",
+      "applicability": "reports/*.json and data/synthetic/*.json",
+      "evidence_source": "reports/governance_summary.json",
+      "status": "implemented_reference",
+      "owner_role": "Operations owner",
+      "review_frequency": "Per release.",
+      "requires_attestation": false,
+      "exception_handling": "Regenerate or fix missing provenance before release evidence can pass."
+    },
+    {
+      "control_id": "GOV-HITL-001",
+      "objective": "Consequential and state-changing actions require human approval gates.",
+      "domain": "human_approval",
+      "applicability": "ai.tools and power_platform.approvals",
+      "evidence_source": "data/synthetic/access_attestations.json",
+      "status": "implemented_reference",
+      "owner_role": "Service operations owner",
+      "review_frequency": "Per release and whenever action risk changes.",
+      "requires_attestation": true,
+      "exception_handling": "Disable the action or add approval evidence before release."
+    },
+    {
+      "control_id": "GOV-SEC-001",
+      "objective": "Tracked files must not contain live credentials, secret files, or production endpoints.",
+      "domain": "secrets_configuration",
+      "applicability": "repository policy scan",
+      "evidence_source": "governance.policies.evaluate_secret_hygiene_policy",
+      "status": "implemented_reference",
+      "owner_role": "Security reviewer",
+      "review_frequency": "Per release and every CI run.",
+      "requires_attestation": false,
+      "exception_handling": "Remove secret material and rotate externally if live data was exposed."
+    },
+    {
+      "control_id": "GOV-AUD-001",
+      "objective": "Audit evidence has stable identifiers, provenance, correlation, and tamper-evidence digests.",
+      "domain": "auditability",
+      "applicability": "governance.audit",
+      "evidence_source": "data/synthetic/audit_evidence.json",
+      "status": "implemented_reference",
+      "owner_role": "Audit reviewer",
+      "review_frequency": "Per release.",
+      "requires_attestation": false,
+      "exception_handling": "Regenerate evidence and investigate any digest-chain mismatch."
+    },
+    {
+      "control_id": "GOV-RES-001",
+      "objective": "Retry, dead-letter, reconciliation, and manual-review controls are visible before release.",
+      "domain": "resilience",
+      "applicability": "integrations and reports/reconciliation_report.md",
+      "evidence_source": "reports/operational_readiness.md",
+      "status": "implemented_reference",
+      "owner_role": "Operations owner",
+      "review_frequency": "Per release.",
+      "requires_attestation": true,
+      "exception_handling": "Unresolved dead-letter/reconciliation gaps block live integration work."
+    },
+    {
+      "control_id": "GOV-CLAIM-001",
+      "objective": "Portfolio claims distinguish reference implementation from live deployment or compliance.",
+      "domain": "synthetic_data_portfolio_claims",
+      "applicability": "README and docs",
+      "evidence_source": "governance.policies.evaluate_claim_discipline_policy",
+      "status": "implemented_reference",
+      "owner_role": "Portfolio owner",
+      "review_frequency": "Per release.",
+      "requires_attestation": false,
+      "exception_handling": "Rewrite claim before publishing portfolio evidence."
+    }
+  ],
+  "policy_findings": [
+    {
+      "policy_id": "POL-SEC-001",
+      "status": "pass",
+      "severity": "info",
+      "message": "No obvious credentials detected in repository text files.",
+      "evidence": "."
+    },
+    {
+      "policy_id": "POL-AI-001",
+      "status": "pass",
+      "severity": "info",
+      "message": "Agent tool risk and approval gates are bounded.",
+      "evidence": "ai.tools"
+    },
+    {
+      "policy_id": "POL-INT-001",
+      "status": "pass",
+      "severity": "info",
+      "message": "Integration schema, audience, and delivery scope are explicitly governed.",
+      "evidence": "integrations.security + integrations.webhooks"
+    },
+    {
+      "policy_id": "POL-DATA-001",
+      "status": "pass",
+      "severity": "info",
+      "message": "Tracked generated evidence carries synthetic/provenance labelling.",
+      "evidence": "reports/*.json"
+    },
+    {
+      "policy_id": "POL-CLAIM-001",
+      "status": "pass",
+      "severity": "info",
+      "message": "Documentation avoids unbounded production, deployment, and compliance claims.",
+      "evidence": "README.md + docs/"
+    },
+    {
+      "policy_id": "POL-REL-001",
+      "status": "pass",
+      "severity": "info",
+      "message": "Release assurance source modules are present and deterministic.",
+      "evidence": "governance/"
+    }
+  ],
+  "attestation_count": 4,
+  "audit_event_count": 3,
+  "audit_chain_verified": true,
+  "note": "Reference governance evidence only. This is not a live GRC platform, compliance certification, production audit store, or legal immutability claim."
+}

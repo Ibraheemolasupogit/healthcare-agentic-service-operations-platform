@@ -1,0 +1,79 @@
+[
+  {
+    "attestation_id": "ATT-SERVICE-ROLES-Q1",
+    "review_period": "2026-Q1-reference",
+    "subject": "privileged-service-roles",
+    "subject_type": "role_group",
+    "reviewer_role": "Governance reviewer",
+    "decision": "approved_reference",
+    "rationale": "Reference service roles are documented and scoped to synthetic operations.",
+    "reviewed_permissions": [
+      "operations-manager",
+      "service-agent",
+      "approval-manager",
+      "integration-service"
+    ],
+    "expires_on": "2026-04-01",
+    "next_review_due": "2026-04-01",
+    "unresolved_findings": [],
+    "synthetic": true,
+    "provenance": "governance.attestations.build_reference_attestations"
+  },
+  {
+    "attestation_id": "ATT-AGENT-TOOLS-Q1",
+    "review_period": "2026-Q1-reference",
+    "subject": "bounded-agent-tool-registry",
+    "subject_type": "agent_permission_set",
+    "reviewer_role": "AI governance owner",
+    "decision": "approved_reference",
+    "rationale": "State-changing and consequential tools are explicitly approval-gated.",
+    "reviewed_permissions": [
+      "create_case",
+      "transition_case",
+      "resolve_case",
+      "request_human_approval"
+    ],
+    "expires_on": "2026-04-01",
+    "next_review_due": "2026-04-01",
+    "unresolved_findings": [],
+    "synthetic": true,
+    "provenance": "governance.attestations.build_reference_attestations"
+  },
+  {
+    "attestation_id": "ATT-INTEGRATION-IDENTITIES-Q1",
+    "review_period": "2026-Q1-reference",
+    "subject": "integration-service-identities",
+    "subject_type": "service_identity_set",
+    "reviewer_role": "Integration owner",
+    "decision": "approved_reference",
+    "rationale": "Reference identities require source binding, audience, environment, and scope.",
+    "reviewed_permissions": [
+      "audience:healthcare-service-operations-integrations",
+      "scope:integration:deliver",
+      "environments:dev/test/prod"
+    ],
+    "expires_on": "2026-04-01",
+    "next_review_due": "2026-04-01",
+    "unresolved_findings": [],
+    "synthetic": true,
+    "provenance": "governance.attestations.build_reference_attestations"
+  },
+  {
+    "attestation_id": "ATT-APPROVAL-ROLES-Q1",
+    "review_period": "2026-Q1-reference",
+    "subject": "approval-roles",
+    "subject_type": "approval_role_set",
+    "reviewer_role": "Service operations owner",
+    "decision": "approved_reference",
+    "rationale": "Consequential non-clinical approval roles are explicit in Power Platform evidence.",
+    "reviewed_permissions": [
+      "access-approval-manager",
+      "operations-approval-manager"
+    ],
+    "expires_on": "2026-04-01",
+    "next_review_due": "2026-04-01",
+    "unresolved_findings": [],
+    "synthetic": true,
+    "provenance": "governance.attestations.build_reference_attestations"
+  }
+]

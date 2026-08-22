@@ -1,0 +1,189 @@
+{
+  "release_id": "REL-M8-REFERENCE",
+  "status": "reference_assurance_passed",
+  "ready": true,
+  "quality_gates": [
+    {
+      "gate_id": "QG-RUFF-CHECK",
+      "command": "python3 -m ruff check .",
+      "status": "passed_reference",
+      "evidence": "local/CI command"
+    },
+    {
+      "gate_id": "QG-RUFF-FORMAT",
+      "command": "python3 -m ruff format --check .",
+      "status": "passed_reference",
+      "evidence": "local/CI command"
+    },
+    {
+      "gate_id": "QG-MYPY",
+      "command": "python3 -m mypy business_process dynamics365 salesforce integrations power_platform ai copilot analytics governance",
+      "status": "passed_reference",
+      "evidence": "local/CI command"
+    },
+    {
+      "gate_id": "QG-PYTEST-COV",
+      "command": "python3 -m pytest --cov",
+      "status": "passed_reference",
+      "evidence": "local/CI command"
+    },
+    {
+      "gate_id": "QG-GOVERNANCE-POLICY",
+      "command": "python3 -m governance.policies",
+      "status": "passed_reference",
+      "evidence": "local/CI command"
+    },
+    {
+      "gate_id": "QG-EVIDENCE-REPRODUCIBLE",
+      "command": "python3 -m governance.evidence",
+      "status": "passed_reference",
+      "evidence": "deterministic generated evidence"
+    }
+  ],
+  "policy_findings": [
+    {
+      "policy_id": "POL-SEC-001",
+      "status": "pass",
+      "severity": "info",
+      "message": "No obvious credentials detected in repository text files.",
+      "evidence": "."
+    },
+    {
+      "policy_id": "POL-AI-001",
+      "status": "pass",
+      "severity": "info",
+      "message": "Agent tool risk and approval gates are bounded.",
+      "evidence": "ai.tools"
+    },
+    {
+      "policy_id": "POL-INT-001",
+      "status": "pass",
+      "severity": "info",
+      "message": "Integration schema, audience, and delivery scope are explicitly governed.",
+      "evidence": "integrations.security + integrations.webhooks"
+    },
+    {
+      "policy_id": "POL-DATA-001",
+      "status": "pass",
+      "severity": "info",
+      "message": "Tracked generated evidence carries synthetic/provenance labelling.",
+      "evidence": "reports/*.json"
+    },
+    {
+      "policy_id": "POL-CLAIM-001",
+      "status": "pass",
+      "severity": "info",
+      "message": "Documentation avoids unbounded production, deployment, and compliance claims.",
+      "evidence": "README.md + docs/"
+    },
+    {
+      "policy_id": "POL-REL-001",
+      "status": "pass",
+      "severity": "info",
+      "message": "Release assurance source modules are present and deterministic.",
+      "evidence": "governance/"
+    }
+  ],
+  "control_count": 11,
+  "controls_by_domain": {
+    "ai_agent_governance": 1,
+    "auditability": 1,
+    "change_release": 1,
+    "data_governance": 1,
+    "human_approval": 1,
+    "identity_and_access": 1,
+    "integration_governance": 1,
+    "observability": 1,
+    "resilience": 1,
+    "secrets_configuration": 1,
+    "synthetic_data_portfolio_claims": 1
+  },
+  "attestations": [
+    {
+      "attestation_id": "ATT-SERVICE-ROLES-Q1",
+      "review_period": "2026-Q1-reference",
+      "subject": "privileged-service-roles",
+      "subject_type": "role_group",
+      "reviewer_role": "Governance reviewer",
+      "decision": "approved_reference",
+      "rationale": "Reference service roles are documented and scoped to synthetic operations.",
+      "reviewed_permissions": [
+        "operations-manager",
+        "service-agent",
+        "approval-manager",
+        "integration-service"
+      ],
+      "expires_on": "2026-04-01",
+      "next_review_due": "2026-04-01",
+      "unresolved_findings": [],
+      "synthetic": true,
+      "provenance": "governance.attestations.build_reference_attestations"
+    },
+    {
+      "attestation_id": "ATT-AGENT-TOOLS-Q1",
+      "review_period": "2026-Q1-reference",
+      "subject": "bounded-agent-tool-registry",
+      "subject_type": "agent_permission_set",
+      "reviewer_role": "AI governance owner",
+      "decision": "approved_reference",
+      "rationale": "State-changing and consequential tools are explicitly approval-gated.",
+      "reviewed_permissions": [
+        "create_case",
+        "transition_case",
+        "resolve_case",
+        "request_human_approval"
+      ],
+      "expires_on": "2026-04-01",
+      "next_review_due": "2026-04-01",
+      "unresolved_findings": [],
+      "synthetic": true,
+      "provenance": "governance.attestations.build_reference_attestations"
+    },
+    {
+      "attestation_id": "ATT-INTEGRATION-IDENTITIES-Q1",
+      "review_period": "2026-Q1-reference",
+      "subject": "integration-service-identities",
+      "subject_type": "service_identity_set",
+      "reviewer_role": "Integration owner",
+      "decision": "approved_reference",
+      "rationale": "Reference identities require source binding, audience, environment, and scope.",
+      "reviewed_permissions": [
+        "audience:healthcare-service-operations-integrations",
+        "scope:integration:deliver",
+        "environments:dev/test/prod"
+      ],
+      "expires_on": "2026-04-01",
+      "next_review_due": "2026-04-01",
+      "unresolved_findings": [],
+      "synthetic": true,
+      "provenance": "governance.attestations.build_reference_attestations"
+    },
+    {
+      "attestation_id": "ATT-APPROVAL-ROLES-Q1",
+      "review_period": "2026-Q1-reference",
+      "subject": "approval-roles",
+      "subject_type": "approval_role_set",
+      "reviewer_role": "Service operations owner",
+      "decision": "approved_reference",
+      "rationale": "Consequential non-clinical approval roles are explicit in Power Platform evidence.",
+      "reviewed_permissions": [
+        "access-approval-manager",
+        "operations-approval-manager"
+      ],
+      "expires_on": "2026-04-01",
+      "next_review_due": "2026-04-01",
+      "unresolved_findings": [],
+      "synthetic": true,
+      "provenance": "governance.attestations.build_reference_attestations"
+    }
+  ],
+  "unresolved_critical_findings": 0,
+  "decision": "reference implementation release-assurance checks passed",
+  "limitations": [
+    "No live tenant deployment.",
+    "No production IAM, SIEM, secrets manager, or immutable enterprise audit store.",
+    "No regulatory certification or production support commitment is claimed."
+  ],
+  "synthetic": true,
+  "provenance": "governance.release.build_release_assurance"
+}

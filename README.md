@@ -188,7 +188,7 @@ principles and their rationale.
 | Integration                | API-first services, event/message patterns          | **Implemented as local/reference transport** — envelope, webhook processing, idempotency, retry, reconciliation, observability; no live API/broker |
 | Analytics                  | Microsoft Fabric, Power BI                           | **Implemented as reference analytics** — local deterministic transforms, semantic/report specs; no live Fabric or Power BI deployment |
 | Business Process           | Platform-neutral Python domain model                | **Implemented** — taxonomy, lifecycle rules, priority, queues/routing, SLA, escalation, audit trail, synthetic fixtures |
-| Governance                 | Audit/access design patterns                         | **Partially documented** — Power Platform control intent added; no operating governance tooling |
+| Governance                 | Audit/access/release assurance patterns              | **Implemented as reference controls** — policy checks, attestations, audit digests, release assurance; no live GRC/IAM/SIEM |
 | Engineering Baseline       | Python 3.11+, pytest, ruff, mypy, Docker, GitHub Actions | **Implemented** |
 
 Dependencies are kept deliberately minimal for the implemented milestones — see
@@ -209,7 +209,7 @@ healthcare-agentic-service-operations-platform/
 ├── ai/                      # Bounded agentic-AI layer, tool registry, knowledge, triage, evaluation — implemented (deterministic)
 ├── analytics/              # Fabric-style analytics, semantic model, Power BI report specs — implemented (deterministic)
 ├── integrations/           # Integration envelope, reference transport, evidence, and CRM example generation — implemented locally
-├── governance/             # Audit, access, and responsible-AI controls — placeholder + documented controls
+├── governance/             # Governance controls, policy checks, audit evidence, attestations, release assurance — implemented locally
 ├── data/                    # Synthetic data only — generated fixtures/config (data/synthetic/)
 ├── outputs/                 # Generated artefacts (git-ignored contents)
 ├── reports/                 # Generated reports (selected evidence tracked; rest git-ignored)
@@ -237,8 +237,8 @@ repository, implemented or not.
 | 4 | Power Platform automation architecture (Power Automate specs, Power Apps/Power Pages architecture, connector contracts, approval/evidence patterns) | Done |
 | 5 | Copilot Studio & bounded agentic AI patterns with human-in-the-loop controls | Done |
 | 6 | Fabric analytics and operational intelligence over generated synthetic evidence | Done |
-| 7 | Integration transport, reliability, reconciliation, and observability around `IntegrationEnvelope` | **This milestone** |
-| 8 | Governance, audit trail, and responsible-AI controls hardening | Planned |
+| 7 | Integration transport, reliability, reconciliation, and observability around `IntegrationEnvelope` | Done |
+| 8 | Production readiness, governance, and release assurance | **This milestone** |
 
 Milestone scope, sequencing, and detail may evolve as the portfolio project
 progresses. See [`docs/roadmap.md`](docs/roadmap.md) for more detail.
@@ -357,7 +357,7 @@ Architecture):**
   a consequential non-clinical action, and resolution/closure notification.
   These are deterministic JSON specifications generated from
   [`power_platform/flows.py`](power_platform/flows.py), not exported
-  Power Automate solutions or live tenant artefacts.
+  Power Automate solutions and not live tenant artefacts.
 - ✅ Power Apps reference service-operations application architecture in
   [`power_platform/power_apps/`](power_platform/power_apps/): submission,
   my requests, operations queue, case detail, SLA status, escalation/approval,
@@ -467,7 +467,7 @@ Operational Intelligence):**
   consumes canonical/CRM/automation/agent evidence downstream without becoming
   a transactional source of truth or redefining operational rules.
 
-**Implemented (Milestone 7 — this milestone — Integration Transport,
+**Implemented (Milestone 7 — Integration Transport,
 Reliability and Observability):**
 
 - ✅ Extended `IntegrationEnvelope` metadata support while preserving the
@@ -508,6 +508,40 @@ Reliability and Observability):**
   lifecycle tables, SLA formulae, routing rules, escalation logic, or AI tool
   permission rules.
 
+**Implemented (Milestone 8 — this milestone — Production Readiness,
+Governance and Release Assurance):**
+
+- ✅ Governance control catalogue in [`governance/controls.py`](governance/controls.py)
+  covering identity/access, AI/agent governance, data governance, integration
+  governance, change/release, observability, human approval,
+  secrets/configuration, auditability, resilience, and portfolio claim
+  discipline.
+- ✅ Deterministic policy evaluation in [`governance/policies.py`](governance/policies.py)
+  for secret hygiene, bounded agent tools, integration schema/auth metadata,
+  synthetic evidence labels, claim discipline, and release evidence source.
+- ✅ Audit evidence model in [`governance/audit.py`](governance/audit.py)
+  carrying stable evidence ids, actor/source/action/outcome/provenance,
+  correlation ids, optional approval references, and chained SHA-256 digests.
+  This is tamper-evidence only, not legal-grade immutability.
+- ✅ Access-review/attestation reference model in
+  [`governance/attestations.py`](governance/attestations.py) for privileged
+  service roles, agent tool permissions, integration service identities, and
+  approval roles.
+- ✅ Release-assurance calculation in [`governance/release.py`](governance/release.py)
+  combining quality gates, policies, controls, attestations, and unresolved
+  critical findings. The bounded decision text is:
+  `reference implementation release-assurance checks passed`.
+- ✅ CI/CD hardening in [`.github/workflows/ci.yml`](.github/workflows/ci.yml):
+  governance is included in mypy/coverage, policy checks run in CI, and
+  deterministic assurance evidence is regenerated and diff-checked.
+- ✅ Deterministic assurance evidence:
+  [`data/synthetic/audit_evidence.json`](data/synthetic/audit_evidence.json),
+  [`data/synthetic/access_attestations.json`](data/synthetic/access_attestations.json),
+  [`reports/governance_summary.json`](reports/governance_summary.json),
+  [`reports/release_assurance.json`](reports/release_assurance.json),
+  [`reports/operational_readiness.md`](reports/operational_readiness.md),
+  and [`reports/final_assurance_report.md`](reports/final_assurance_report.md).
+
 **Not yet implemented (later milestones):**
 
 - ❌ No live Dataverse integration (SDK, authentication, or a connected app)
@@ -524,6 +558,8 @@ Reliability and Observability):**
   bypass canonical validation or human approval gates
 - ❌ No live enterprise knowledge connectors
 - ❌ No production AI telemetry
+- ❌ No live GRC platform, production IAM, production SIEM, production secrets
+  manager, immutable enterprise audit store, or real access-review workflow
 - ❌ No message broker, event platform, Azure Service Bus/Event Grid, or live
   transport for `IntegrationEnvelope`
 - ❌ No live Fabric workspace, Lakehouse/Warehouse deployment, Spark job,
@@ -531,7 +567,8 @@ Reliability and Observability):**
   ingestion, production monitoring, or production deployment
 - ❌ No persistence layer, workflow engine, or scheduler — `business_process/`
   models the business rules only, not a running system
-- ❌ No deployment of any kind, and no production readiness claimed anywhere
+- ❌ No deployment of any kind, and no regulatory compliance, certification,
+  or production support commitment claimed anywhere
 
 ## 10. Portfolio & Simulation Disclaimer
 
