@@ -1,0 +1,18 @@
+[
+  {
+    "conversation_id": "SIM-COPILOT-001",
+    "topic_id": "topic-report-digital-issue",
+    "user_utterance": "My laptop cannot connect to Wi-Fi",
+    "copilot_response": "I can collect the service request details and submit them through the approved intake tool.",
+    "tool_trace": "create_case proposed through intake-agent",
+    "note": "Synthetic/reference conversation only."
+  },
+  {
+    "conversation_id": "SIM-COPILOT-002",
+    "topic_id": "topic-search-service-knowledge",
+    "user_utterance": "How do I request MFA reset?",
+    "copilot_response": "Use the access request route for account changes, MFA reset, and role-based access. Elevated or high-impact access must go through human approval.",
+    "tool_trace": "retrieve_knowledge",
+    "note": "Synthetic/reference conversation only."
+  }
+]

@@ -1,0 +1,84 @@
+[
+  {
+    "article_id": "KA-ACCESS-001",
+    "title": "Password reset and access request guidance",
+    "category": "Access and Identity",
+    "tags": [
+      "password",
+      "access",
+      "account",
+      "mfa",
+      "login"
+    ],
+    "answer": "Use the access request route for account changes, MFA reset, and role-based access. Elevated or high-impact access must go through human approval."
+  },
+  {
+    "article_id": "KA-DEVICE-001",
+    "title": "Device and digital workplace support",
+    "category": "Digital Support",
+    "tags": [
+      "laptop",
+      "wifi",
+      "workstation",
+      "device",
+      "printer"
+    ],
+    "answer": "For device, Wi-Fi, printer, or collaboration-tool issues, capture the asset type, location, impact, and whether a workaround exists before submitting the request."
+  },
+  {
+    "article_id": "KA-FAC-001",
+    "title": "Facilities service request guidance",
+    "category": "Facilities",
+    "tags": [
+      "heating",
+      "air conditioning",
+      "room",
+      "estate",
+      "facilities",
+      "contractor"
+    ],
+    "answer": "Facilities requests should include location, affected area, access constraints, and whether an external contractor may be needed."
+  },
+  {
+    "article_id": "KA-APP-001",
+    "title": "Application outage and timeout support",
+    "category": "Application Support",
+    "tags": [
+      "application",
+      "outage",
+      "timeout",
+      "system",
+      "error",
+      "export"
+    ],
+    "answer": "For application outages or timeouts, capture the application name, error text, approximate start time, affected users, and any repeatable steps."
+  },
+  {
+    "article_id": "KA-EQUIP-001",
+    "title": "Clinical equipment service routing",
+    "category": "Clinical Equipment",
+    "tags": [
+      "equipment",
+      "pump",
+      "device",
+      "firmware",
+      "advisory",
+      "maintenance"
+    ],
+    "answer": "Clinical equipment service requests should describe the equipment type, asset identifier if known, site, safety-adjacent impact, and whether the request is about maintenance, logistics, or manufacturer advisory review. Do not include patient details."
+  },
+  {
+    "article_id": "KA-DATA-001",
+    "title": "Reporting and data request guidance",
+    "category": "Data and Reporting",
+    "tags": [
+      "report",
+      "dashboard",
+      "data",
+      "analytics",
+      "export",
+      "figures"
+    ],
+    "answer": "Reporting requests should define the business question, date range, aggregate fields required, recipient role, and whether an existing scheduled report already covers the need."
+  }
+]

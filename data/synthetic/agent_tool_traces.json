@@ -1,0 +1,19 @@
+[
+  {
+    "trace_type": "simulated_reference_agent_tool_trace",
+    "agent_id": "knowledge-agent",
+    "tool_name": "retrieve_knowledge",
+    "allowed": true,
+    "correlation_id": "simulated-agent-trace-knowledge-001",
+    "note": "Synthetic reference trace only, not live Copilot Studio telemetry."
+  },
+  {
+    "trace_type": "simulated_reference_agent_tool_trace",
+    "agent_id": "service-operations-coordinator",
+    "tool_name": "transition_case",
+    "allowed": true,
+    "human_approval": "simulated-approved",
+    "correlation_id": "simulated-agent-trace-transition-001",
+    "note": "Synthetic reference trace only, not live Copilot Studio telemetry."
+  }
+]

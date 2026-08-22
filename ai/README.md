@@ -1,18 +1,47 @@
 # ai/
 
-Bounded context for **agentic AI** patterns.
+Bounded agentic-AI reference layer for Milestone 5.
 
-**Status: placeholder — not implemented.** This directory currently contains no
-agent implementation, prompts, or model configuration, because none has been
-built yet.
+**Status: implemented (Milestone 5) — deterministic reference architecture
+only.** No live Copilot Studio tenant, Azure OpenAI/Foundry call,
+production LLM deployment, autonomous case mutation, enterprise knowledge
+connector, credential, or production telemetry exists here.
+Explicitly: no autonomous case mutation is implemented.
 
-**Intended scope (future milestone):** bounded, auditable autonomous actions
-over the [`business_process`](../business_process/) case lifecycle — e.g.
-classification or first-pass triage — with explicit scoping of what an agent
-may do unsupervised versus what requires human approval. Every agent action is
-designed to be logged via [`governance/`](../governance/) and to hold no more
-access than it needs (least privilege). See
-[`docs/architecture.md`](../docs/architecture.md) for the deterministic-
-automation-vs-agentic-behaviour distinction and
-[`docs/governance.md`](../docs/governance.md) for the responsible-AI
-principles this domain must follow.
+## Module map
+
+| Module | Purpose |
+|--------|---------|
+| `tools.py` | Allow-listed tool registry with risk classes (`read-only`, `recommendation`, `state-changing`, `consequential`) and approval enforcement. |
+| `agents.py` | Five bounded agent definitions: Intake, Knowledge, Triage, Case Summary, and Service Operations Coordinator. |
+| `knowledge.py` | Small synthetic operational support knowledge corpus and deterministic lexical retrieval. |
+| `triage.py` | Deterministic AI-triage recommendation interface: suggested category, priority, queue, rationale, confidence, and uncertainty. |
+| `prompts.py` | Versioned prompt/template metadata for triage, summarisation, knowledge answering, tool selection, and escalation explanation. |
+| `safety.py` | Deterministic safety/refusal checks for clinical, secret, and unsupported/governance-bypassing requests. |
+| `orchestration.py` | Small helpers for tool-call planning, grounded knowledge answers, case summaries, and triage wrapper calls. |
+| `evaluation.py` | Synthetic evaluation harness and evidence generator. Run via `python -m ai.evaluation`. |
+
+## Boundary
+
+Agents can interpret, summarize, retrieve knowledge, recommend triage, and
+propose tool calls. They do **not** decide lifecycle validity, routing, SLA
+calculation, escalation logic, approval rules, or canonical case state.
+
+State-changing tools (`transition_case`, `resolve_case`) require human
+approval through the explicit tool registry gate. The canonical
+`business_process` package still rejects invalid transitions even if an AI
+recommendation is wrong.
+
+## Evidence
+
+`python -m ai.evaluation` regenerates:
+
+- `data/synthetic/copilot_conversations.json`
+- `data/synthetic/agent_tool_traces.json`
+- `data/synthetic/ai_evaluation_cases.json`
+- `data/synthetic/service_knowledge_corpus.json`
+- `copilot/copilot_studio/topics.json`
+- `copilot/prompts/prompt_templates.json`
+- `reports/agentic_ai_evaluation_summary.json`
+
+All are synthetic/reference artefacts, not live telemetry.

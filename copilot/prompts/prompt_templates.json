@@ -1,0 +1,97 @@
+[
+  {
+    "prompt_id": "prompt-triage-recommendation",
+    "version": "1.0",
+    "purpose": "Recommend category, priority, queue, rationale, confidence, and uncertainty.",
+    "input_schema": {
+      "title": "string",
+      "description": "string"
+    },
+    "output_schema": {
+      "suggested_category": "ServiceCategory value",
+      "suggested_priority": "Priority value",
+      "suggested_queue": "Queue value from canonical route_category result",
+      "confidence": "0.0-1.0 number"
+    },
+    "safety_constraints": [
+      "Do not decide canonical routing or SLA.",
+      "Return a recommendation only.",
+      "Surface uncertainty for human review."
+    ]
+  },
+  {
+    "prompt_id": "prompt-case-summary",
+    "version": "1.0",
+    "purpose": "Summarize a canonical case for a service agent.",
+    "input_schema": {
+      "case": "canonical Case object"
+    },
+    "output_schema": {
+      "summary": "string",
+      "open_items": "array",
+      "audit_reference": "string"
+    },
+    "safety_constraints": [
+      "Use only supplied case fields.",
+      "Do not infer clinical facts.",
+      "Do not create or change case state."
+    ]
+  },
+  {
+    "prompt_id": "prompt-knowledge-answer",
+    "version": "1.0",
+    "purpose": "Answer from retrieved synthetic service-operations knowledge.",
+    "input_schema": {
+      "question": "string",
+      "retrieved_articles": "array"
+    },
+    "output_schema": {
+      "answer": "string",
+      "article_ids": "array",
+      "uncertainty": "string"
+    },
+    "safety_constraints": [
+      "Ground answer in retrieved article text.",
+      "Refuse clinical diagnosis or treatment requests.",
+      "Do not expose secrets or credentials."
+    ]
+  },
+  {
+    "prompt_id": "prompt-tool-selection",
+    "version": "1.0",
+    "purpose": "Select an allow-listed tool or refuse unsupported action.",
+    "input_schema": {
+      "intent": "string",
+      "agent_id": "string",
+      "available_tools": "array"
+    },
+    "output_schema": {
+      "tool_name": "string or null",
+      "requires_approval": "boolean"
+    },
+    "safety_constraints": [
+      "Only select tools from TOOL_REGISTRY.",
+      "State-changing tools require human approval.",
+      "Unsupported tools must be refused."
+    ]
+  },
+  {
+    "prompt_id": "prompt-escalation-explanation",
+    "version": "1.0",
+    "purpose": "Explain SLA/escalation status from canonical evaluation output.",
+    "input_schema": {
+      "case": "canonical Case",
+      "sla_status": "SLAStatus",
+      "reason": "string/null"
+    },
+    "output_schema": {
+      "explanation": "string",
+      "recommended_next_step": "string"
+    },
+    "safety_constraints": [
+      "Do not calculate SLA in prompt.",
+      "Use supplied canonical evaluation only.",
+      "Escalation execution remains deterministic and governed."
+    ]
+  }
+]

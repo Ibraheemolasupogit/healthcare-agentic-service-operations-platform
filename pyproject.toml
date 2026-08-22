@@ -28,11 +28,13 @@ dev = [
 
 [tool.setuptools.packages.find]
 # Only domains with real, implemented Python code are packaged.
-# copilot/, ai/, analytics/, governance/ are currently documentation-only
-# bounded-context placeholders — see their README.md files — and are added
-# here as they gain real implementations in later milestones.
+# analytics/ and governance/ are currently documentation-only bounded-context
+# placeholders — see their README.md files — and are added here as they gain
+# real implementations in later milestones.
 include = [
+    "ai*",
     "business_process*",
+    "copilot*",
     "dynamics365*",
     "salesforce*",
     "integrations*",
@@ -45,7 +47,15 @@ addopts = "-ra --strict-markers"
 testpaths = ["tests"]
 
 [tool.coverage.run]
-source = ["business_process", "dynamics365", "salesforce", "integrations", "power_platform"]
+source = [
+    "ai",
+    "business_process",
+    "copilot",
+    "dynamics365",
+    "salesforce",
+    "integrations",
+    "power_platform",
+]
 
 [tool.ruff]
 line-length = 100

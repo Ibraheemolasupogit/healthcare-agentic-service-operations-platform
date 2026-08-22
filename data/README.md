@@ -37,6 +37,16 @@ As of Milestone 4, [`power_platform/evidence.py`](../power_platform/evidence.py)
 See [`power_platform/README.md`](../power_platform/README.md) for what these
 represent and their explicit simulation labelling.
 
+As of Milestone 5, [`ai/evaluation.py`](../ai/evaluation.py) (run via
+`python -m ai.evaluation`) additionally generates:
+
+- `service_knowledge_corpus.json` — a small synthetic operational-support
+  knowledge corpus, with no clinical diagnosis/treatment content
+- `copilot_conversations.json` — simulated reference Copilot conversations
+- `agent_tool_traces.json` — simulated allow-listed tool traces, explicitly
+  not live Copilot Studio telemetry
+- `ai_evaluation_cases.json` — deterministic synthetic AI evaluation cases
+
 Every file is regenerated identically by re-running its generator — nothing
 here is hand-authored, and none of it is fetched from a live system.
 

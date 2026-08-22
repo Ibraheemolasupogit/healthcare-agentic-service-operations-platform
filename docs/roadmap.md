@@ -2,7 +2,7 @@
 
 This document expands on the roadmap summary in the
 [root README](../README.md#7-delivery-roadmap). Scope and sequencing below are
-indicative and may evolve as the portfolio project progresses. Milestones 1-4
+indicative and may evolve as the portfolio project progresses. Milestones 1-5
 are implemented in this repository; later milestones are not committed or
 scheduled against dates.
 
@@ -54,24 +54,25 @@ exported Power Automate solution, `.msapp`, deployed portal, custom
 connector, Dataverse API call, credential, Copilot Studio, LLM triage, or
 autonomous agent is implemented.
 
-## Milestone 5 — Copilot Studio & Agentic AI *(planned)*
+## Milestone 5 — Copilot Studio & Bounded Agentic AI *(done)*
 
-Recommended next scope: conversational triage and assisted service-desk
-patterns in Copilot Studio, plus bounded agentic AI design in [`ai/`](../ai/).
-Any LLM or agent behaviour should sit behind the same connector/canonical
-boundary introduced by Milestone 4, use synthetic prompts/examples only,
-avoid autonomous case mutation by default, and require documented
-human-in-the-loop checkpoints for consequential actions per
-[`docs/governance.md`](governance.md).
+Reference Copilot Studio topics, bounded agent definitions, an explicit
+tool allow-list, deterministic knowledge retrieval, AI-triage recommendations,
+prompt/version metadata, safety controls, human approval gates, deterministic
+evaluation, and synthetic evidence. This milestone deliberately uses local
+deterministic behaviour only: no live Copilot Studio tenant, Azure OpenAI or
+Foundry call, production LLM deployment, autonomous case mutation, live
+enterprise knowledge connector, or production telemetry.
 
 ## Milestone 6 — Integration Layer *(planned)*
 
 Live transport around the `IntegrationEnvelope` contract introduced in
 Milestone 3 (`integrations/envelope.py`) — an actual API client/message
-mechanism connecting the bounded contexts built in Milestones 3–5, with
-retries and delivery guarantees. Milestone 3 deliberately stopped at the
-data contract and a deterministic example generator; no transport exists
-yet.
+mechanism connecting the bounded contexts built in Milestones 3-5, with
+retries, delivery guarantees, authentication, webhook ingestion, and
+observability. The first live transport should preserve the existing
+connector/tool/canonical boundary and should not introduce live LLM or
+tenant dependencies as a side effect.
 
 ## Milestone 7 — Fabric / Power BI Analytics *(planned)*
 

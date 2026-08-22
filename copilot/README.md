@@ -2,14 +2,20 @@
 
 Bounded context for **Copilot Studio** conversational AI patterns.
 
-**Status: placeholder — not implemented.** This directory currently contains no
-topic exports, prompts, or agent configuration, because none has been built
-yet.
+**Status: implemented (Milestone 5) as reference specifications only.** This
+directory contains structured topic and prompt metadata; it does not contain
+exported Copilot Studio solutions, deployed agents, screenshots, tenant IDs,
+credentials, or live telemetry.
 
-**Intended scope (future milestone):** conversational triage patterns —
-illustrative Copilot Studio topics/prompts for classifying and routing cases
-into the [`business_process`](../business_process/) taxonomy, and for
-surfacing knowledge to service teams — always with a defined human-in-the-loop
-checkpoint before any state-changing action. Bounded autonomous *actions* (as
-opposed to conversation) belong in [`ai/`](../ai/). See
-[`docs/governance.md`](../docs/governance.md).
+## Contents
+
+- [`copilot_studio/`](copilot_studio/) — topic specs for service intake,
+  status lookup, knowledge assistance, case summarisation support, suggested
+  routing/triage, escalation explanation/request, and resolution feedback.
+- [`prompts/`](prompts/) — versioned prompt/template metadata generated from
+  [`ai/prompts.py`](../ai/prompts.py).
+
+Conversational topics hand off to bounded orchestration and allow-listed
+tools in [`ai/`](../ai/). They may interpret, summarize, classify, retrieve,
+recommend, and propose actions; they do not become the source of truth for
+case lifecycle, routing, SLA, escalation, approvals, or state.

@@ -6,7 +6,7 @@
 > run against a live Dynamics 365, Salesforce, or Power Platform tenant. See the
 > [Portfolio & Simulation Disclaimer](#10-portfolio--simulation-disclaimer) below.
 
-**Status:** Milestone 4 — Power Platform Automation Architecture
+**Status:** Milestone 5 — Copilot Studio and Bounded Agentic AI
 (see [§9](#9-current-implementation-status)).
 
 ---
@@ -183,7 +183,7 @@ principles and their rationale.
 |---------------------------|------------------------------------------------------|----------------------------------------|
 | CRM / Case Management     | Dynamics 365 Customer Service, Salesforce Service Cloud | **Implemented as reference adapters** — deterministic translation only; no SDK, no live tenant |
 | Low-code Automation       | Power Platform (Power Apps, Power Automate, Dataverse) | **Implemented as reference architecture/specifications** — no live tenant, deployed flows, or connector |
-| Conversational / Agentic AI | Copilot Studio, agentic AI patterns                 | Bounded context with placeholder docs |
+| Conversational / Agentic AI | Copilot Studio, agentic AI patterns                 | **Implemented as reference architecture/specifications** — deterministic local simulation only; no live LLM or tenant |
 | Integration                | API-first services, event/message patterns          | **Partially implemented** — `IntegrationEnvelope` contract + deterministic example generator; no transport/broker yet |
 | Analytics                  | Microsoft Fabric, Power BI                           | Bounded context with placeholder docs |
 | Business Process           | Platform-neutral Python domain model                | **Implemented** — taxonomy, lifecycle rules, priority, queues/routing, SLA, escalation, audit trail, synthetic fixtures |
@@ -204,8 +204,8 @@ healthcare-agentic-service-operations-platform/
 ├── dynamics365/           # Dynamics 365 / Dataverse reference adapter — implemented (deterministic, no SDK)
 ├── salesforce/            # Salesforce Service Cloud reference adapter — implemented (deterministic, no SDK)
 ├── power_platform/        # Power Platform automation/app/portal/connector reference architecture — implemented (specifications only)
-├── copilot/                # Copilot Studio conversational AI — placeholder
-├── ai/                      # Agentic AI patterns and guardrails — placeholder
+├── copilot/                # Copilot Studio topic/prompt reference architecture — implemented (specifications only)
+├── ai/                      # Bounded agentic-AI layer, tool registry, knowledge, triage, evaluation — implemented (deterministic)
 ├── analytics/              # Fabric / Power BI analytics — placeholder
 ├── integrations/           # IntegrationEnvelope contract + example generator — partially implemented
 ├── governance/             # Audit, access, and responsible-AI controls — placeholder + documented controls
@@ -233,8 +233,8 @@ repository, implemented or not.
 | 1 | Repository foundation: architecture, structure, engineering baseline, CI | Done |
 | 2 | Platform-neutral business process implementation (case model, lifecycle rules, priority, queues/routing, SLA, escalation, audit trail, synthetic fixtures) | Done |
 | 3 | Dynamics 365 and Salesforce CRM adapter architecture (deterministic reference mappings, schema documentation, integration envelope) | Done |
-| 4 | Power Platform automation architecture (Power Automate specs, Power Apps/Power Pages architecture, connector contracts, approval/evidence patterns) | **This milestone** |
-| 5 | Copilot Studio & agentic AI patterns with human-in-the-loop controls | Planned |
+| 4 | Power Platform automation architecture (Power Automate specs, Power Apps/Power Pages architecture, connector contracts, approval/evidence patterns) | Done |
+| 5 | Copilot Studio & bounded agentic AI patterns with human-in-the-loop controls | **This milestone** |
 | 6 | Live integration transport (API client/message mechanism around the Milestone 3 `IntegrationEnvelope` contract) | Planned |
 | 7 | Fabric / Power BI analytics over synthetic case data | Planned |
 | 8 | Governance, audit trail, and responsible-AI controls hardening | Planned |
@@ -346,7 +346,7 @@ CRM Adapter Architecture):**
   unsupported values, deterministic identifiers, canonical case identity
   preservation, and the no-reimplementation boundary)
 
-**Implemented (Milestone 4 — this milestone — Power Platform Automation
+**Implemented (Milestone 4 — Power Platform Automation
 Architecture):**
 
 - ✅ Version-controlled Power Automate reference workflow specifications
@@ -388,6 +388,50 @@ Architecture):**
   tables, routing rules, SLA formulae, or escalation logic. Existing Dynamics
   365 and Salesforce adapter boundary tests remain intact.
 
+**Implemented (Milestone 5 — this milestone — Copilot Studio and Bounded
+Agentic AI):**
+
+- ✅ Copilot Studio reference architecture under
+  [`copilot/copilot_studio/`](copilot/copilot_studio/) with structured topic
+  specs for digital, facilities, clinical-equipment service, access, status,
+  knowledge, SLA explanation, escalation request, and resolution feedback
+  conversations. These are not exported Copilot Studio solutions or deployed
+  topics.
+- ✅ Bounded agent definitions in [`ai/agents.py`](ai/agents.py): Intake Agent,
+  Knowledge Agent, Triage Agent, Case Summary Agent, and Service Operations
+  Coordinator, each with narrow tools, prohibited actions, handoff conditions,
+  uncertainty handling, and human-review triggers.
+- ✅ Explicit allow-listed tool registry in [`ai/tools.py`](ai/tools.py) mapping
+  approved AI tools to existing connector/canonical concepts, with risk classes
+  and approval gates for state-changing/consequential tools.
+- ✅ Deterministic knowledge retrieval in [`ai/knowledge.py`](ai/knowledge.py)
+  over a small synthetic operational-support corpus. No clinical
+  diagnosis/treatment content, no vector database, and no live enterprise
+  knowledge connector.
+- ✅ Deterministic AI-triage reference interface in [`ai/triage.py`](ai/triage.py)
+  producing suggested category, priority, queue, rationale, confidence, and
+  uncertainty indicators. It is explicitly a recommendation; canonical
+  validation and routing remain authoritative.
+- ✅ Prompt/version governance in [`ai/prompts.py`](ai/prompts.py) and
+  [`copilot/prompts/`](copilot/prompts/) for triage, summarisation, knowledge
+  answering, tool selection, and escalation explanation. Prompts do not hide
+  lifecycle, routing, SLA, escalation, or approval rules.
+- ✅ Safety controls in [`ai/safety.py`](ai/safety.py): grounded-response
+  posture, clinical-content refusal, secret/credential refusal, unsupported
+  action refusal, human-review escalation, and prompt/tool allow-listing.
+- ✅ Deterministic evaluation harness in [`ai/evaluation.py`](ai/evaluation.py)
+  covering intent recognition, category/priority recommendation, grounded
+  knowledge answer, case-summary completeness, unsafe/unsupported request
+  refusal, invalid tool prevention, approval requirement, and canonical-rule
+  enforcement.
+- ✅ Synthetic/reference evidence:
+  [`data/synthetic/copilot_conversations.json`](data/synthetic/copilot_conversations.json),
+  [`data/synthetic/agent_tool_traces.json`](data/synthetic/agent_tool_traces.json),
+  [`data/synthetic/ai_evaluation_cases.json`](data/synthetic/ai_evaluation_cases.json),
+  [`data/synthetic/service_knowledge_corpus.json`](data/synthetic/service_knowledge_corpus.json),
+  and [`reports/agentic_ai_evaluation_summary.json`](reports/agentic_ai_evaluation_summary.json).
+  These are not live Copilot Studio telemetry.
+
 **Not yet implemented (later milestones):**
 
 - ❌ No live Dataverse integration (SDK, authentication, or a connected app)
@@ -396,8 +440,14 @@ Architecture):**
 - ❌ No deployed Power Automate flows, `.zip` solution exports, `.msapp` files,
   live Power Apps apps, live Power Pages site, production custom connector, or
   live Dataverse API calls
-- ❌ No Copilot Studio implementation
-- ❌ No agentic AI or LLM-based triage implementation
+- ❌ No live Copilot Studio tenant, exported/deployed Copilot solution, or
+  production topic deployment
+- ❌ No Azure OpenAI, Azure AI Foundry, external LLM, production LLM deployment,
+  or live model inference
+- ❌ No autonomous case mutation — AI recommendations and tool plans cannot
+  bypass canonical validation or human approval gates
+- ❌ No live enterprise knowledge connectors
+- ❌ No production AI telemetry
 - ❌ No message broker, event platform, or live transport for `IntegrationEnvelope`
 - ❌ No Fabric/Power BI analytics implementation
 - ❌ No persistence layer, workflow engine, or scheduler — `business_process/`

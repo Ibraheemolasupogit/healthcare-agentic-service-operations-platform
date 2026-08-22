@@ -73,6 +73,13 @@ and synthetic automation evidence. There are no live Power Platform flows,
 Dataverse calls, exported solutions, Copilot Studio assets, LLM calls, or
 autonomous agents.
 
+As of Milestone 5, [`copilot/`](../copilot/) and [`ai/`](../ai/) add the
+conversational/agentic reference layer. The AI layer may interpret,
+summarize, retrieve knowledge, recommend triage, and propose allow-listed
+tool calls. It must not become the source of truth for lifecycle validity,
+routing, SLA calculation, escalation logic, approval rules, or canonical
+case state.
+
 **Least privilege**
 Every integration credential and agent capability is scoped to the minimum
 access required for its task, never broad/admin-level access.
@@ -124,6 +131,36 @@ Power Platform orchestrates interaction, approval, notification, and evidence;
 [`business_process/`](../business_process/) decides lifecycle validity,
 priority, routing, SLA status, and escalation; [`dynamics365/`](../dynamics365/)
 translates the resulting canonical state for the Dataverse/CRM boundary.
+
+## Copilot and Bounded Agent Diagram
+
+```mermaid
+flowchart TD
+    U["User / Service Agent"]
+    CS["Copilot Studio\n(reference topics)"]
+    AO["Bounded Agent Orchestration"]
+    TOOLS["Allow-listed Tools\n(read / recommend / governed write)"]
+    HITL{"Human approval\nrequired?"}
+    BP["Canonical Service Operations\nbusiness_process"]
+    PPCRM["Power Platform /\nCRM adapters"]
+    AUDIT["Synthetic audit/evaluation evidence"]
+
+    U --> CS
+    CS --> AO
+    AO --> TOOLS
+    TOOLS --> HITL
+    HITL -->|approved or read-only| BP
+    HITL -->|rejected / timed out| AUDIT
+    BP --> PPCRM
+    AO --> AUDIT
+    TOOLS --> AUDIT
+```
+
+The human-approval boundary sits before any state-changing or consequential
+tool is allowed to reach canonical operations. Even after approval,
+`business_process` remains the deterministic backstop: invalid transitions,
+SLA calculations, routing, and escalation rules cannot be overridden by
+generated text.
 
 ## High-Level Diagram
 
